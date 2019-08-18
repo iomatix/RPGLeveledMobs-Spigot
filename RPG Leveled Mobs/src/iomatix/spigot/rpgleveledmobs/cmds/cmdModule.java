@@ -1,5 +1,5 @@
 package iomatix.spigot.rpgleveledmobs.cmds;
 
-public class cmdHandler {
+public class cmdModule {
 
 }

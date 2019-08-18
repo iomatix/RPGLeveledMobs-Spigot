@@ -1,6 +1,5 @@
 package iomatix.spigot.rpgleveledmobs;
 
-import java.util.Iterator;
 import java.io.IOException;
 
 import net.md_5.bungee.api.ChatColor;
@@ -13,15 +12,15 @@ import org.bukkit.World;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
-import iomatix.spigot.rpgleveledmobs.config.configHandler;
-import iomatix.spigot.rpgleveledmobs.cmds.cmdHandler;
+import iomatix.spigot.rpgleveledmobs.config.cfgModule;
+import iomatix.spigot.rpgleveledmobs.cmds.cmdModule;
 
 public class Main extends JavaPlugin {
 public static Main RPGMobs;
 
 
-cmdHandler cmdModule;
-configHandler configModule;
+cmdModule commandModule;
+cfgModule configModule;
 
 @Override
 public void onLoad() {
