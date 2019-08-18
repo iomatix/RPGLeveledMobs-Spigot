@@ -4,8 +4,8 @@ version: 0.1a
 author: iomatix
 description: Leveled mobs with scaling attributes compatible with many RPG plugins.
 commands:
-    mycommand:
+    rpgmobs:
     description: Opens RPG Level Mobs configuration interface.
-    usage: /leveledmobs
+    usage: /rpgmobs
     permission: rpgleveledmobs.gui
     permission-message: You don't have the myplugin.mycommand permission.
