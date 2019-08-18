@@ -1,0 +1,11 @@
+main: iomatix.spigot.rpgleveledmobs.Main
+name: RPG Leveled Mobs
+version: 0.1a
+author: iomatix
+description: Leveled mobs with scaling attributes compatible with many RPG plugins.
+commands:
+    mycommand:
+    description: Opens RPG Level Mobs configuration interface.
+    usage: /leveledmobs
+    permission: rpgleveledmobs.gui
+    permission-message: You don't have the myplugin.mycommand permission.
