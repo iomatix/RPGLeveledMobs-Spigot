@@ -127,7 +127,7 @@ public class SettingsMenu extends Menu{
 	        protected final Menu prev;
 	        
 	        public StatsMenu(final SettingsMenu prev) {
-	            this.name = prev.getName() + ChatColor.WHITE + " - " + ChatColor.BLUE + "Stats Menu";
+	            this.name = prev.getName() + ChatColor.WHITE + " - " + ChatColor.BLUE + "Scaling Menu";
 	            this.prev = prev;
 	        }
 	        

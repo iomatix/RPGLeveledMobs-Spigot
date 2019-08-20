@@ -48,7 +48,7 @@ public class MenuHandler implements Listener {
         return !MenuHandler.playerListener.isEmpty();
     }
     
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onInventoryInteraction(final InventoryClickEvent event) {
         if (MenuHandler.menuHashMap.containsKey(event.getClickedInventory())) {
             if (event.getRawSlot() > 53) {
