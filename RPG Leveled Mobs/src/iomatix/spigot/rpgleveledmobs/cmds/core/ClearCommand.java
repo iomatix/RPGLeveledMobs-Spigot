@@ -47,7 +47,7 @@ public class ClearCommand implements RPGlvlmobsCommand {
 	    
 	    @Override
 	    public String getDescription() {
-	        return "Removes all leveled mobs from all worlds";
+	        return "Removes all existing leveled mobs.";
 	    }
 	    
 	    @Override

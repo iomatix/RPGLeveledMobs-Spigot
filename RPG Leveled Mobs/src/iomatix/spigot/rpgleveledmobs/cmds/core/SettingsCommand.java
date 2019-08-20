@@ -41,7 +41,7 @@ public class SettingsCommand implements RPGlvlmobsCommand {
 	    
 	    @Override
 	    public String getDescription() {
-	        return "Opens a GUI to configure plugin settings.";
+	        return "Opens an User Interface to configure plugin settings.";
 	    }
 	    
 	    @Override

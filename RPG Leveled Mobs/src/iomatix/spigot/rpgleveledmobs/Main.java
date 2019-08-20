@@ -50,6 +50,7 @@ public class Main extends JavaPlugin {
         }
         catch (IOException e) {
             LogsModule.warning("Error starting metrics!");
+        
         }
 		
 	}
@@ -72,6 +73,8 @@ public class Main extends JavaPlugin {
 	private void loadModules() {
 		this.configModule = this.getConfigModule();
 		this.commandModule = new cmdModule();
+		this.menuHandler = new MenuHandler();
+		this.spawnModule = new SpawnModule();
 		Bukkit.getScheduler().runTaskLaterAsynchronously((Plugin) this, (Runnable) new Runnable() {
 			@Override
 			public void run() {

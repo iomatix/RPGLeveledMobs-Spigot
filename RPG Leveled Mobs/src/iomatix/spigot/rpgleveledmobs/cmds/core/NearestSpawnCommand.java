@@ -49,7 +49,7 @@ public class NearestSpawnCommand implements RPGlvlmobsCommand {
     
     @Override
     public String getDescription() {
-        return "Gives information on the closest node from sender's given location.";
+        return "Shows coordination points on the closest leveled mobs spawn.";
     }
     
     @Override

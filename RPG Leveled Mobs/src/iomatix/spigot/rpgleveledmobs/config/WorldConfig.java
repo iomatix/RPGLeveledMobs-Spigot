@@ -634,7 +634,7 @@ public class WorldConfig extends RPGLeveledMobsConfig{
 	        if (!this.inheritedValues.containsKey(ConfigKey.LEVELED_MOBS)) {
 	            return this.leveledMobs.contains(ent);
 	        }
-	        return ( this.inheritedValues.get(ConfigKey.LEVELED_MOBS)).equals(ent);
+	        return ((ArrayList<EntityType>) this.inheritedValues.get(ConfigKey.LEVELED_MOBS)).contains(ent);
 	    }
 	    
 	    @Override
@@ -666,7 +666,7 @@ public class WorldConfig extends RPGLeveledMobsConfig{
 	    @Override
 	    public boolean isBlocked(final EntityType ent) {
 	        if (this.inheritedValues.containsKey(ConfigKey.BLOCKED_MOBS)) {
-	            return this.inheritedValues.get(ConfigKey.BLOCKED_MOBS).equals(ent);
+	            return ((ArrayList<EntityType>)this.inheritedValues.get(ConfigKey.BLOCKED_MOBS)).contains(ent);
 	        }
 	        return this.blockedMobs.contains(ent);
 	    }

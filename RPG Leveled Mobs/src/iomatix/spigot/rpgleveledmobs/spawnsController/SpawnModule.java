@@ -2,6 +2,8 @@ package iomatix.spigot.rpgleveledmobs.spawnsController;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,6 +27,7 @@ public class SpawnModule implements Listener{
 	    
 	    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	    public void onMobSpawn(final CreatureSpawnEvent event) {
+	    	 
 	        final LivingEntity livingEntity = event.getEntity();
 	        if (event.getEntity().hasMetadata(MetaTag.RPGmob.toString())) {
 	            return;
@@ -38,10 +41,9 @@ public class SpawnModule implements Listener{
 	            return;
 	        }
 	        if (!node.isLeveledSpawners() && event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER) {
-	            return;
+	        	return;
 	        }
 	        if (node.isBlocked(event.getEntityType())) {
-	            event.setCancelled(true);
 	            return;
 	        }
 	        if (!node.canLevel(event.getEntityType())) {
@@ -65,15 +67,9 @@ public class SpawnModule implements Listener{
 	            livingEntity.setMetadata(MetaTag.DamageMod.toString(), (MetadataValue)new FixedMetadataValue((Plugin)Main.RPGMobs, (Object)node.getDamageMultiplier()));
 	        }
 	        if (node.isHealthModified()) {
-	            final double startMaxHealth = livingEntity.getMaxHealth();
+	            final double startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
 	            final double newMaxHealth = startMaxHealth + startMaxHealth * level * node.getHealthMultiplier();
-	            livingEntity.setMaxHealth(newMaxHealth);
-	            try {
-	                livingEntity.setHealth(livingEntity.getMaxHealth());
-	            }
-	            catch (IllegalArgumentException exception) {
-	                livingEntity.setHealth(livingEntity.getMaxHealth() - 0.001);
-	            }
+	            livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
 	        }
 	        String startName = livingEntity.getCustomName();
 	        if (startName == null || startName.toLowerCase().equals("null")) {

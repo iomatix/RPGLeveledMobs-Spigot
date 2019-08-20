@@ -491,7 +491,7 @@ public class SpawnNode extends RPGLeveledMobsConfig
     @Override
     public boolean canLevel(final EntityType ent) {
         if (this.inheritedValues.containsKey(ConfigKey.LEVELED_MOBS)) {
-            return ( this.inheritedValues.get(ConfigKey.LEVELED_MOBS)).equals(ent);
+            return ((ArrayList<EntityType>) this.inheritedValues.get(ConfigKey.LEVELED_MOBS)).contains(ent);
         }
         return this.leveledMobs.contains(ent);
     }
@@ -499,7 +499,7 @@ public class SpawnNode extends RPGLeveledMobsConfig
     @Override
     public boolean isBlocked(final EntityType ent) {
         if (this.inheritedValues.containsKey(ConfigKey.BLOCKED_MOBS)) {
-            return this.inheritedValues.get(ConfigKey.BLOCKED_MOBS).equals(ent);
+            return ((ArrayList<EntityType>)this.inheritedValues.get(ConfigKey.BLOCKED_MOBS)).contains(ent);
         }
         return this.blockedMobs.contains(ent);
     }

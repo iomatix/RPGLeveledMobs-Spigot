@@ -20,7 +20,6 @@ private static HashMap<Language, HashMap<EntityType, String>> languageMapping;
         	MobNamesMap.languageMapping.put(lang, new HashMap<EntityType, String>());
         }
         try {
-        //legacy:
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.BAT, "Nietoperz");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.BLAZE, "P³omyk");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.CAVE_SPIDER, "Paj¹k Jaskiniowy");
