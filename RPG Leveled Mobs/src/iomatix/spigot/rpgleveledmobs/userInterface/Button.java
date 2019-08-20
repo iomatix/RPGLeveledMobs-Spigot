@@ -28,9 +28,8 @@ public class Button {
         return this.itemStack;
     }
     
-    public void setIcon(final Material material, final short dataId) {
+    public void setIcon(final Material material) {
         this.itemStack.setType(material);
-        //this.itemStack.setDurability(dataId);
         final ItemMeta meta = this.itemStack.getItemMeta();
         meta.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ATTRIBUTES });
         this.itemStack.setItemMeta(meta);
@@ -40,9 +39,6 @@ public class Button {
         this.buttonPressedListener = listener;
     }
     
-    public void setIcon(final Material material) {
-        this.setIcon(material, (short)0);
-    }
     
     public void setAmount(final int amount) {
         this.itemStack.setAmount(amount);
@@ -117,11 +113,13 @@ public class Button {
         catch (Exception e) {
             e.printStackTrace();
         }
-        Button.glow = (Enchantment)new EnchantGlow("LUCK");
+        Button.glow = (Enchantment)new EnchantGlow("vanishing_curse");
         try {
             Enchantment.registerEnchantment(Button.glow);
         }
-        catch (IllegalArgumentException ex) {}
+        catch (IllegalArgumentException ex) {
+  
+        }
         return Button.glow;
     }
     

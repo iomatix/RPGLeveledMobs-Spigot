@@ -68,7 +68,7 @@ public class BaseSettingMenu extends Menu {
 	        }
 	        final int exitLoc = this.getInventorySize() - 1;
 	        final Button exitButton = new Button();
-	        exitButton.setIcon(Material.RED_WOOL, (short)14);
+	        exitButton.setIcon(Material.RED_WOOL);
 	        exitButton.setName(ChatColor.RED + "Close");
 	        exitButton.setOnPressedListener(new Button.onButtonPressedListener() {
 	            @Override

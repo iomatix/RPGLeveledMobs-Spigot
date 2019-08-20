@@ -303,6 +303,7 @@ public class SettingsMenu extends Menu{
 	            });
 	            this.menuMap.put(35, previous);
 	        }
+	        //add defense scaling 
 	    }
 	    
 	    protected class LevelingMenu extends Menu
@@ -432,7 +433,9 @@ public class SettingsMenu extends Menu{
 	        @Override
 	        public void ShowMenu(final Player player) {
 	            this.generateMenu();
-	            super.ShowMenu(player);
+                super.ShowMenu(player);
+           
+	            
 	        }
 	    }
 	    
@@ -1263,7 +1266,8 @@ public class SettingsMenu extends Menu{
 	        
 	        @EventHandler
 	        public void onChat(final AsyncPlayerChatEvent event) {
-	            if (event.getPlayer() == this.player) {
+	        	Player player = event.getPlayer();
+	            if (player == this.player) {
 	                try {
 	                    final double newValue = Double.parseDouble(event.getMessage());
 	                    this.method.invoke(SettingsMenu.this.config, newValue);
@@ -1276,11 +1280,12 @@ public class SettingsMenu extends Menu{
 	                }
 	                catch (IllegalAccessException e2) {
 	                    e2.printStackTrace();
-	                }
-	                this.menu.ShowMenu(event.getPlayer());
+	                }	              
+	                this.menu.ShowMenu(player);
 	                HandlerList.unregisterAll((Listener)this);
-	                SettingsMenu.listeners.remove(this.player);
+	                SettingsMenu.listeners.remove(this.player);  
 	                event.setCancelled(true);
+	                
 	            }
 	        }
 	    }

@@ -163,7 +163,7 @@ public class GlobalConfig extends RPGLeveledMobsConfig{
 	            this.config.getConfig().set(ConfigKey.LEVELED_MOBS.toString(), (Object)this.entListToStringList(ConfigKey.defaultLeveled));
 	        }
 	        if (!this.config.getConfig().contains(ConfigKey.NAME_LANGUAGE.toString())) {
-	            this.config.getConfig().set(ConfigKey.NAME_LANGUAGE.toString(), (Object)( (World) ConfigKey.defaultMap.get(ConfigKey.NAME_LANGUAGE)).getName());
+	            this.config.getConfig().set(ConfigKey.NAME_LANGUAGE.toString(), (Object) ConfigKey.defaultMap.get(ConfigKey.NAME_LANGUAGE).toString());
 	        }
 	        this.config.saveConfig();
 	    }

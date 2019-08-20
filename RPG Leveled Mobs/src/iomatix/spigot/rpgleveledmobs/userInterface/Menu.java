@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.entity.Player;
 
+import iomatix.spigot.rpgleveledmobs.Main;
 import iomatix.spigot.rpgleveledmobs.config.cfgModule;
 
 public abstract class Menu {
@@ -33,7 +34,9 @@ public abstract class Menu {
 	    public void ShowMenu(final Player player) {
 	        final Inventory menu = this.GenerateMenu(player);
 	        Menu.menuHandler.ListenToMenu(player, menu, this);
+	        Bukkit.getScheduler().runTask(Main.RPGMobs, ()->{    
 	        player.openInventory(menu);
+	        });
 	    }
 	    
 	    protected Inventory GenerateMenu(final Player player) {

@@ -25,12 +25,12 @@ public class StatsScalingModule {
         if (Bukkit.getPluginManager().getPlugin("Heroes") != null) {
         	scalingModified = true;
             new HeroesHandler();
-            LogsModule.info("Found Heroes! Enabling Heroes Scaling Mod.");
+            LogsModule.info("Found Heroes, Enabling Heroes Scaling Mod.");
         }
         if (Bukkit.getPluginManager().getPlugin("SkillAPI") != null) {
         	scalingModified = true;
             new SkillAPIHandler();
-            LogsModule.info("Found SkillAPI! Enabling SkillAPI Scaling Mod.");
+            LogsModule.info("Found SkillAPI, Enabling SkillAPI Scaling Mod.");
         }
         if (!scalingModified) {
             new VanillaHandler();

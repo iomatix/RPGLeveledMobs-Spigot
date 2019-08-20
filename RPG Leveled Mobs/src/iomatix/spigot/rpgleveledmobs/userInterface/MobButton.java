@@ -1,6 +1,7 @@
 package iomatix.spigot.rpgleveledmobs.userInterface;
 
 import java.util.List;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,8 +26,10 @@ public class MobButton extends Button {
         }
         
 
-            if((Material.getMaterial(type+"_SPAWN_EGG").isItem())) this.setIcon(Material.getMaterial(type+"_SPAWN_EGG"));
-            else this.setIcon(Material.getMaterial("BAT_SPAWN_EGG"));
+        try { this.setIcon(Material.getMaterial(type.toString()+"_SPAWN_EGG")); }
+        catch(Exception e){
+                this.setIcon(Material.getMaterial("BAT_SPAWN_EGG")); 
+    		}
             
             final SpawnEggMeta meta = (SpawnEggMeta)this.getItemStack().getItemMeta();
             meta.setDisplayName(ChatColor.GOLD + EntityName);
@@ -70,9 +73,10 @@ public class MobButton extends Button {
         }
 
    
-        if((Material.getMaterial(type+"_SPAWN_EGG").isItem())) this.setIcon(Material.getMaterial(type+"_SPAWN_EGG"));
-        else this.setIcon(Material.getMaterial("BAT_SPAWN_EGG"));
-            
+        try { this.setIcon(Material.getMaterial(type.toString()+"_SPAWN_EGG")); }
+        catch(Exception e){
+                this.setIcon(Material.getMaterial("BAT_SPAWN_EGG")); 
+    		}
             final SpawnEggMeta meta = (SpawnEggMeta)this.getItemStack().getItemMeta();
             meta.setDisplayName(ChatColor.YELLOW + EntityName);
             final ArrayList<String> lore = new ArrayList<String>();

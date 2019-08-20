@@ -28,7 +28,7 @@ public class NodeSettingsMenu extends WorldSettingsMenu {
         }
         this.createMenu();
         final Button deleteButton = new Button();
-        deleteButton.setIcon(Material.RED_WOOL, (short)14);
+        deleteButton.setIcon(Material.RED_WOOL);
         deleteButton.setName(ChatColor.RED + "Delete Node");
         deleteButton.setOnPressedListener(new Button.onButtonPressedListener() {
             @Override
