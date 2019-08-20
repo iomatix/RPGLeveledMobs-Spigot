@@ -70,6 +70,7 @@ public class SpawnModule implements Listener{
 	            final double startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
 	            final double newMaxHealth = startMaxHealth + startMaxHealth * level * node.getHealthMultiplier();
 	            livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
+	            livingEntity.setHealth(newMaxHealth);
 	        }
 	        String startName = livingEntity.getCustomName();
 	        if (startName == null || startName.toLowerCase().equals("null")) {
