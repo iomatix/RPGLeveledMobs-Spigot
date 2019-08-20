@@ -39,7 +39,7 @@ public class cmdModule implements CommandExecutor, Listener{
         this.registerCommand(new NearestSpawnCommand());
         this.registerCommand(new ClearCommand());
 	}
-
+	
     public boolean onCommand(final CommandSender commandSender, final Command command, final String label, final String[] args) {
         if (!(commandSender instanceof Player)) {
             this.displayBadSenderMessage(commandSender);

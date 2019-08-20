@@ -46,7 +46,7 @@ public class NodeSettingsMenu extends WorldSettingsMenu {
             }
         });
     }
-    
+
     @Override
     protected void ButtonInheritMod(final Menu menu, final Button button, final ConfigKey key, final int pos) {
         super.ButtonInheritMod(menu, button, key, pos);
