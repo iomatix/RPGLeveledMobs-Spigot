@@ -749,17 +749,17 @@ public class SettingsMenu extends Menu{
 	                    LeveledMenu.this.prev.ShowMenu(event.getInteractor());
 	                }
 	            });
-	            this.menuMap.put(53, previous);
+	            this.menuMap.put(52, previous);
 	            final Button nextpage = new Button();
 	            nextpage.setIcon(Material.NETHER_STAR);
-	            nextpage.setName(ChatColor.GREEN + "\u25c0 Next Page");
+	            nextpage.setName(ChatColor.GREEN + "Next Page \u25b6");
 	            nextpage.setOnPressedListener(new Button.onButtonPressedListener() {
 	                @Override
 	                public void onButtonPressed(final MenuInteractionEvent event) {
 	                    LeveledMenu.this.generateNewMenu(1);
 	                }
 	            });    
-	            this.menuMap.put(54, nextpage);
+	            this.menuMap.put(53, nextpage);
 	        	}else if(page == 1) {
 	            try {
 	                final MobButton Parrot = new MobButton("Parrot", EntityType.PARROT, SettingsMenu.this.config, this, true);
@@ -843,17 +843,17 @@ public class SettingsMenu extends Menu{
 	                	LeveledMenu.this.generateNewMenu(0);
 	                }
 	            });
-	            this.menuMap.put(53, previous);
-	            final Button nextpage = new Button();
-	            nextpage.setIcon(Material.NETHER_STAR);
-	            nextpage.setName(ChatColor.RED + "\u25c0 Exit");
-	            nextpage.setOnPressedListener(new Button.onButtonPressedListener() {
+	            this.menuMap.put(52, previous);
+	            final Button exit = new Button();
+	            exit.setIcon(Material.NETHER_STAR);
+	            exit.setName(ChatColor.RED + "X Exit");
+	            exit.setOnPressedListener(new Button.onButtonPressedListener() {
 	                @Override
 	                public void onButtonPressed(final MenuInteractionEvent event) {
 	                    LeveledMenu.this.prev.ShowMenu(event.getInteractor());
 	                }
 	            });
-	            this.menuMap.put(52, nextpage);
+	            this.menuMap.put(51, exit);
 	        	}
 	        }
 	    }
@@ -1025,17 +1025,17 @@ public class SettingsMenu extends Menu{
 	                    BlockedMenu.this.prev.ShowMenu(event.getInteractor());
 	                }
 	            });
-	            this.menuMap.put(53, previous);
+	            this.menuMap.put(52, previous);
 	            final Button nextpage = new Button();
 	            nextpage.setIcon(Material.NETHER_STAR);
-	            nextpage.setName(ChatColor.GREEN + "\u25c0 Next Page");
+	            nextpage.setName(ChatColor.GREEN + "Next Page \u25b6");
 	            nextpage.setOnPressedListener(new Button.onButtonPressedListener() {
 	                @Override
 	                public void onButtonPressed(final MenuInteractionEvent event) {
 	                    BlockedMenu.this.generateNewMenu(1);
 	                }
 	            });
-	            this.menuMap.put(54, nextpage);
+	            this.menuMap.put(53, nextpage);
 	        	}else if(page == 1) {
 	            try {
 	                final MobButton Parrot = new MobButton("Parrot", EntityType.PARROT, SettingsMenu.this.config, this, true);
@@ -1119,17 +1119,17 @@ public class SettingsMenu extends Menu{
 	                    BlockedMenu.this.generateNewMenu(0);
 	                }
 	            });
-	            this.menuMap.put(53, previous);
-	            final Button nextpage = new Button();
-	            nextpage.setIcon(Material.NETHER_STAR);
-	            nextpage.setName(ChatColor.RED + "\u25c0 Exit");
-	            nextpage.setOnPressedListener(new Button.onButtonPressedListener() {
+	            this.menuMap.put(52, previous);
+	            final Button exit = new Button();
+	            exit.setIcon(Material.NETHER_STAR);
+	            exit.setName(ChatColor.RED + "X Exit");
+	            exit.setOnPressedListener(new Button.onButtonPressedListener() {
 	                @Override
 	                public void onButtonPressed(final MenuInteractionEvent event) {
 	                    BlockedMenu.this.prev.ShowMenu(event.getInteractor());
 	                }
 	            });
-	            this.menuMap.put(52, nextpage);
+	            this.menuMap.put(51, exit);
 	            
 	        	}
 
