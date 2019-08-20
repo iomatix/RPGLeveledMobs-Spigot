@@ -11,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 
 import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
+import iomatix.spigot.rpgleveledmobs.spawnsController.MobNamesMap;
 import iomatix.spigot.rpgleveledmobs.Main;
 import iomatix.spigot.rpgleveledmobs.tools.Language;
 
@@ -180,7 +181,8 @@ public enum ConfigKey {
         try {
             ConfigKey.defaultLeveled.add(EntityType.STRAY);
             ConfigKey.defaultLeveled.add(EntityType.HUSK);
-            cfgModule.version = 1.1;
+            ConfigKey.defaultLeveled.add(EntityType.POLAR_BEAR);
+            cfgModule.version = 1.10;
         }
         catch (NoSuchFieldError e) {
             e.printStackTrace();
@@ -191,6 +193,30 @@ public enum ConfigKey {
             ConfigKey.defaultLeveled.add(EntityType.VINDICATOR);
             ConfigKey.defaultLeveled.add(EntityType.ELDER_GUARDIAN);
             cfgModule.version = 1.11;
+        }
+        catch (NoSuchFieldError e) {}
+        try {
+        	ConfigKey.defaultLeveled.add(EntityType.PARROT);
+            ConfigKey.defaultLeveled.add(EntityType.DOLPHIN);
+            ConfigKey.defaultLeveled.add(EntityType.DROWNED);
+            ConfigKey.defaultLeveled.add(EntityType.PHANTOM);
+            ConfigKey.defaultLeveled.add(EntityType.COD);
+            ConfigKey.defaultLeveled.add(EntityType.SALMON);
+            ConfigKey.defaultLeveled.add(EntityType.PUFFERFISH);
+            ConfigKey.defaultLeveled.add(EntityType.TROPICAL_FISH);
+            ConfigKey.defaultLeveled.add(EntityType.TURTLE);
+            cfgModule.version = 1.13;
+        }
+        catch (NoSuchFieldError e) {}
+        try {
+            ConfigKey.defaultLeveled.add(EntityType.CAT);
+            ConfigKey.defaultLeveled.add(EntityType.FOX);
+            ConfigKey.defaultLeveled.add(EntityType.PANDA);
+            ConfigKey.defaultLeveled.add(EntityType.PILLAGER);
+            ConfigKey.defaultLeveled.add(EntityType.RAVAGER);
+            ConfigKey.defaultLeveled.add(EntityType.TRADER_LLAMA);
+            ConfigKey.defaultLeveled.add(EntityType.WANDERING_TRADER);
+            cfgModule.version = 1.14;
         }
         catch (NoSuchFieldError e) {}
 }

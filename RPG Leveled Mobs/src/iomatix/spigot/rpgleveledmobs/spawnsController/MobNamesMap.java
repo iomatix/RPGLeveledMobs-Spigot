@@ -31,7 +31,7 @@ private static HashMap<Language, HashMap<EntityType, String>> languageMapping;
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.ENDER_DRAGON, "Smok");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.ENDERMAN, "Enderman");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.ENDERMITE, "Endermite");
-            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.EVOKER, "Evoker");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.EVOKER, "Przywo³ywacz");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.GHAST, "Ghast");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.GIANT, "Olbrzym");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.GUARDIAN, "Stra¿nik");
@@ -41,10 +41,10 @@ private static HashMap<Language, HashMap<EntityType, String>> languageMapping;
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.MAGMA_CUBE, "Kostka Magmy");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.LLAMA, "Lama");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.MULE, "Mu³");
-            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.MUSHROOM_COW, "Mooshroom");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.MUSHROOM_COW, "Zmutowana Krowa");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.OCELOT, "Ocelot");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.PIG, "Œwinia");
-            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.PIG_ZOMBIE, "Zombie pigman");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.PIG_ZOMBIE, "Zombie Pigman");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.POLAR_BEAR, "NiedŸwiedŸ Polarny");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.RABBIT, "Królik");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.SHEEP, "Owca");
@@ -62,14 +62,29 @@ private static HashMap<Language, HashMap<EntityType, String>> languageMapping;
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.VINDICATOR, "Obroñca");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.WITCH, "WiedŸma");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.WITHER, "Wither");
-            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.WITHER_SKELETON, "Wither Szkielet");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.WITHER_SKELETON, "Obumar³y Szkielet");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.WOLF, "Wilk");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.ZOMBIE, "Zombie");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.ZOMBIE_HORSE, "Koñ Zombie");
             MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.ZOMBIE_VILLAGER, "Zombie");
         //1.13:
-            
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.PARROT, "Papuga");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.DOLPHIN, "Delfin");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.DROWNED, "Topielec");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.PHANTOM, "Fantom");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.COD, "Dorsz");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.SALMON, "£osoœ");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.PUFFERFISH, "Ryba Dymka");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.TROPICAL_FISH, "Ryba Tropikalna");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.TURTLE, "¯ó³w");
         //1.14
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.CAT, "Kot");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.FOX, "Lis");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.PANDA, "Panda");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.PILLAGER, "Grabie¿ca");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.RAVAGER, "Niszczyciel");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.TRADER_LLAMA, "Lama Handlarza");
+            MobNamesMap.languageMapping.get(Language.POLISH).put(EntityType.WANDERING_TRADER, "Wêdrowny Handlarz");
         }
         catch (NoSuchFieldError e) {
             LogsModule.warning("Upgrade server to the 1.14.4 for full language support.");

@@ -19,8 +19,8 @@ public class BaseSettingMenu extends Menu {
 	        globalButton.setIcon(Material.ENCHANTED_BOOK);
 	        globalButton.setName(ChatColor.GREEN + "Global Config");
 	        globalButton.addLoreLine(" ");
-	        globalButton.addLoreLine(ChatColor.WHITE + "Configure global settings");
-	        globalButton.addLoreLine(ChatColor.WHITE + "These are the default settings used");
+	        globalButton.addLoreLine(ChatColor.WHITE + "Configure "+ ChatColor.GOLD + "Global "+ ChatColor.WHITE+ "settings");
+	        globalButton.addLoreLine(ChatColor.WHITE + "The default settings used");
 	        globalButton.addLoreLine(ChatColor.WHITE + "for every world if not specifically set.");
 	        globalButton.setOnPressedListener(new Button.onButtonPressedListener() {
 	            @Override
