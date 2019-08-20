@@ -128,7 +128,7 @@ public class SettingsMenu extends Menu{
 	        protected final Menu prev;
 	        
 	        public StatsMenu(final SettingsMenu prev) {
-	            this.name = prev.getName() + ChatColor.GOLD + ": Scaling";
+	            this.name = prev.getName() + ": Scaling";
 	            this.prev = prev;
 	        }
 	        
@@ -244,7 +244,7 @@ public class SettingsMenu extends Menu{
 	            this.menuMap.put(21, healthMod);
 	            final Button defense = new Button();
 	            defense.setName(ChatColor.BLUE + "Defense Settings");
-	            defense.addLoreLine(ChatColor.YELLOW + "Formula: base + (base * level * multiplier/100)");
+	            defense.addLoreLine(ChatColor.YELLOW + "Formula: base + (base * level * multiplier)");
 	            defense.setIcon(Material.IRON_CHESTPLATE);
 	            this.menuMap.put(5, defense);
 	            final Button defenseToggle = new Button();

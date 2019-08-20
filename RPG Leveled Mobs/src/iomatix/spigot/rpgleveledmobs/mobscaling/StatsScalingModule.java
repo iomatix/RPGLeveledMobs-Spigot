@@ -86,7 +86,7 @@ public class StatsScalingModule {
             if(event.getEntity().hasMetadata(MetaTag.RPGmob.toString()) && event.getEntity().hasMetadata(MetaTag.DefenseMod.toString())) {
             	final double defenseMod = StatsScalingModule.this.getDefenseMod(event.getEntity());
             	final int level = StatsScalingModule.this.getLevel(event.getEntity());
-            	final double output = event.getDamage() - event.getDamage() * level * defenseMod/100;
+            	final double output = event.getDamage() - event.getDamage() * level * defenseMod;
             	if(output < 1) event.setDamage(1);
             	else event.setDamage(output);
         }
