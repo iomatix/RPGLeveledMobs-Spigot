@@ -1076,7 +1076,6 @@ public class SettingsMenu extends Menu{
 	                this.menuMap.put(7, Tropicalfish2);
 	                final WrongMobButton Turtle2 = new WrongMobButton("Unknown Mob", "1.13");
 	                this.menuMap.put(8, Turtle2);
-	                
 	            }
 	            try {
 	                final MobButton Cat = new MobButton("Cat", EntityType.CAT, SettingsMenu.this.config, this, true);
