@@ -772,7 +772,7 @@ public class SettingsMenu extends Menu{
 	                this.menuMap.put(2, Drowned);
 	                final MobButton Phantom = new MobButton("Phantom", EntityType.PHANTOM, SettingsMenu.this.config, this);
 	                this.menuMap.put(3, Phantom);
-	                final MobButton Cod = new MobButton("Cod", EntityType.COD, SettingsMenu.this.config, this, true);
+	                final MobButton Cod = new MobButton("Cod", EntityType.COD, SettingsMenu.this.config, this);
 	                this.menuMap.put(4, Cod);
 	                final MobButton Salmon = new MobButton("Salmon", EntityType.SALMON, SettingsMenu.this.config, this);
 	                this.menuMap.put(5, Salmon);
