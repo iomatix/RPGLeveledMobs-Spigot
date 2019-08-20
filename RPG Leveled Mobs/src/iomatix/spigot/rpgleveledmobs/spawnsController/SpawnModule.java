@@ -72,6 +72,11 @@ public class SpawnModule implements Listener {
 			livingEntity.setMetadata(MetaTag.DamageMod.toString(),
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getDamageMultiplier()));
 		}
+		if(node.isDefenseModified())
+		{
+			livingEntity.setMetadata(MetaTag.DefenseMod.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getDefenseMultiplier()));
+		}
 		if (node.isHealthModified()) {
 			final double startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
 			final double newMaxHealth = startMaxHealth + startMaxHealth * level * node.getHealthMultiplier();
