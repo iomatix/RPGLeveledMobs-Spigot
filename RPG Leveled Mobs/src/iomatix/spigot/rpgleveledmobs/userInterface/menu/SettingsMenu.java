@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 
 import iomatix.spigot.rpgleveledmobs.tools.Language;
 import iomatix.spigot.rpgleveledmobs.userInterface.WrongMobButton;
+import iomatix.spigot.rpgleveledmobs.userInterface.menu.SettingsMenu.BlockedMenu;
 import iomatix.spigot.rpgleveledmobs.userInterface.MobButton;
 import iomatix.spigot.rpgleveledmobs.userInterface.Button;
 import iomatix.spigot.rpgleveledmobs.userInterface.MenuException;
@@ -516,7 +517,7 @@ public class SettingsMenu extends Menu{
 	            allowed.setOnPressedListener(new Button.onButtonPressedListener() {
 	                @Override
 	                public void onButtonPressed(final MenuInteractionEvent event) {
-	                    new LeveledMenu(thisMenu).ShowMenu(event.getInteractor());
+	                    new LeveledMenu(thisMenu,0).ShowMenu(event.getInteractor());
 	                }
 	            });
 	            this.menuMap.put(0, allowed);
@@ -528,7 +529,7 @@ public class SettingsMenu extends Menu{
 	            blocked.setOnPressedListener(new Button.onButtonPressedListener() {
 	                @Override
 	                public void onButtonPressed(final MenuInteractionEvent event) {
-	                    new BlockedMenu(thisMenu).ShowMenu(event.getInteractor());
+	                    new BlockedMenu(thisMenu,0).ShowMenu(event.getInteractor());
 	                }
 	            });
 	            this.menuMap.put(1, blocked);
@@ -572,21 +573,22 @@ public class SettingsMenu extends Menu{
 	    protected class LeveledMenu extends Menu
 	    {
 	        final Menu prev;
-	        
-	        public LeveledMenu(final Menu prev) {
+	        int page = 0;
+	        public LeveledMenu(final Menu prev,int page) {
 	            this.prev = prev;
-	            this.generateMenu();
-	            this.name = ChatColor.BLUE + "Leveled Mobs";
+	            this.page = page;
+	            this.generateMenu(page);
+	            this.name = ChatColor.GOLD + "Leveled Mobs "+ChatColor.GRAY+"page ["+(page+1)+"]" ;
 	        }
 	        
 	        @Override
 	        public void ShowMenu(final Player player) {
-	            this.generateMenu();
+	            this.generateMenu(page);
 	            super.ShowMenu(player);
 	        }
 	        
-	        public void generateMenu() {
-	                this.generateNewMenu(0);
+	        public void generateMenu(int page) {
+	                this.generateNewMenu(page);
 	        }
 	        
 	        public void handle11BadMobs() {
@@ -756,7 +758,7 @@ public class SettingsMenu extends Menu{
 	            nextpage.setOnPressedListener(new Button.onButtonPressedListener() {
 	                @Override
 	                public void onButtonPressed(final MenuInteractionEvent event) {
-	                    LeveledMenu.this.generateNewMenu(1);
+	                    new LeveledMenu(LeveledMenu.this,1).ShowMenu(event.getInteractor());
 	                }
 	            });    
 	            this.menuMap.put(53, nextpage);
@@ -804,56 +806,56 @@ public class SettingsMenu extends Menu{
 	            }
 	            try {
 	                final MobButton Cat = new MobButton("Cat", EntityType.CAT, SettingsMenu.this.config, this, true);
-	                this.menuMap.put(1, Cat);
+	                this.menuMap.put(9, Cat);
 	                final MobButton Fox = new MobButton("Fox", EntityType.FOX, SettingsMenu.this.config, this, true);
-	                this.menuMap.put(1, Fox);
+	                this.menuMap.put(10, Fox);
 	                final MobButton Panda = new MobButton("Panda", EntityType.PANDA, SettingsMenu.this.config, this, true);
-	                this.menuMap.put(1, Panda);
+	                this.menuMap.put(11, Panda);
 	                final MobButton Pillager = new MobButton("Pillager", EntityType.PILLAGER, SettingsMenu.this.config, this, true);
-	                this.menuMap.put(1, Pillager);
+	                this.menuMap.put(12, Pillager);
 	                final MobButton Ravager = new MobButton("Ravager", EntityType.RAVAGER, SettingsMenu.this.config, this, true);
-	                this.menuMap.put(1, Ravager);
+	                this.menuMap.put(13, Ravager);
 	                final MobButton Trader_Llama = new MobButton("Trader's Llama", EntityType.TRADER_LLAMA, SettingsMenu.this.config, this, true);
-	                this.menuMap.put(1, Trader_Llama);
+	                this.menuMap.put(14, Trader_Llama);
 	                final MobButton Wandering_Trader = new MobButton("Wandering Trader", EntityType.WANDERING_TRADER, SettingsMenu.this.config, this, true);
-	                this.menuMap.put(1, Wandering_Trader);
+	                this.menuMap.put(15, Wandering_Trader);
 	            }
 	            catch (NoSuchFieldError e) {
 	                final WrongMobButton Cat2 = new WrongMobButton("Unknown Mob", "1.14");
-	                this.menuMap.put(1, Cat2);
+	                this.menuMap.put(9, Cat2);
 	                final WrongMobButton Fox2 = new WrongMobButton("Unknown Mob", "1.14");
-	                this.menuMap.put(1, Fox2);
+	                this.menuMap.put(10, Fox2);
 	                final WrongMobButton Panda2 = new WrongMobButton("Unknown Mob", "1.14");
-	                this.menuMap.put(1, Panda2);
+	                this.menuMap.put(11, Panda2);
 	                final WrongMobButton Pillager2 = new WrongMobButton("Unknown Mob", "1.14");
-	                this.menuMap.put(1, Pillager2);
+	                this.menuMap.put(12, Pillager2);
 	                final WrongMobButton Ravager2 = new WrongMobButton("Unknown Mob", "1.14");
-	                this.menuMap.put(1, Ravager2);
+	                this.menuMap.put(13, Ravager2);
 	                final WrongMobButton Trader_Llama2 = new WrongMobButton("Unknown Mob", "1.14");
-	                this.menuMap.put(1, Trader_Llama2);
+	                this.menuMap.put(14, Trader_Llama2);
 	                final WrongMobButton Wandering_Trader2 = new WrongMobButton("Unknown Mob", "1.14");
-	                this.menuMap.put(1, Wandering_Trader2);     
+	                this.menuMap.put(15, Wandering_Trader2);     
 	            }
 	            final Button previous = new Button();
 	            previous.setIcon(Material.NETHER_STAR);
-	            previous.setName(ChatColor.GREEN + "\u25c0 Previous Menu");
+	            previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
 	            previous.setOnPressedListener(new Button.onButtonPressedListener() {
-	                @Override
-	                public void onButtonPressed(final MenuInteractionEvent event) {
-	                	LeveledMenu.this.generateNewMenu(0);
-	                }
-	            });
-	            this.menuMap.put(52, previous);
-	            final Button exit = new Button();
-	            exit.setIcon(Material.NETHER_STAR);
-	            exit.setName(ChatColor.RED + "X Exit");
-	            exit.setOnPressedListener(new Button.onButtonPressedListener() {
 	                @Override
 	                public void onButtonPressed(final MenuInteractionEvent event) {
 	                    LeveledMenu.this.prev.ShowMenu(event.getInteractor());
 	                }
 	            });
-	            this.menuMap.put(51, exit);
+	            this.menuMap.put(52, previous);
+	            final Button nextpage = new Button();
+	            nextpage.setIcon(Material.NETHER_STAR);
+	            nextpage.setName(ChatColor.GRAY + "Next Page \u25b6");
+	            nextpage.setOnPressedListener(new Button.onButtonPressedListener() {
+	                @Override
+	                public void onButtonPressed(final MenuInteractionEvent event) {
+	                    //new LeveledMenu(LeveledMenu.this,2).ShowMenu(event.getInteractor());
+	                }
+	            });  
+	            this.menuMap.put(53, nextpage);
 	        	}
 	        }
 	    }
@@ -861,21 +863,22 @@ public class SettingsMenu extends Menu{
 	    protected class BlockedMenu extends Menu
 	    {
 	        private final Menu prev;
-	        
-	        public BlockedMenu(final Menu prev) {
+	        int page = 0;
+	        public BlockedMenu(final Menu prev, int page) {
 	            this.prev = prev;
-	            this.name = ChatColor.RED + "Blocked Mobs";
-	            this.generateMenu();
+	            this.page = page;
+	            this.name = ChatColor.RED + "Blocked Mobs "+ChatColor.GRAY+"page ["+(page+1)+"]" ;
+	            this.generateMenu(page);
 	        }
 	        
 	        @Override
 	        public void ShowMenu(final Player player) {
-	            this.generateMenu();
+	            this.generateMenu(page);
 	            super.ShowMenu(player);
 	        }
 	        
-	        public void generateMenu() {
-	                this.generateNewMenu(0);
+	        public void generateMenu(int page) {
+	                this.generateNewMenu(page);
 	        }        
 	        public void generateNewMenu(int page) {
 	        	if (page == 0) {
@@ -1032,7 +1035,7 @@ public class SettingsMenu extends Menu{
 	            nextpage.setOnPressedListener(new Button.onButtonPressedListener() {
 	                @Override
 	                public void onButtonPressed(final MenuInteractionEvent event) {
-	                    BlockedMenu.this.generateNewMenu(1);
+	                	 new BlockedMenu(BlockedMenu.this,1).ShowMenu(event.getInteractor());
 	                }
 	            });
 	            this.menuMap.put(53, nextpage);
@@ -1115,27 +1118,23 @@ public class SettingsMenu extends Menu{
 	            previous.setOnPressedListener(new Button.onButtonPressedListener() {
 	                @Override
 	                public void onButtonPressed(final MenuInteractionEvent event) {
-	                    BlockedMenu.this.generateNewMenu(0);
+	                	BlockedMenu.this.prev.ShowMenu(event.getInteractor());
 	                }
 	            });
 	            this.menuMap.put(52, previous);
-	            final Button exit = new Button();
-	            exit.setIcon(Material.NETHER_STAR);
-	            exit.setName(ChatColor.RED + "X Exit");
-	            exit.setOnPressedListener(new Button.onButtonPressedListener() {
+	            final Button nextpage = new Button();
+	            nextpage.setIcon(Material.NETHER_STAR);
+	            nextpage.setName(ChatColor.GRAY + "Next Page \u25b6");
+	            nextpage.setOnPressedListener(new Button.onButtonPressedListener() {
 	                @Override
-	                public void onButtonPressed(final MenuInteractionEvent event) {
-	                    BlockedMenu.this.prev.ShowMenu(event.getInteractor());
+	                public void onButtonPressed(final MenuInteractionEvent event) { 
+	                //    new BlockedMenu(BlockedMenu.this,2).ShowMenu(event.getInteractor()); 3rd page is off 
 	                }
 	            });
-	            this.menuMap.put(51, exit);
+	            this.menuMap.put(53, nextpage);
 	            
 	        	}
-
-	        
 	        }
-	        
-	        
 	    }
 	    
 	    protected class NamingMenu extends Menu

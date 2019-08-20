@@ -262,7 +262,7 @@ public class WorldSettingsMenu extends SettingsMenu{
 	                    @Override
 	                    public void onButtonPressed(final MenuInteractionEvent event) {
 	                        WorldSettingsMenu.this.config.setLeveledMobs(WorldSettingsMenu.this.config.getLeveledMobs());
-	                        new LeveledMenu(thisMenu).ShowMenu(event.getInteractor());
+	                        new LeveledMenu(thisMenu,0).ShowMenu(event.getInteractor());
 	                    }
 	                });
 	            }
@@ -277,7 +277,7 @@ public class WorldSettingsMenu extends SettingsMenu{
 	                            WorldSpawningMenu.this.ShowMenu(event.getInteractor());
 	                        }
 	                        else {
-	                            new LeveledMenu(thisMenu).ShowMenu(event.getInteractor());
+	                            new LeveledMenu(thisMenu,0).ShowMenu(event.getInteractor());
 	                        }
 	                    }
 	                });
@@ -290,7 +290,7 @@ public class WorldSettingsMenu extends SettingsMenu{
 	                    @Override
 	                    public void onButtonPressed(final MenuInteractionEvent event) {
 	                        WorldSettingsMenu.this.config.setBlockedMobs(WorldSettingsMenu.this.config.getBlockedMobs());
-	                        new BlockedMenu(thisMenu).ShowMenu(event.getInteractor());
+	                        new BlockedMenu(thisMenu,0).ShowMenu(event.getInteractor());
 	                    }
 	                });
 	            }
@@ -305,7 +305,7 @@ public class WorldSettingsMenu extends SettingsMenu{
 	                            WorldSpawningMenu.this.ShowMenu(event.getInteractor());
 	                        }
 	                        else {
-	                            new BlockedMenu(thisMenu).ShowMenu(event.getInteractor());
+	                            new BlockedMenu(thisMenu,0).ShowMenu(event.getInteractor());
 	                        }
 	                    }
 	                });
