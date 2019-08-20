@@ -65,16 +65,7 @@ public abstract class Menu {
 	        if (positions.isEmpty()) {
 	            return 9;
 	        }
-	        final int greatestPos = positions.get(positions.size() - 1);
-	        if (greatestPos >= 71) {
-	            return 80;
-	        }
-	        if (greatestPos >= 62) {
-	            return 71;
-	        }
-	        if (greatestPos >= 54) {
-	            return 62;
-	        }
+	        final int greatestPos = positions.get(positions.size() - 1);   
 	        if (greatestPos >= 45) {
 	            return 54;
 	        }
