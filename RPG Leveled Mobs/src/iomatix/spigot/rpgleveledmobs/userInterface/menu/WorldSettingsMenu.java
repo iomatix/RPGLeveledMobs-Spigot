@@ -143,10 +143,14 @@ public class WorldSettingsMenu extends SettingsMenu{
 	            WorldSettingsMenu.this.ButtonInheritMod(this, expMod, ConfigKey.EXPERIENCE_MOD_ENABLED, 10);
 	            final Button expMult = this.menuMap.get(19);
 	            WorldSettingsMenu.this.ButtonInheritMod(this, expMult, ConfigKey.EXPERIENCE_MODIFIER, 19);
-	            final Button healthMod = this.menuMap.get(13);
+	            final Button healthMod = this.menuMap.get(12);
 	            WorldSettingsMenu.this.ButtonInheritMod(this, healthMod, ConfigKey.HEALTH_MOD_ENABLED, 13);
-	            final Button healthMult = this.menuMap.get(22);
+	            final Button healthMult = this.menuMap.get(21);
 	            WorldSettingsMenu.this.ButtonInheritMod(this, healthMult, ConfigKey.HEALTH_PER_LEVEL, 22);
+	            final Button defenseMod = this.menuMap.get(14);
+	            WorldSettingsMenu.this.ButtonInheritMod(this, defenseMod, ConfigKey.DEFENSE_MOD_ENABLE, 13);
+	            final Button defenseMult = this.menuMap.get(23);
+	            WorldSettingsMenu.this.ButtonInheritMod(this, defenseMult, ConfigKey.DEFENSE_PER_LEVEL, 22);
 	            final Button damageMod = this.menuMap.get(16);
 	            WorldSettingsMenu.this.ButtonInheritMod(this, damageMod, ConfigKey.DAMAGE_MOD_ENABLE, 16);
 	            final Button damageMult = this.menuMap.get(25);

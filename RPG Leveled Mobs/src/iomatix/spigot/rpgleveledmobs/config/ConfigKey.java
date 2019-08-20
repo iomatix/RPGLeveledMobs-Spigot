@@ -25,7 +25,7 @@ public enum ConfigKey {
     DAMAGE_MOD_ENABLE("Stats.Damage.Enabled", "Whether or not to increase the damage a mob will do by their level."), 
     DAMAGE_PER_LEVEL("Stats.Damage.Multiplier", "The percentage of damage increase per level. Formula = [BaseDamage + (BaseDamage * level * mulitplier)]"), 
     DEFENSE_MOD_ENABLE("Stats.Defense.Enabled", "Wheter or not to increase the total mob defense by their level. Formula = [DamageTaken - (DamageTaken * level * mulitplier/100)]"),
-    DEFENSE_PER_LEVEL("Stats.Defense_Multiplier", "The percentage of damage resited per level."),
+    DEFENSE_PER_LEVEL("Stats.Defense.Multiplier", "The percentage of damage resited per level."),
     EXPERIENCE_MOD_ENABLED("Stats.Experience.Enabled", "Whether or not to increase the amount of experience dropped by a monster"), 
     EXPERIENCE_MODIFIER("Stats.Experience.Multiplier", "The percentage of experience increase per level. Formula = [BaseExp + (BaseExp * level * multiplier)]"), 
     LEVELED_MOBS("Spawning.LeveledMobs", "A list of mobs that are assigned levels when spawned."), 

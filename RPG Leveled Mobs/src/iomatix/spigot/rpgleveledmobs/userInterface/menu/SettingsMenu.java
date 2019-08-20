@@ -193,8 +193,8 @@ public class SettingsMenu extends Menu{
 	            final Button health = new Button();
 	            health.setName(ChatColor.BLUE + "Health Settings");
 	            health.addLoreLine(ChatColor.YELLOW + "Formula: base + (base * level * multiplier)");
-	            health.setIcon(Material.NETHERRACK);
-	            this.menuMap.put(4, health);
+	            health.setIcon(Material.NETHER_WART);
+	            this.menuMap.put(3, health);
 	            final Button healthToggle = new Button();
 	            healthToggle.setName(ChatColor.GREEN + "Health Modifier Enabled");
 	            healthToggle.setIcon(Material.WRITABLE_BOOK);
@@ -215,7 +215,7 @@ public class SettingsMenu extends Menu{
 	            });
 	            healthToggle.addLoreLine(" ");
 	            healthToggle.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
-	            this.menuMap.put(13, healthToggle);
+	            this.menuMap.put(12, healthToggle);
 	            final Button healthMod = new Button();
 	            healthMod.setIcon(Material.WRITABLE_BOOK);
 	            healthMod.setName(ChatColor.GREEN + "Health Multiplier");
@@ -240,11 +240,62 @@ public class SettingsMenu extends Menu{
 	                    }
 	                }
 	            });
-	            this.menuMap.put(22, healthMod);
+	            this.menuMap.put(21, healthMod);
+	            final Button defense = new Button();
+	            defense.setName(ChatColor.BLUE + "Defense Settings");
+	            defense.addLoreLine(ChatColor.YELLOW + "Formula: base + (base * level * multiplier/100)");
+	            defense.setIcon(Material.IRON_CHESTPLATE);
+	            this.menuMap.put(5, defense);
+	            final Button defenseToggle = new Button();
+	            defenseToggle.setName(ChatColor.GREEN + "Defense Modifier Enabled");
+	            defenseToggle.setIcon(Material.WRITABLE_BOOK);
+	            defenseToggle.addLoreLine(" ");
+	            final boolean defenseEnabled = SettingsMenu.this.config.isDefenseModified();
+	            if (defenseEnabled) {
+	            	defenseToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
+	            }
+	            else {
+	            	defenseToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
+	            }
+	            defenseToggle.setOnPressedListener(new Button.onButtonPressedListener() {
+	                @Override
+	                public void onButtonPressed(final MenuInteractionEvent event) {
+	                    SettingsMenu.this.config.setDefenseModified(!defenseEnabled);
+	                    StatsMenu.this.ShowMenu(event.getInteractor());
+	                }
+	            });
+	            defenseToggle.addLoreLine(" ");
+	            defenseToggle.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
+	            this.menuMap.put(14, defenseToggle);
+	            final Button defenseMod = new Button();
+	            defenseMod.setIcon(Material.WRITABLE_BOOK);
+	            defenseMod.setName(ChatColor.GREEN + "Defense Multiplier");
+	            defenseMod.addLoreLine(" ");
+	            final double defenseMult = SettingsMenu.this.config.getDefenseMultiplier();
+	            defenseMod.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + defenseMult);
+	            defenseMod.addLoreLine(" ");
+	            defenseMod.addLoreLine(ChatColor.GRAY + "Click to Change Value.");
+	            defenseMod.setOnPressedListener(new Button.onButtonPressedListener() {
+	                @Override
+	                public void onButtonPressed(final MenuInteractionEvent event) {
+	                    if (SettingsMenu.listeners.contains(event.getInteractor())) {
+	                        StatsMenu.menuHandler.closeMenu(event.getInteractor());
+	                    }
+	                    try {
+	                        StatsMenu.menuHandler.closeMenu(event.getInteractor());
+	                        final DoubleChangeListener doubleChangeListener = new DoubleChangeListener(event.getInteractor(), event.getMenu(), SettingsMenu.this.config.getClass().getMethod("setDefenseMultiplier", Double.TYPE));
+	                        event.getInteractor().sendMessage(ChatColor.YELLOW + "Please enter a new value: ");
+	                    }
+	                    catch (NoSuchMethodException e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            });
+	            this.menuMap.put(23, defenseMod);
 	            final Button damage = new Button();
 	            damage.setName(ChatColor.BLUE + "Damage Settings");
 	            damage.addLoreLine(ChatColor.YELLOW + "Formula: base + (base * level * multiplier)");
-	            damage.setIcon(Material.DIAMOND_AXE);
+	            damage.setIcon(Material.IRON_SWORD);
 	            this.menuMap.put(7, damage);
 	            final Button damageToggle = new Button();
 	            damageToggle.setName(ChatColor.GREEN + "Damage Modifier Enabled");
@@ -303,7 +354,6 @@ public class SettingsMenu extends Menu{
 	            });
 	            this.menuMap.put(35, previous);
 	        }
-	        //add defense scaling 
 	    }
 	    
 	    protected class LevelingMenu extends Menu
