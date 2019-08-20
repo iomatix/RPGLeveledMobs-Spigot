@@ -244,7 +244,7 @@ public class SettingsMenu extends Menu{
 	            this.menuMap.put(21, healthMod);
 	            final Button defense = new Button();
 	            defense.setName(ChatColor.BLUE + "Defense Settings");
-	            defense.addLoreLine(ChatColor.YELLOW + "Formula: base + (base * level * multiplier)");
+	            defense.addLoreLine(ChatColor.YELLOW + "Formula: damageTaken - (damageTaken * level * multiplier/100)");
 	            defense.setIcon(Material.IRON_CHESTPLATE);
 	            this.menuMap.put(5, defense);
 	            final Button defenseToggle = new Button();
