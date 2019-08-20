@@ -23,99 +23,104 @@ import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 
 public class ExperienceScalingModule {
-	 public ExperienceScalingModule() {
-	        boolean experienceHandled = false;
-	        if (Bukkit.getPluginManager().isPluginEnabled("Heroes")) {
-	            LogsModule.info("Found Heroes, Enabling Heroes Experience Mod.");
-	            new HeroesHandler();
-	            experienceHandled = true;
-	        }
-	        if (Bukkit.getPluginManager().isPluginEnabled("SkillAPI")) {
-	            LogsModule.info("Found SkillAPI, Enabling SkillAPI Experience Mod.");
-	            new SkillAPIHandler();
-	            experienceHandled = true;
-	        }
-	        if (!experienceHandled) {
-	            LogsModule.info("No Leveling Plugins Found, Enabling Vanilla Experience Mod.");
-	            new VanillaHandler();
-	        }
-	    }
-	    
-	    private int handleOrbExp(final Entity ent, final int droppedXp) {
-	        if (this.isMobExperienceModified(ent)) {
-	            final double expMod = ent.getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble();
-	            final int level = ent.getMetadata(MetaTag.Level.toString()).get(0).asInt();
-	            final int moddedExp = (int)Math.floor(droppedXp + droppedXp * level * expMod);
-	            return moddedExp;
-	        }
-	        return droppedXp;
-	    }
-	    
-	    private boolean isMobExperienceModified(final Entity ent) {
-	        return ent.hasMetadata(MetaTag.RPGmob.toString()) && ent.hasMetadata(MetaTag.Level.toString()) && ent.hasMetadata(MetaTag.ExpMod.toString());
-	    }
-	    
-	    private class VanillaHandler implements Listener
-	    {
-	        public VanillaHandler() {
-	            Bukkit.getPluginManager().registerEvents((Listener)this, (Plugin)Main.RPGMobs);
-	        }
-	        
-	        @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	        public void onEntityDeath(final EntityDeathEvent event) {
-	            if (ExperienceScalingModule.this.isMobExperienceModified((Entity)event.getEntity())) {
-	                final int defDropped = event.getDroppedExp();
-	                final double expMod = event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble();
-	                final int level = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
-	                final int moddedExp = (int)Math.floor(defDropped + defDropped * level * expMod);
-	                event.setDroppedExp(moddedExp);
-	            }
-	        }
-	    }
-	    
-	    private class HeroesHandler implements Listener
-	    {
-	        public HeroesHandler() {
-	            Bukkit.getPluginManager().registerEvents((Listener)this, (Plugin)Main.RPGMobs);
-	        }
-	    }
-	    
-	    private class SkillAPIHandler implements Listener
-	    {
-	        public SkillAPIHandler() {
-	            Bukkit.getPluginManager().registerEvents((Listener)this, (Plugin)Main.RPGMobs);
-	        }
-	        
-	        @EventHandler(priority = EventPriority.HIGHEST)
-	        public void onEntityDeath(final EntityDeathEvent event) {
-	            if (SkillAPI.getSettings().isUseOrbs()) {
-	                event.setDroppedExp(ExperienceScalingModule.this.handleOrbExp((Entity)event.getEntity(), event.getDroppedExp()));
-	            }
-	            else if (event.getEntity().hasMetadata(MetaTag.RPGmob.toString()) && event.getEntity().hasMetadata(MetaTag.Level.toString()) && event.getEntity().hasMetadata(MetaTag.ExpMod.toString())) {
-	                final Player killer = event.getEntity().getKiller();
-	                if (killer != null && killer.hasPermission("skillapi.exp")) {
-	                    if (killer.getGameMode() == GameMode.CREATIVE && SkillAPI.getSettings().isBlockCreative()) {
-	                        return;
-	                    }
-	                    if (killer.hasMetadata(MetaTag.RecentKill.toString())) {
-	                        ((LinkedList)killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).addLast(event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt() * event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble());
-	                    }
-	                    else {
-	                        final LinkedList<Double> q = new LinkedList<Double>();
-	                        q.addLast(event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble() * event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt());
-	                        killer.setMetadata(MetaTag.RecentKill.toString(), (MetadataValue)new FixedMetadataValue((Plugin)Main.RPGMobs, (Object)q));
-	                    }
-	                }
-	            }
-	        }
-	        
-	        @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	        public void onPlayerGainExp(final PlayerExperienceGainEvent event) {
-	            if (event.getSource() != ExpSource.MOB || !event.getPlayerData().getPlayer().hasMetadata(MetaTag.RecentKill.toString())) {
-	                return;
-	            }
-	            final double expModifier = (double) ((LinkedList)event.getPlayerData().getPlayer().getMetadata(MetaTag.RecentKill.toString()).get(0).value()).removeFirst();
-	            event.setExp((int)Math.floor(event.getExp() + event.getExp() * expModifier));
-	        }
-	    }
+	public ExperienceScalingModule() {
+		boolean experienceHandled = false;
+		if (Bukkit.getPluginManager().isPluginEnabled("Heroes")) {
+			LogsModule.info("Found Heroes, Enabling Heroes Experience Mod.");
+			new HeroesHandler();
+			experienceHandled = true;
+		}
+		if (Bukkit.getPluginManager().isPluginEnabled("SkillAPI")) {
+			LogsModule.info("Found SkillAPI, Enabling SkillAPI Experience Mod.");
+			new SkillAPIHandler();
+			experienceHandled = true;
+		}
+		if (!experienceHandled) {
+			LogsModule.info("No Leveling Plugins Found, Enabling Vanilla Experience Mod.");
+			new VanillaHandler();
+		}
+	}
+
+	private int handleOrbExp(final Entity ent, final int droppedXp) {
+		if (this.isMobExperienceModified(ent)) {
+			final double expMod = ent.getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble();
+			final int level = ent.getMetadata(MetaTag.Level.toString()).get(0).asInt();
+			final int moddedExp = (int) Math.floor(droppedXp + droppedXp * level * expMod);
+			return moddedExp;
+		}
+		return droppedXp;
+	}
+
+	private boolean isMobExperienceModified(final Entity ent) {
+		return ent.hasMetadata(MetaTag.RPGmob.toString()) && ent.hasMetadata(MetaTag.Level.toString())
+				&& ent.hasMetadata(MetaTag.ExpMod.toString());
+	}
+
+	private class VanillaHandler implements Listener {
+		public VanillaHandler() {
+			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
+		}
+
+		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+		public void onEntityDeath(final EntityDeathEvent event) {
+			if (ExperienceScalingModule.this.isMobExperienceModified((Entity) event.getEntity())) {
+				final int defDropped = event.getDroppedExp();
+				final double expMod = event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble();
+				final int level = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
+				final int moddedExp = (int) Math.floor(defDropped + defDropped * level * expMod);
+				event.setDroppedExp(moddedExp);
+			}
+		}
+	}
+
+	private class HeroesHandler implements Listener {
+		public HeroesHandler() {
+			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
+		}
+	}
+
+	private class SkillAPIHandler implements Listener {
+		public SkillAPIHandler() {
+			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
+		}
+
+		@EventHandler(priority = EventPriority.HIGHEST)
+		public void onEntityDeath(final EntityDeathEvent event) {
+			if (SkillAPI.getSettings().isUseOrbs()) {
+				event.setDroppedExp(
+						ExperienceScalingModule.this.handleOrbExp((Entity) event.getEntity(), event.getDroppedExp()));
+			} else if (event.getEntity().hasMetadata(MetaTag.RPGmob.toString())
+					&& event.getEntity().hasMetadata(MetaTag.Level.toString())
+					&& event.getEntity().hasMetadata(MetaTag.ExpMod.toString())) {
+				final Player killer = event.getEntity().getKiller();
+				if (killer != null && killer.hasPermission("skillapi.exp")) {
+					if (killer.getGameMode() == GameMode.CREATIVE && SkillAPI.getSettings().isBlockCreative()) {
+						return;
+					}
+					if (killer.hasMetadata(MetaTag.RecentKill.toString())) {
+						((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value())
+								.addLast(event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt()
+										* event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble());
+					} else {
+						final LinkedList<Double> q = new LinkedList<Double>();
+						q.addLast(event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble()
+								* event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt());
+						killer.setMetadata(MetaTag.RecentKill.toString(),
+								(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) q));
+					}
+				}
+			}
+		}
+
+		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+		public void onPlayerGainExp(final PlayerExperienceGainEvent event) {
+			if (event.getSource() != ExpSource.MOB
+					|| !event.getPlayerData().getPlayer().hasMetadata(MetaTag.RecentKill.toString())) {
+				return;
+			}
+			final double expModifier = (double) ((LinkedList) event.getPlayerData().getPlayer()
+					.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).removeFirst();
+			event.setExp((int) Math.floor(event.getExp() + event.getExp() * expModifier));
+		}
+	}
 }

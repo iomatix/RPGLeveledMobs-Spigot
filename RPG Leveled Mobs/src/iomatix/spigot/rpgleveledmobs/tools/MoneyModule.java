@@ -10,11 +10,11 @@ import org.bukkit.event.Listener;
 import iomatix.spigot.rpgleveledmobs.Main;
 
 public class MoneyModule implements Listener {
-    public MoneyModule() {
-        Bukkit.getPluginManager().registerEvents((Listener)this, (Plugin)Main.RPGMobs);
-    }
-    
-    @EventHandler
-    public void onMobDrop(final EntityDeathEvent event) {
-    }
+	public MoneyModule() {
+		Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
+	}
+
+	@EventHandler
+	public void onMobDrop(final EntityDeathEvent event) {
+	}
 }

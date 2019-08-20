@@ -25,15 +25,15 @@ import iomatix.spigot.rpgleveledmobs.cmds.RPGlvlmobsCommand;
 import iomatix.spigot.rpgleveledmobs.cmds.cmdModule;
 
 public class Main extends JavaPlugin {
-	
+
 	public static Main RPGMobs;
-	
+
 	cmdModule commandModule;
 	cfgModule configModule;
 	MenuHandler menuHandler;
-    SpawnModule spawnModule;
-    ExperienceScalingModule experienceModule;
-    StatsScalingModule scalingModule;
+	SpawnModule spawnModule;
+	ExperienceScalingModule experienceModule;
+	StatsScalingModule scalingModule;
 
 	@Override
 	public void onEnable() {
@@ -45,29 +45,28 @@ public class Main extends JavaPlugin {
 				+ ChatColor.GRAY + "enabled in " + ChatColor.GOLD + (endTime * 1.0 - startTime * 1.0) / 1000.0
 				+ ChatColor.GRAY + " seconds");
 		try {
-            final Metrics metrics = new Metrics((Plugin)this);
-            metrics.start();
-        }
-        catch (IOException e) {
-            LogsModule.warning("Error starting metrics!");
-        
-        }
-		
+			final Metrics metrics = new Metrics((Plugin) this);
+			metrics.start();
+		} catch (IOException e) {
+			LogsModule.warning("Error starting metrics!");
+
+		}
+
 	}
 
 	@Override
 	public void onDisable() {
 		LogsModule.saveLog();
-		 for (final World world : Bukkit.getWorlds()) {
-	            for (final LivingEntity ent : world.getLivingEntities()) {
-	                if (ent.hasMetadata(MetaTag.RPGmob.toString())) {
-	                    for (final MetaTag tag : MetaTag.values()) {
-	                        ent.removeMetadata(tag.toString(), (Plugin)this);
-	                    }
-	                    ent.remove();
-	                }
-	            }
-	        }
+		for (final World world : Bukkit.getWorlds()) {
+			for (final LivingEntity ent : world.getLivingEntities()) {
+				if (ent.hasMetadata(MetaTag.RPGmob.toString())) {
+					for (final MetaTag tag : MetaTag.values()) {
+						ent.removeMetadata(tag.toString(), (Plugin) this);
+					}
+					ent.remove();
+				}
+			}
+		}
 	}
 
 	private void loadModules() {
@@ -78,8 +77,8 @@ public class Main extends JavaPlugin {
 		Bukkit.getScheduler().runTaskLaterAsynchronously((Plugin) this, (Runnable) new Runnable() {
 			@Override
 			public void run() {
-                Main.this.experienceModule = new ExperienceScalingModule();
-                Main.this.scalingModule = new StatsScalingModule();
+				Main.this.experienceModule = new ExperienceScalingModule();
+				Main.this.scalingModule = new StatsScalingModule();
 			}
 		}, 40L);
 	}
@@ -92,23 +91,23 @@ public class Main extends JavaPlugin {
 		return cfgModule.getConfigModule();
 	}
 
-	    public static MobArena getMobArena() {
-	        return (MobArena)Bukkit.getPluginManager().getPlugin("MobArena");
-	    }
-	    
-	    public static boolean isMobArenaLoaded() {
-	        return Bukkit.getPluginManager().isPluginEnabled("MobArena");
-	    }
-	    
-	    public static boolean isLeveledMob(final Entity ent) {
-	        return ent.hasMetadata(MetaTag.RPGmob.toString()) && ent.hasMetadata(MetaTag.Level.toString());
-	    }
-	    
-	    public static int getMobLevel(final Entity ent) {
-	        if (!isLeveledMob(ent)) {
-	            return -1;
-	        }
-	        return ent.getMetadata(MetaTag.Level.toString()).get(0).asInt();
-	    }
+	public static MobArena getMobArena() {
+		return (MobArena) Bukkit.getPluginManager().getPlugin("MobArena");
+	}
+
+	public static boolean isMobArenaLoaded() {
+		return Bukkit.getPluginManager().isPluginEnabled("MobArena");
+	}
+
+	public static boolean isLeveledMob(final Entity ent) {
+		return ent.hasMetadata(MetaTag.RPGmob.toString()) && ent.hasMetadata(MetaTag.Level.toString());
+	}
+
+	public static int getMobLevel(final Entity ent) {
+		if (!isLeveledMob(ent)) {
+			return -1;
+		}
+		return ent.getMetadata(MetaTag.Level.toString()).get(0).asInt();
+	}
 
 }
