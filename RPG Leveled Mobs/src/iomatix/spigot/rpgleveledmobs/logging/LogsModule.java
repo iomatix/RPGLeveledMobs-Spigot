@@ -43,7 +43,7 @@ public class LogsModule {
                 break;
             }
             case Error: {
-                severe(log);
+                error(log);
                 break;
             }
             case Warning: {
@@ -70,14 +70,14 @@ public class LogsModule {
         physicalLog("[Debug]" + logMessage);
     }
     
-    public static void severe(final String logMessage) {
+    public static void error(final String logMessage) {
         if (Bukkit.getConsoleSender() != null) {
             Bukkit.getConsoleSender().sendMessage(LogsModule.PLUGIN_TITLE + LogsModule.SEVERE + logMessage);
         }
         else {
         	LogsModule.log.severe(logMessage);
         }
-        physicalLog("[Severe]" + logMessage);
+        physicalLog("[Error]" + logMessage);
     }
     
     public static void warning(final String logMessage) {

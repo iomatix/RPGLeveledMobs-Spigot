@@ -16,9 +16,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 import iomatix.spigot.rpgleveledmobs.Main;
+import iomatix.spigot.rpgleveledmobs.cmds.core.ClearCommand;
+import iomatix.spigot.rpgleveledmobs.cmds.core.NearestSpawnCommand;
+import iomatix.spigot.rpgleveledmobs.cmds.core.SettingsCommand;
 import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
 
-public class cmdModule {
+public class cmdModule implements CommandExecutor, Listener{
 	public static final String COMMAND_TAG = "[CommandModule]";
 	private static final HashMap<String, RPGlvlmobsCommand> commandMap;
 	private final String HELP_HEADER;
@@ -32,8 +35,9 @@ public class cmdModule {
 				+ ChatColor.GREEN + "click " + ChatColor.WHITE + "for command" + ChatColor.DARK_GRAY + " ]";
 		Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
 		Main.RPGMobs.getCommand("rpgmobs").setExecutor((CommandExecutor) this);
-
-		// register commands with this.registerCommand
+        this.registerCommand(new SettingsCommand());
+        this.registerCommand(new NearestSpawnCommand());
+        this.registerCommand(new ClearCommand());
 	}
 
     public boolean onCommand(final CommandSender commandSender, final Command command, final String label, final String[] args) {

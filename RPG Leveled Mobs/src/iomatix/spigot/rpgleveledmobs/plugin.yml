@@ -1,4 +1,5 @@
 main: iomatix.spigot.rpgleveledmobs.Main
+softdepend: [MobArena,SkillAPI]
 name: RPG Leveled Mobs
 version: 0.1a
 author: iomatix
