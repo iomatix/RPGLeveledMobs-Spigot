@@ -72,10 +72,23 @@ public class SpawnModule implements Listener {
 			livingEntity.setMetadata(MetaTag.DamageMod.toString(),
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getDamageMultiplier()));
 		}
-		if(node.isDefenseModified())
-		{
+		if (node.isDefenseModified()) {
 			livingEntity.setMetadata(MetaTag.DefenseMod.toString(),
-					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getDefenseMultiplier()));
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+							(Object) node.getDefenseMultiplier()));
+		}	
+		if (node.isMoneyModified()) {
+			
+			double money = node.getMoneyMob(livingEntity.getType());
+			if (node.getMoneyRandomizer() != 0.0) {
+				money = Math.abs(node.getMoneyRandomizer());
+				money = Math.random() * (money - (-money)) + (-money);
+				money = node.getMoneyMob(livingEntity.getType())+money;
+			}
+			livingEntity.setMetadata(MetaTag.MoneyDrop.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) money));
+			livingEntity.setMetadata(MetaTag.MoneyMod.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getMoneyMultiplier()));
 		}
 		if (node.isHealthModified()) {
 			final double startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();

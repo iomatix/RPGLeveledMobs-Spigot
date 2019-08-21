@@ -150,7 +150,7 @@ public class StatsScalingModule {
 			if (StatsScalingModule.this.isDefenseModded((Entity) event.getTarget())) {
 				final int level = StatsScalingModule.this.getLevel((Entity) event.getTarget());
 				final double defenseMod = StatsScalingModule.this.getDefenseMod((Entity) event.getTarget());
-				final double output = event.getDamage() - level * event.getDamage() * defenseMod / 100;
+				final double output = event.getDamage() - level * event.getDamage()*defenseMod/100;
 				if (output < 1) {
 					event.setDamage(1);
 				} else {
@@ -159,7 +159,6 @@ public class StatsScalingModule {
 			}
 
 		}
-
 		@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 		public void onSkillDamage(final SkillDamageEvent event) {
 			if (StatsScalingModule.this.isDefenseModded((Entity) event.getTarget())) {

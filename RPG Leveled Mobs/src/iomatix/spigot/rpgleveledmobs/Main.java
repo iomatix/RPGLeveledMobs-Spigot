@@ -16,6 +16,7 @@ import com.garbagemule.MobArena.MobArena;
 import iomatix.spigot.rpgleveledmobs.config.cfgModule;
 import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
 import iomatix.spigot.rpgleveledmobs.mobscaling.ExperienceScalingModule;
+import iomatix.spigot.rpgleveledmobs.mobscaling.MoneyScalingModule;
 import iomatix.spigot.rpgleveledmobs.mobscaling.StatsScalingModule;
 import iomatix.spigot.rpgleveledmobs.spawnsController.SpawnModule;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
@@ -34,6 +35,7 @@ public class Main extends JavaPlugin {
 	SpawnModule spawnModule;
 	ExperienceScalingModule experienceModule;
 	StatsScalingModule scalingModule;
+	MoneyScalingModule moneyscalingModule;
 
 	@Override
 	public void onEnable() {
@@ -77,6 +79,7 @@ public class Main extends JavaPlugin {
 		Bukkit.getScheduler().runTaskLaterAsynchronously((Plugin) this, (Runnable) new Runnable() {
 			@Override
 			public void run() {
+				Main.this.moneyscalingModule = new MoneyscalingModule();
 				Main.this.experienceModule = new ExperienceScalingModule();
 				Main.this.scalingModule = new StatsScalingModule();
 			}

@@ -2,6 +2,7 @@ package iomatix.spigot.rpgleveledmobs.config;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.entity.EntityType;
 
@@ -55,6 +56,10 @@ public abstract class RPGLeveledMobsConfig {
 	public abstract boolean isDefenseModified();
 
 	public abstract void setDefenseModified(final boolean p0);
+	
+	public abstract boolean isMoneyModified();
+
+	public abstract void setMoneyModified(final boolean p0);
 
 	public abstract boolean isExperienceModified();
 
@@ -75,6 +80,14 @@ public abstract class RPGLeveledMobsConfig {
 	public abstract double getDefenseMultiplier();
 
 	public abstract void setDefenseMultiplier(final double p0);
+	
+	public abstract double getMoneyMultiplier();
+
+	public abstract void setMoneyMultiplier(final double p0);
+	
+	public abstract double getMoneyRandomizer();
+
+	public abstract void setMoneyRandomizer(final double p0);
 
 	public abstract double getExperienceMultiplier();
 
@@ -112,6 +125,14 @@ public abstract class RPGLeveledMobsConfig {
 
 	public abstract void removeBlockedMob(final EntityType p0);
 
+	public HashMap<String, String> MoneyHashMapToStringList(final HashMap<EntityType, Double> entList) {
+		final HashMap<String, String> strList = new HashMap<String, String>();
+		for (Map.Entry<EntityType, Double> entry : entList.entrySet()) {
+			strList.put(entry.getKey().toString(), entry.getValue().toString());
+		}
+		return strList;
+	}
+	
 	public ArrayList<String> entListToStringList(final ArrayList<EntityType> entList) {
 		final ArrayList<String> strList = new ArrayList<String>();
 		for (final EntityType ent : entList) {
@@ -184,4 +205,13 @@ public abstract class RPGLeveledMobsConfig {
 	public abstract void setMobNameLanguage(final Language p0);
 
 	public abstract Language getMobNameLanguage();
+
+	public abstract void setMoneyMobs(HashMap<EntityType, Double> moneyMob);
+
+	public abstract void addMoneyMob(EntityType ent, double amount);
+
+	public abstract void removeMoneyMob(EntityType ent);
+	
+	public abstract double getMoneyMob(EntityType ent);
+
 }

@@ -49,11 +49,17 @@ public enum ConfigKey {
 			"Whether or not to level the mobs in a mob arena by the wave number."),
 	MOB_ARENA_WAVES_PER_LEVEL("MobArena.WavesPerLevel", "How many waves before increasing level"),
 	MOB_ARENA_MULTIPLIER("MobArena.Multiplier",
-			"What percentage of experience to drop for mobs killed inside of a mob arena. [ModifiedExperience * multiplier]");
-
+			"What percentage of experience to drop for mobs killed inside of a mob arena. [ModifiedExperience * multiplier]"),
+	MONEY_MOBS("Spawning.MoneyMobs", "A list of mobs with currency values assigned which each drops on death."),
+	MONEY_MOD_ENABLE("Stats.Money.Enabled","Whether or not to increase the money amount a mob will drop by their level."),
+	MONEY_PER_LEVEL("Stats.Money.Multiplier","The percentage of money increase per level. Formula = [BaseMoney + (BaseMoney * level * multiplier)]"),
+	MONEY_RANDOM("Stats.Money.Random","Value by money drop may increase or decrease.");
+	
+	
 	private String path;
 	private String description;
 	public static HashMap<ConfigKey, Object> defaultMap;
+	public static HashMap<EntityType, Double> moneyMap;
 	public static ArrayList<EntityType> defaultLeveled;
 	private static final ArrayList<EntityType> defaultBlockedVanilla;
 	private static final ArrayList<EntityType> defaultBlockedNether;
@@ -95,6 +101,7 @@ public enum ConfigKey {
 
 	static {
 		ConfigKey.defaultMap = new HashMap<ConfigKey, Object>();
+		ConfigKey.moneyMap = new HashMap<EntityType, Double>();
 		ConfigKey.defaultLeveled = new ArrayList<EntityType>();
 		defaultBlockedVanilla = new ArrayList<EntityType>();
 		defaultBlockedNether = new ArrayList<EntityType>();
@@ -225,6 +232,69 @@ public enum ConfigKey {
 			cfgModule.version = 1.14;
 		} catch (NoSuchFieldError e) {
 		}
+		try {
+			ConfigKey.moneyMap.put(EntityType.BAT,0.0);
+			ConfigKey.moneyMap.put(EntityType.BLAZE,0.0);
+			ConfigKey.moneyMap.put(EntityType.CAT,0.0);
+			ConfigKey.moneyMap.put(EntityType.CAVE_SPIDER,0.0);
+			ConfigKey.moneyMap.put(EntityType.CHICKEN,0.0);
+			ConfigKey.moneyMap.put(EntityType.COW,0.0);
+			ConfigKey.moneyMap.put(EntityType.CREEPER,0.0);
+			ConfigKey.moneyMap.put(EntityType.DOLPHIN,0.0);
+			ConfigKey.moneyMap.put(EntityType.DONKEY,0.0);
+			ConfigKey.moneyMap.put(EntityType.DROWNED,0.0);
+			ConfigKey.moneyMap.put(EntityType.ELDER_GUARDIAN,0.0);
+			ConfigKey.moneyMap.put(EntityType.ENDER_DRAGON,0.0);
+			ConfigKey.moneyMap.put(EntityType.ENDERMAN,0.0);
+			ConfigKey.moneyMap.put(EntityType.ENDERMITE,0.0);
+			ConfigKey.moneyMap.put(EntityType.EVOKER,0.0);
+			ConfigKey.moneyMap.put(EntityType.FOX,0.0);
+			ConfigKey.moneyMap.put(EntityType.GHAST,0.0);
+			ConfigKey.moneyMap.put(EntityType.GIANT,0.0);
+			ConfigKey.moneyMap.put(EntityType.GUARDIAN,0.0);
+			ConfigKey.moneyMap.put(EntityType.HORSE,0.0);
+			ConfigKey.moneyMap.put(EntityType.HUSK,0.0);
+			ConfigKey.moneyMap.put(EntityType.ILLUSIONER,0.0);
+			ConfigKey.moneyMap.put(EntityType.IRON_GOLEM,0.0);
+			ConfigKey.moneyMap.put(EntityType.LLAMA,0.0);
+			ConfigKey.moneyMap.put(EntityType.MAGMA_CUBE,0.0);
+			ConfigKey.moneyMap.put(EntityType.MUSHROOM_COW,0.0);
+			ConfigKey.moneyMap.put(EntityType.MULE,0.0);
+			ConfigKey.moneyMap.put(EntityType.OCELOT,0.0);
+			ConfigKey.moneyMap.put(EntityType.PANDA,0.0);
+			ConfigKey.moneyMap.put(EntityType.PARROT,0.0);
+			ConfigKey.moneyMap.put(EntityType.PHANTOM,0.0);
+			ConfigKey.moneyMap.put(EntityType.PIG,0.0);
+			ConfigKey.moneyMap.put(EntityType.PILLAGER,0.0);
+			ConfigKey.moneyMap.put(EntityType.POLAR_BEAR,0.0);
+			ConfigKey.moneyMap.put(EntityType.RABBIT,0.0);
+			ConfigKey.moneyMap.put(EntityType.RAVAGER,0.0);
+			ConfigKey.moneyMap.put(EntityType.SHEEP,0.0);
+			ConfigKey.moneyMap.put(EntityType.SHULKER,0.0);
+			ConfigKey.moneyMap.put(EntityType.SILVERFISH,0.0);
+			ConfigKey.moneyMap.put(EntityType.SKELETON,0.0);
+			ConfigKey.moneyMap.put(EntityType.SKELETON_HORSE,0.0);
+			ConfigKey.moneyMap.put(EntityType.SLIME,0.0);
+			ConfigKey.moneyMap.put(EntityType.SNOWMAN,0.0);
+			ConfigKey.moneyMap.put(EntityType.SPIDER,0.0);
+			ConfigKey.moneyMap.put(EntityType.SQUID,0.0);
+			ConfigKey.moneyMap.put(EntityType.STRAY,0.0);
+			ConfigKey.moneyMap.put(EntityType.TURTLE, 0.0);
+			ConfigKey.moneyMap.put(EntityType.VEX, 0.0);
+			ConfigKey.moneyMap.put(EntityType.VILLAGER, 0.0);
+			ConfigKey.moneyMap.put(EntityType.VINDICATOR, 0.0);
+			ConfigKey.moneyMap.put(EntityType.WANDERING_TRADER, 0.0);
+			ConfigKey.moneyMap.put(EntityType.WITCH, 0.0);
+			ConfigKey.moneyMap.put(EntityType.WITHER, 0.0);
+			ConfigKey.moneyMap.put(EntityType.WITHER_SKELETON, 0.0);
+			ConfigKey.moneyMap.put(EntityType.WOLF, 0.0);
+			ConfigKey.moneyMap.put(EntityType.ZOMBIE, 0.0);
+			ConfigKey.moneyMap.put(EntityType.PIG_ZOMBIE, 0.0);
+			ConfigKey.moneyMap.put(EntityType.ZOMBIE_VILLAGER, 0.0);
+			cfgModule.version = 1.14;
+		}catch(NoSuchFieldError e) {
+		}
+		
 	}
 
 }

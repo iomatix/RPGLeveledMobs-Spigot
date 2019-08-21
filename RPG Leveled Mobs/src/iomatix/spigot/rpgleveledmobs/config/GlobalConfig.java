@@ -1,10 +1,13 @@
 package iomatix.spigot.rpgleveledmobs.config;
 
 import java.util.Iterator;
+import java.util.Map;
+
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.entity.EntityType;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
 import iomatix.spigot.rpgleveledmobs.Main;
@@ -23,11 +26,14 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	private boolean alwaysShowMobName;
 	private boolean damageModified;
 	private boolean defenseModified;
+	private boolean moneyModified;
 	private boolean experienceModified;
 	private boolean healthModified;
 	private double healthMultiplier;
 	private double damageMultiplier;
 	private double defenseMultiplier;
+	private double moneyMultiplier;
+	private double moneyRandomizer;
 	private double experienceModifier;
 	private boolean leveledMobArea;
 	private boolean mobArenaWaveLeveling;
@@ -35,6 +41,7 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	private double wavesPerLevel;
 	private ArrayList<EntityType> leveledMobs;
 	private ArrayList<EntityType> blockedMobs;
+	private HashMap<EntityType, Double> moneyMobs;
 	private boolean leveledSpawners;
 
 	public GlobalConfig() {
@@ -110,6 +117,15 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 		}
 		if (this.config.getConfig().contains(ConfigKey.DEFENSE_PER_LEVEL.toString())) {
 			this.defenseMultiplier = this.config.getConfig().getDouble(ConfigKey.DEFENSE_PER_LEVEL.toString());
+		}
+		if (this.config.getConfig().contains(ConfigKey.MONEY_MOD_ENABLE.toString())) {
+			this.moneyModified = this.config.getConfig().getBoolean(ConfigKey.MONEY_MOD_ENABLE.toString());
+		}
+		if (this.config.getConfig().contains(ConfigKey.MONEY_PER_LEVEL.toString())) {
+			this.moneyMultiplier = this.config.getConfig().getDouble(ConfigKey.MONEY_PER_LEVEL.toString());
+		}
+		if (this.config.getConfig().contains(ConfigKey.MONEY_RANDOM.toString())) {
+			this.moneyRandomizer = this.config.getConfig().getDouble(ConfigKey.MONEY_RANDOM.toString());
 		}
 		if (this.config.getConfig().contains(ConfigKey.EXPERIENCE_MOD_ENABLED.toString())) {
 			this.experienceModified = this.config.getConfig().getBoolean(ConfigKey.EXPERIENCE_MOD_ENABLED.toString());
@@ -230,13 +246,6 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 		Main.RPGMobs.getConfigModule().globalUpdate();
 	}
 
-	@Override
-	public void setDefenseModified(final boolean enabled) {
-		this.defenseModified = enabled;
-		this.config.getConfig().set(ConfigKey.DEFENSE_MOD_ENABLE.toString(), (Object) this.defenseModified);
-		this.config.saveConfig();
-		Main.RPGMobs.getConfigModule().globalUpdate();
-	}
 
 	@Override
 	public boolean isDamageModified() {
@@ -244,8 +253,29 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	}
 
 	@Override
+	public void setDefenseModified(final boolean enabled) {
+		this.defenseModified = enabled;
+		this.config.getConfig().set(ConfigKey.DEFENSE_MOD_ENABLE.toString(), (Object) this.defenseModified);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+	
+	@Override
 	public boolean isDefenseModified() {
 		return this.defenseModified;
+	}
+	
+	@Override
+	public void setMoneyModified(final boolean enabled) {
+		this.moneyModified = enabled;
+		this.config.getConfig().set(ConfigKey.MONEY_MOD_ENABLE.toString(), (Object) this.moneyModified);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+	
+	@Override
+	public boolean isMoneyModified() {
+		return this.moneyModified;
 	}
 
 	@Override
@@ -384,6 +414,32 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	public double getDefenseMultiplier() {
 		return this.defenseMultiplier;
 	}
+	
+	@Override
+	public void setMoneyMultiplier(final double multiplier) {
+		this.moneyMultiplier = multiplier;
+		this.config.getConfig().set(ConfigKey.MONEY_PER_LEVEL.toString(), (Object) multiplier);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+
+	@Override
+	public double getMoneyMultiplier() {
+		return this.moneyMultiplier;
+	}
+	
+	@Override
+	public void setMoneyRandomizer(final double multiplier) {
+		this.moneyRandomizer = multiplier;
+		this.config.getConfig().set(ConfigKey.MONEY_RANDOM.toString(), (Object) multiplier);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+
+	@Override
+	public double getMoneyRandomizer() {
+		return this.moneyRandomizer;
+	}
 
 	@Override
 	public double getMobArenaMultiplier() {
@@ -463,7 +519,37 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 		this.config.saveConfig();
 		Main.RPGMobs.getConfigModule().globalUpdate();
 	}
+	
+	@Override
+	public void setMoneyMobs(final HashMap<EntityType, Double> moneyMob) {
+		this.moneyMobs = (HashMap<EntityType, Double>) moneyMob.clone();
+		final HashMap<EntityType, Double> temp = new HashMap<EntityType, Double>();
+		for (Map.Entry<EntityType, Double> type : this.moneyMobs.entrySet()) {
+			temp.put(type.getKey(), type.getValue());
+		}
+		this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(), (Object) this.MoneyHashMapToStringList(temp));
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
 
+	@Override
+	public void addMoneyMob(final EntityType ent,final double amount) {
+		this.moneyMobs.put(ent,amount);	
+		this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),
+		(Object) this.MoneyHashMapToStringList(this.moneyMobs));
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+
+	@Override
+	public void removeMoneyMob(final EntityType ent) {
+	this.moneyMobs.put(ent,0.0);	
+	this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),
+	(Object) this.MoneyHashMapToStringList(this.moneyMobs));
+	this.config.saveConfig();
+	Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+	
 	@Override
 	public void useInheritedValue(final ConfigKey key) {
 	}
@@ -502,6 +588,11 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	@Override
 	public boolean isBlocked(final EntityType ent) {
 		return this.blockedMobs.contains(ent);
+	}
+	
+	@Override
+	public double getMoneyMob(EntityType ent) {
+		return this.moneyMobs.get(ent);
 	}
 
 	@Override

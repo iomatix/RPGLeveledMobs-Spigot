@@ -1,6 +1,7 @@
 package iomatix.spigot.rpgleveledmobs.config;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import org.bukkit.World;
 import java.util.Random;
@@ -37,6 +38,9 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	private double damageMult;
 	private boolean defenseModified;
 	private double defenseMult;
+	private boolean moneyModified;
+	private double moneyMult;
+	private double moneyRandomizer;
 	private boolean expModified;
 	private double expMult;
 	private boolean healthModified;
@@ -47,6 +51,7 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	private double mobArenaWavesPerLevel;
 	private boolean alwaysShowMobName;
 	private final Random rand;
+	private HashMap<EntityType, Double> moneyMobs;
 
 	private SpawnNode(final ConfigurationSection nodeSection, final WorldConfig worldConfig) {
 		this.rand = new Random();
@@ -301,6 +306,22 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	}
 
 	@Override
+	public boolean isMoneyModified() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOD_ENABLE)) {
+			return (boolean) this.inheritedValues.get(ConfigKey.MONEY_MOD_ENABLE);
+		}
+		return this.moneyModified;
+	}
+
+	@Override
+	public void setMoneyModified(final boolean enabled) {
+		this.inheritedValues.remove(ConfigKey.MONEY_MOD_ENABLE);
+		this.moneyModified = enabled;
+		this.nodeConfig.set(ConfigKey.MONEY_MOD_ENABLE.toString(), (Object) this.moneyModified);
+		this.worldConfig.saveNodeConfig();
+	}
+
+	@Override
 	public boolean isExperienceModified() {
 		if (this.inheritedValues.containsKey(ConfigKey.EXPERIENCE_MOD_ENABLED)) {
 			return (boolean) this.inheritedValues.get(ConfigKey.EXPERIENCE_MOD_ENABLED);
@@ -376,7 +397,39 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	public void setDefenseMultiplier(final double multiplier) {
 		this.inheritedValues.remove(ConfigKey.DEFENSE_PER_LEVEL);
 		this.defenseMult = multiplier;
-		this.nodeConfig.set(ConfigKey.DAMAGE_PER_LEVEL.toString(), (Object) this.defenseMult);
+		this.nodeConfig.set(ConfigKey.DEFENSE_PER_LEVEL.toString(), (Object) this.defenseMult);
+		this.worldConfig.saveNodeConfig();
+	}
+
+	@Override
+	public double getMoneyMultiplier() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_PER_LEVEL)) {
+			return (double) this.inheritedValues.get(ConfigKey.MONEY_PER_LEVEL);
+		}
+		return this.moneyMult;
+	}
+
+	@Override
+	public void setMoneyMultiplier(final double multiplier) {
+		this.inheritedValues.remove(ConfigKey.MONEY_PER_LEVEL);
+		this.moneyMult = multiplier;
+		this.nodeConfig.set(ConfigKey.MONEY_PER_LEVEL.toString(), (Object) this.moneyMult);
+		this.worldConfig.saveNodeConfig();
+	}
+
+	@Override
+	public double getMoneyRandomizer() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_RANDOM)) {
+			return (double) this.inheritedValues.get(ConfigKey.MONEY_RANDOM);
+		}
+		return this.moneyRandomizer;
+	}
+
+	@Override
+	public void setMoneyRandomizer(final double randomizer) {
+		this.inheritedValues.remove(ConfigKey.MONEY_RANDOM);
+		this.moneyRandomizer = randomizer;
+		this.nodeConfig.set(ConfigKey.MONEY_RANDOM.toString(), (Object) this.moneyRandomizer);
 		this.worldConfig.saveNodeConfig();
 	}
 
@@ -507,6 +560,14 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 		}
 		return this.blockedMobs.contains(ent);
 	}
+	
+	@Override
+	public double getMoneyMob(EntityType ent) {
+		if(this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
+			return ((HashMap<EntityType, Double>) this.inheritedValues.get(ConfigKey.LEVELED_MOBS)).get(ent);
+		}
+		return this.moneyMobs.get(ent);
+	}
 
 	@Override
 	public void setLeveledMobs(final ArrayList<EntityType> leveledMobs) {
@@ -570,6 +631,34 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 			this.nodeConfig.set(ConfigKey.BLOCKED_MOBS.toString(), (Object) this.entListToStringList(this.blockedMobs));
 			this.worldConfig.saveNodeConfig();
 		}
+	}
+
+	@Override
+	public void setMoneyMobs(final HashMap<EntityType, Double> moneyMobs) {
+		this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
+		this.moneyMobs = (HashMap<EntityType, Double>) moneyMobs;
+		this.nodeConfig.set(ConfigKey.MONEY_MOBS.toString(), (Object) this.MoneyHashMapToStringList(moneyMobs));
+		this.worldConfig.saveNodeConfig();
+	}
+
+	@Override
+	public void addMoneyMob(final EntityType ent, final double amount) {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
+			this.moneyMobs = (HashMap<EntityType, Double>) this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
+		}
+		this.moneyMobs.put(ent, amount);
+		this.nodeConfig.set(ConfigKey.MONEY_MOBS.toString(), (Object) this.MoneyHashMapToStringList(this.moneyMobs));
+		this.worldConfig.saveNodeConfig();
+	}
+
+	@Override
+	public void removeMoneyMob(final EntityType ent) {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
+			this.moneyMobs = (HashMap<EntityType, Double>) this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
+		}
+		this.moneyMobs.put(ent, 0.0);
+		this.nodeConfig.set(ConfigKey.MONEY_MOBS.toString(), (Object) this.MoneyHashMapToStringList(this.moneyMobs));
+		this.worldConfig.saveNodeConfig();
 	}
 
 	@Override

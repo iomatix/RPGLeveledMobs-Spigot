@@ -90,6 +90,10 @@ public class cfgModule {
 					LogsModule.debug("World: " + world + " - Found DefenseModifierEnabled, saving setting!");
 					wc.setDefenseModified(oldConfig.getConfig().getBoolean(world + "DefenseModifierEnabled"));
 				}
+				if (oldConfig.getConfig().contains(world + ".MoneyModifierEnabled")) {
+					LogsModule.debug("World: " + world + " - Found MoneyModifierEnabled, saving setting!");
+					wc.setMoneyModified(oldConfig.getConfig().getBoolean(world + "MoneyModifierEnabled"));
+				}
 				if (oldConfig.getConfig().contains(world + ".MobArenaWaveLeveling")) {
 					LogsModule.debug("World: " + world + " - Found MobArenaWaveLeveling, saving setting!");
 					wc.setMobArenaWaveLeveled(oldConfig.getConfig().getBoolean(world + "MobArenaWaveLeveling"));
@@ -122,6 +126,15 @@ public class cfgModule {
 					LogsModule.debug("World: " + world + " - Found DefenseMultiplier, saving setting!");
 					wc.setDefenseMultiplier(oldConfig.getConfig().getDouble(world + ".DefenseMultiplier"));
 					wc.setDefenseModified(true);
+				}
+				if (oldConfig.getConfig().contains(world + ".MoneyMultiplier")) {
+					LogsModule.debug("World: " + world + " - Found MoneyMultiplier, saving setting!");
+					wc.setMoneyMultiplier(oldConfig.getConfig().getDouble(world + ".MoneyMultiplier"));
+					wc.setMoneyModified(true);
+				}
+				if (oldConfig.getConfig().contains(world + ".MoneyRandomizer")) {
+					LogsModule.debug("World: " + world + " - Found MoneyRandomizer, saving setting!");
+					wc.setMoneyRandomizer(oldConfig.getConfig().getDouble(world + ".MoneyRandomizer"));
 				}
 				for (final String nodeKey : oldConfig.getConfig().getConfigurationSection(world + ".spawnLocations")
 						.getKeys(false)) {
@@ -162,6 +175,11 @@ public class cfgModule {
 								+ " - Found DefenseModifierEnabled, saving setting!");
 						node.setDefenseModified(oldConfig.getConfig().getBoolean(tag + ".DefenseModifierEnabled"));
 					}
+					if (oldConfig.getConfig().contains(tag + ".MoneyModifierEnabled")) {
+						LogsModule.debug("World: " + world + " - SpawnNode: " + nodeKey
+								+ " - Found MoneyModifierEnabled, saving setting!");
+						node.setMoneyModified(oldConfig.getConfig().getBoolean(tag + ".MoneyModifierEnabled"));
+					}
 					if (oldConfig.getConfig().contains(tag + ".MobArenaWaveLeveling")) {
 						LogsModule.debug("World: " + world + " - SpawnNode: " + nodeKey
 								+ " - Found MobArenaWaveLeveling, saving setting!");
@@ -196,6 +214,16 @@ public class cfgModule {
 						LogsModule.debug("World: " + world + " - SpawnNode: " + nodeKey
 								+ " - Found DefenseMultiplier, saving setting!");
 						node.setDefenseMultiplier(oldConfig.getConfig().getDouble(tag + ".DefenseMultiplier"));
+					}
+					if (oldConfig.getConfig().contains(tag + ".MoneyMultiplier")) {
+						LogsModule.debug("World: " + world + " - SpawnNode: " + nodeKey
+								+ " - Found MoneyMultiplier, saving setting!");
+						node.setMoneyMultiplier(oldConfig.getConfig().getDouble(tag + ".MoneyMultiplier"));
+					}
+					if (oldConfig.getConfig().contains(tag + ".MoneyRandomizer")) {
+						LogsModule.debug("World: " + world + " - SpawnNode: " + nodeKey
+								+ " - Found MoneyRandomizer, saving setting!");
+						node.setMoneyRandomizer(oldConfig.getConfig().getDouble(tag + ".MoneyRandomizer"));
 					}
 					node.saveConfig();
 				}
