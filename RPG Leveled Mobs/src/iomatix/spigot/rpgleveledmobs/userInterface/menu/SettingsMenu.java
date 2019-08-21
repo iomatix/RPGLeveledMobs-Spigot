@@ -1923,7 +1923,8 @@ public class SettingsMenu extends Menu {
 				try {
 					lore.add(ChatColor.GREEN + "Base: " + ChatColor.GOLD + config.getMoneyMob(type) + "G.");
 				} catch (Exception e) {
-					lore.add(ChatColor.GREEN + "ERROR! " + ChatColor.GOLD + "Add "+type.toString()+" to config" + "G.");
+					lore.add(ChatColor.GREEN + "ERROR! " + ChatColor.GOLD + "Add " + type.toString() + " to config"
+							+ "G.");
 				}
 				meta.setLore((List) lore);
 
@@ -1935,9 +1936,9 @@ public class SettingsMenu extends Menu {
 				this.setOnPressedListener(new onButtonPressedListener() {
 					@Override
 					public void onButtonPressed(final MenuInteractionEvent event) {
-						
-						//press button implementation
-						
+
+						// press button implementation
+
 					}
 				});
 

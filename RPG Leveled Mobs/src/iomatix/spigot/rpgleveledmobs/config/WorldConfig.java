@@ -107,37 +107,42 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 				blocked.add(EntityType.valueOf(mob));
 			}
 			this.blockedMobs = blocked;
-		}	
+		}
 		if (this.config.getConfig().contains(ConfigKey.MONEY_MOBS.toString())) {
-			final HashMap<String,Object> temp = new HashMap<String,Object>();
-			final HashMap<EntityType,Double> hashDoubles = new HashMap<EntityType,Double>();
-			try { 
-			temp.putAll(this.config.getConfig().getConfigurationSection(ConfigKey.MONEY_MOBS.toString()).getValues(false));
-			for (final Map.Entry<String, Object> entry : temp.entrySet()) {
-				hashDoubles.put(EntityType.valueOf(entry.getKey()),Double.parseDouble(entry.getValue().toString()));
-			}
-			this.moneyMobs = hashDoubles;
-			}catch (NullPointerException e) {
-				this.moneyMobs = ConfigKey.getDefaultMoney(this.world);		
-			}
-		} else {
-			this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(), (Object) this.MoneyHashMapToStringList(ConfigKey.getDefaultMoney(this.world)));
-			this.config.saveConfig();
-			this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
-			
-			final HashMap<String,Object> temp = new HashMap<String,Object>();
-			final HashMap<EntityType,Double> moneyMapHash = new HashMap<EntityType,Double>();
-			
+			final HashMap<String, Object> temp = new HashMap<String, Object>();
+			final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
 			try {
-				temp.putAll(this.config.getConfig().getConfigurationSection(ConfigKey.MONEY_MOBS.toString()).getValues(false));
+				temp.putAll(this.config.getConfig().getConfigurationSection(ConfigKey.MONEY_MOBS.toString())
+						.getValues(false));
 				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
-					moneyMapHash.put(EntityType.valueOf(entry.getKey()),Double.parseDouble(entry.getValue().toString()));
+					hashDoubles.put(EntityType.valueOf(entry.getKey()),
+							Double.parseDouble(entry.getValue().toString()));
 				}
-				this.moneyMobs = moneyMapHash;
-			}catch(NullPointerException e){
+				this.moneyMobs = hashDoubles;
+			} catch (NullPointerException e) {
 				this.moneyMobs = ConfigKey.getDefaultMoney(this.world);
 			}
-		}		
+		} else {
+			this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),
+					(Object) this.MoneyHashMapToStringList(ConfigKey.getDefaultMoney(this.world)));
+			this.config.saveConfig();
+			this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
+
+			final HashMap<String, Object> temp = new HashMap<String, Object>();
+			final HashMap<EntityType, Double> moneyMapHash = new HashMap<EntityType, Double>();
+
+			try {
+				temp.putAll(this.config.getConfig().getConfigurationSection(ConfigKey.MONEY_MOBS.toString())
+						.getValues(false));
+				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
+					moneyMapHash.put(EntityType.valueOf(entry.getKey()),
+							Double.parseDouble(entry.getValue().toString()));
+				}
+				this.moneyMobs = moneyMapHash;
+			} catch (NullPointerException e) {
+				this.moneyMobs = ConfigKey.getDefaultMoney(this.world);
+			}
+		}
 		if (this.config.getConfig().contains(ConfigKey.MIN_LEVEL.toString())) {
 			this.minLevel = this.config.getConfig().getInt(ConfigKey.MIN_LEVEL.toString());
 			this.inheritedValues.remove(ConfigKey.MIN_LEVEL);
@@ -397,7 +402,7 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		}
 		return (boolean) this.inheritedValues.get(ConfigKey.DAMAGE_MOD_ENABLE);
 	}
-	
+
 	@Override
 	public void setDamageModified(final boolean enabled) {
 		if (this.inheritedValues.containsKey(ConfigKey.DAMAGE_MOD_ENABLE)) {
@@ -408,7 +413,7 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		this.config.saveConfig();
 		this.updateChildrenValues();
 	}
-	
+
 	@Override
 	public void setDefenseModified(final boolean enabled) {
 		if (this.inheritedValues.containsKey(ConfigKey.DEFENSE_MOD_ENABLE)) {
@@ -427,7 +432,7 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		}
 		return (boolean) this.inheritedValues.get(ConfigKey.DEFENSE_MOD_ENABLE);
 	}
-	
+
 	@Override
 	public void setMoneyModified(final boolean enabled) {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOD_ENABLE)) {
@@ -446,8 +451,6 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		}
 		return (boolean) this.inheritedValues.get(ConfigKey.MONEY_MOD_ENABLE);
 	}
-
-
 
 	@Override
 	public boolean isHealthModified() {
@@ -656,7 +659,7 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		this.config.saveConfig();
 		this.updateChildrenValues();
 	}
-	
+
 	@Override
 	public double getMoneyMultiplier() {
 		if (!this.inheritedValues.containsKey(ConfigKey.MONEY_PER_LEVEL)) {
@@ -673,7 +676,7 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		this.config.saveConfig();
 		this.updateChildrenValues();
 	}
-	
+
 	@Override
 	public double getMoneyRandomizer() {
 		if (!this.inheritedValues.containsKey(ConfigKey.MONEY_RANDOM)) {
@@ -780,16 +783,21 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		}
 		return this.blockedMobs.contains(ent);
 	}
-	
+
 	@Override
 	public double getMoneyMob(EntityType ent) {
-		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {		
-			
-		((MemorySection)this.inheritedValues.get(ConfigKey.MONEY_MOBS)).getValues(false);
-		
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
+			final HashMap<String, Object> temp = new HashMap<String, Object>();
+			final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
+			temp.putAll(((MemorySection) this.inheritedValues.get(ConfigKey.MONEY_MOBS)).getValues(false));
+			for (final Map.Entry<String, Object> entry : temp.entrySet()) {
+				hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
+			}
+			this.moneyMobs = hashDoubles;
+
 		}
 		return this.moneyMobs.get(ent);
-		
+
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.Location;
 
@@ -560,12 +561,17 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 		}
 		return this.blockedMobs.contains(ent);
 	}
-	
+
 	@Override
 	public double getMoneyMob(EntityType ent) {
-		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {		
-			System.out.println("SPAWNNODE:"+this.inheritedValues.get(ConfigKey.MONEY_MOBS));
-			 
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
+			final HashMap<String, Object> temp = new HashMap<String, Object>();
+			final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
+			temp.putAll(((MemorySection) this.inheritedValues.get(ConfigKey.MONEY_MOBS)).getValues(false));
+			for (final Map.Entry<String, Object> entry : temp.entrySet()) {
+				hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
+			}
+			this.moneyMobs = hashDoubles;
 		}
 		return this.moneyMobs.get(ent);
 	}
