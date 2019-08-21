@@ -563,8 +563,9 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	
 	@Override
 	public double getMoneyMob(EntityType ent) {
-		if(this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
-			return ((HashMap<EntityType, Double>) this.inheritedValues.get(ConfigKey.MONEY_MOBS)).get(ent);
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {		
+			System.out.println("SPAWNNODE:"+this.inheritedValues.get(ConfigKey.MONEY_MOBS));
+			 
 		}
 		return this.moneyMobs.get(ent);
 	}

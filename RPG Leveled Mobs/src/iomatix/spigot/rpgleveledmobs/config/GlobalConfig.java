@@ -105,7 +105,7 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 			for (final Map.Entry<EntityType, Double> entry : moneyMapHash.entrySet()) {
 				temp.put(entry.getKey().toString(),entry.getValue().toString());
 			}
-			this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(), (Object) temp);
+			this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(), (Object) temp);	
 		}	
 		if (this.config.getConfig().contains(ConfigKey.LEVELED_SPAWNERS.toString())) {
 			this.leveledSpawners = this.config.getConfig().getBoolean(ConfigKey.LEVELED_SPAWNERS.toString());

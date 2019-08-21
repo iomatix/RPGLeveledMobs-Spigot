@@ -264,6 +264,7 @@ public enum ConfigKey {
 			ConfigKey.moneyMap.put(EntityType.CAT,0.0);
 			ConfigKey.moneyMap.put(EntityType.CAVE_SPIDER,0.0);
 			ConfigKey.moneyMap.put(EntityType.CHICKEN,0.0);
+			ConfigKey.moneyMap.put(EntityType.COD,0.0);
 			ConfigKey.moneyMap.put(EntityType.COW,0.0);
 			ConfigKey.moneyMap.put(EntityType.CREEPER,0.0);
 			ConfigKey.moneyMap.put(EntityType.DOLPHIN,0.0);
@@ -293,8 +294,11 @@ public enum ConfigKey {
 			ConfigKey.moneyMap.put(EntityType.PIG,0.0);
 			ConfigKey.moneyMap.put(EntityType.PILLAGER,0.0);
 			ConfigKey.moneyMap.put(EntityType.POLAR_BEAR,0.0);
+			ConfigKey.moneyMap.put(EntityType.PUFFERFISH,0.0);
+			ConfigKey.moneyMap.put(EntityType.PUFFERFISH,0.0);
 			ConfigKey.moneyMap.put(EntityType.RABBIT,0.0);
 			ConfigKey.moneyMap.put(EntityType.RAVAGER,0.0);
+			ConfigKey.moneyMap.put(EntityType.SALMON,0.0);
 			ConfigKey.moneyMap.put(EntityType.SHEEP,0.0);
 			ConfigKey.moneyMap.put(EntityType.SHULKER,0.0);
 			ConfigKey.moneyMap.put(EntityType.SILVERFISH,0.0);
@@ -306,6 +310,8 @@ public enum ConfigKey {
 			ConfigKey.moneyMap.put(EntityType.SQUID,0.0);
 			ConfigKey.moneyMap.put(EntityType.STRAY,0.0);
 			ConfigKey.moneyMap.put(EntityType.TURTLE, 0.0);
+			ConfigKey.moneyMap.put(EntityType.TRADER_LLAMA,0.0);
+			ConfigKey.moneyMap.put(EntityType.TROPICAL_FISH,0.0);
 			ConfigKey.moneyMap.put(EntityType.VEX, 0.0);
 			ConfigKey.moneyMap.put(EntityType.VILLAGER, 0.0);
 			ConfigKey.moneyMap.put(EntityType.VINDICATOR, 0.0);
@@ -315,6 +321,7 @@ public enum ConfigKey {
 			ConfigKey.moneyMap.put(EntityType.WITHER_SKELETON, 0.0);
 			ConfigKey.moneyMap.put(EntityType.WOLF, 0.0);
 			ConfigKey.moneyMap.put(EntityType.ZOMBIE, 0.0);
+			ConfigKey.moneyMap.put(EntityType.ZOMBIE_HORSE, 0.0);
 			ConfigKey.moneyMap.put(EntityType.PIG_ZOMBIE, 0.0);
 			ConfigKey.moneyMap.put(EntityType.ZOMBIE_VILLAGER, 0.0);
 			ConfigKey.defaultMoneyAll = ConfigKey.moneyMap;

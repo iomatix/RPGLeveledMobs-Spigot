@@ -8,6 +8,7 @@ import java.io.File;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.entity.EntityType;
 import org.bukkit.World;
@@ -782,10 +783,13 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 	
 	@Override
 	public double getMoneyMob(EntityType ent) {
-		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
-			return ((HashMap<EntityType, Double>) this.inheritedValues.get(ConfigKey.MONEY_MOBS)).get(ent);
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {		
+			
+		((MemorySection)this.inheritedValues.get(ConfigKey.MONEY_MOBS)).getValues(false);
+		
 		}
 		return this.moneyMobs.get(ent);
+		
 	}
 
 	@Override

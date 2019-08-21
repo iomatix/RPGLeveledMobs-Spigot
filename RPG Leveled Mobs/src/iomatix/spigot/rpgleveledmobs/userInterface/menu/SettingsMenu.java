@@ -1783,7 +1783,7 @@ public class SettingsMenu extends Menu {
 				nextpage.setOnPressedListener(new Button.onButtonPressedListener() {
 					@Override
 					public void onButtonPressed(final MenuInteractionEvent event) {
-						new BlockedMenu(MoneyMobsMenu.this, 1).ShowMenu(event.getInteractor());
+						new MoneyMobsMenu(MoneyMobsMenu.this, 1).ShowMenu(event.getInteractor());
 					}
 				});
 				this.menuMap.put(53, nextpage);
@@ -1890,7 +1890,8 @@ public class SettingsMenu extends Menu {
 				nextpage.setOnPressedListener(new Button.onButtonPressedListener() {
 					@Override
 					public void onButtonPressed(final MenuInteractionEvent event) {
-						// new BlockedMenu(BlockedMenu.this,2).ShowMenu(event.getInteractor()); 3rd page
+						// new MoneyMobsMenu(MoneyMobsMenu.this,2).ShowMenu(event.getInteractor()); 3rd
+						// page
 						// is off
 					}
 				});
@@ -1901,15 +1902,17 @@ public class SettingsMenu extends Menu {
 
 		public class MoneyMobButton extends Button {
 			private final HashMap<EntityType, String> nameMap = new HashMap<EntityType, String>();
+
 			public MoneyMobButton(final String EntityName, final EntityType type, final RPGLeveledMobsConfig config,
 					final Menu menu) {
 				this.addLoreLine("");
-				this.addLoreLine(ChatColor.GREEN + "Base: " + ChatColor.GOLD + config.getMoneyMob(type) + "G.");
 
 				try {
 					this.setIcon(Material.getMaterial(type.toString() + "_SPAWN_EGG"));
+
 				} catch (Exception e) {
 					this.setIcon(Material.getMaterial("BAT_SPAWN_EGG"));
+
 				}
 
 				final SpawnEggMeta meta = (SpawnEggMeta) this.getItemStack().getItemMeta();
@@ -1917,7 +1920,11 @@ public class SettingsMenu extends Menu {
 				final ArrayList<String> lore = new ArrayList<String>();
 
 				lore.add("");
-				lore.add(ChatColor.GREEN + "Base: " + ChatColor.GOLD + config.getMoneyMob(type) + "G.");
+				try {
+					lore.add(ChatColor.GREEN + "Base: " + ChatColor.GOLD + config.getMoneyMob(type) + "G.");
+				} catch (Exception e) {
+					lore.add(ChatColor.GREEN + "ERROR! " + ChatColor.GOLD + "Add "+type.toString()+" to config" + "G.");
+				}
 				meta.setLore((List) lore);
 
 				if (type == EntityType.GIANT) {
@@ -1928,23 +1935,12 @@ public class SettingsMenu extends Menu {
 				this.setOnPressedListener(new onButtonPressedListener() {
 					@Override
 					public void onButtonPressed(final MenuInteractionEvent event) {
-						if (SettingsMenu.getListeners().contains(event.getInteractor())) {
-							MoneyMobsMenu.menuHandler.closeMenu(event.getInteractor());
-						}
-						try {
-							MoneyMobsMenu.menuHandler.closeMenu(event.getInteractor());
-							final StringChangeListener stringChangeListener = new StringChangeListener(
-									event.getInteractor(), event.getMenu(),
-									SettingsMenu.this.config.getClass().getMethod("addMoneyMob", Double.TYPE));
-							event.getInteractor().sendMessage(special_2 + "Please enter a new value: ");
-						} catch (NoSuchMethodException e) {
-							e.printStackTrace();
-						}
-						menu.ShowMenu(event.getInteractor());
+						
+						//press button implementation
+						
 					}
 				});
 
-				
 			}
 		}
 	}
