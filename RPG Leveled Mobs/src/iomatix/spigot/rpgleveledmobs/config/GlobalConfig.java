@@ -3,6 +3,8 @@ package iomatix.spigot.rpgleveledmobs.config;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.imageio.IIOException;
+
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.entity.EntityType;
@@ -84,7 +86,27 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 				temp.add(ent.toString());
 			}
 			this.config.getConfig().set(ConfigKey.BLOCKED_MOBS.toString(), (Object) temp);
-		}
+		}	
+		if (this.config.getConfig().contains(ConfigKey.MONEY_MOBS.toString())) {
+			final HashMap<String,Object> temp = new HashMap<String,Object> ();
+			final HashMap<EntityType,Double> hashDoubles = new HashMap<EntityType,Double>();
+			try { 
+			temp.putAll(this.config.getConfig().getConfigurationSection(ConfigKey.MONEY_MOBS.toString()).getValues(false));
+			for (final Map.Entry<String, Object> entry : temp.entrySet()) {
+				hashDoubles.put(EntityType.valueOf(entry.getKey()),Double.parseDouble(entry.getValue().toString()));
+			}
+			this.moneyMobs = hashDoubles;
+			}catch (NullPointerException e) {
+				this.moneyMobs = ConfigKey.getDefaultMoney(null);		
+			}
+		} else {
+			final HashMap<EntityType,Double> moneyMapHash = ConfigKey.getDefaultMoney(null);
+			final HashMap<String,String> temp = new HashMap<String,String>();
+			for (final Map.Entry<EntityType, Double> entry : moneyMapHash.entrySet()) {
+				temp.put(entry.getKey().toString(),entry.getValue().toString());
+			}
+			this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(), (Object) temp);
+		}	
 		if (this.config.getConfig().contains(ConfigKey.LEVELED_SPAWNERS.toString())) {
 			this.leveledSpawners = this.config.getConfig().getBoolean(ConfigKey.LEVELED_SPAWNERS.toString());
 		}
@@ -170,7 +192,7 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 
 	private void setDefaults() {
 		for (final ConfigKey key : ConfigKey.defaultMap.keySet()) {
-			if (key != ConfigKey.BLOCKED_MOBS && key != ConfigKey.LEVELED_MOBS && key != ConfigKey.NAME_LANGUAGE
+			if (key != ConfigKey.BLOCKED_MOBS && key != ConfigKey.MONEY_MOBS && key != ConfigKey.LEVELED_MOBS && key != ConfigKey.NAME_LANGUAGE
 					&& !this.config.getConfig().contains(key.toString())) {
 				this.config.getConfig().set(key.toString(), ConfigKey.defaultMap.get(key));
 			}
@@ -182,6 +204,10 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 		if (!this.config.getConfig().contains(ConfigKey.LEVELED_MOBS.toString())) {
 			this.config.getConfig().set(ConfigKey.LEVELED_MOBS.toString(),
 					(Object) this.entListToStringList(ConfigKey.defaultLeveled));
+		}
+		if (!this.config.getConfig().contains(ConfigKey.MONEY_MOBS.toString())) {
+			this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),
+					(Object) this.MoneyHashMapToStringList(ConfigKey.moneyMap));
 		}
 		if (!this.config.getConfig().contains(ConfigKey.NAME_LANGUAGE.toString())) {
 			this.config.getConfig().set(ConfigKey.NAME_LANGUAGE.toString(),

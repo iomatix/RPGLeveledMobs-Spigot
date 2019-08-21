@@ -50,7 +50,7 @@ public enum ConfigKey {
 	MOB_ARENA_WAVES_PER_LEVEL("MobArena.WavesPerLevel", "How many waves before increasing level"),
 	MOB_ARENA_MULTIPLIER("MobArena.Multiplier",
 			"What percentage of experience to drop for mobs killed inside of a mob arena. [ModifiedExperience * multiplier]"),
-	MONEY_MOBS("Spawning.MoneyMobs", "A list of mobs with currency values assigned which each drops on death."),
+	MONEY_MOBS("Money.MoneyMobs", "A list of mobs with currency values assigned which each drops on death."),
 	MONEY_MOD_ENABLE("Stats.Money.Enabled","Whether or not to increase the money amount a mob will drop by their level."),
 	MONEY_PER_LEVEL("Stats.Money.Multiplier","The percentage of money increase per level. Formula = [BaseMoney + (BaseMoney * level * multiplier)]"),
 	MONEY_RANDOM("Stats.Money.Random","Value by money drop may increase or decrease.");
@@ -60,6 +60,7 @@ public enum ConfigKey {
 	private String description;
 	public static HashMap<ConfigKey, Object> defaultMap;
 	public static HashMap<EntityType, Double> moneyMap;
+	public static HashMap<EntityType, Double> defaultMoneyAll;
 	public static ArrayList<EntityType> defaultLeveled;
 	private static final ArrayList<EntityType> defaultBlockedVanilla;
 	private static final ArrayList<EntityType> defaultBlockedNether;
@@ -98,6 +99,28 @@ public enum ConfigKey {
 		}
 		}
 	}
+	
+	public static HashMap<EntityType,Double> getDefaultMoney(final World world) {
+		if (world == null) {
+			return ConfigKey.defaultMoneyAll;
+		}
+		switch (world.getEnvironment()) {
+		case THE_END: {
+			return ConfigKey.defaultMoneyAll;
+		}
+		case NETHER: {
+			return ConfigKey.defaultMoneyAll;
+		}
+		case NORMAL: {
+			return ConfigKey.defaultMoneyAll;
+		}
+		default: {
+			return ConfigKey.defaultMoneyAll;
+		}
+		}
+	}
+	
+	
 
 	static {
 		ConfigKey.defaultMap = new HashMap<ConfigKey, Object>();
@@ -294,6 +317,8 @@ public enum ConfigKey {
 			ConfigKey.moneyMap.put(EntityType.ZOMBIE, 0.0);
 			ConfigKey.moneyMap.put(EntityType.PIG_ZOMBIE, 0.0);
 			ConfigKey.moneyMap.put(EntityType.ZOMBIE_VILLAGER, 0.0);
+			ConfigKey.defaultMoneyAll = ConfigKey.moneyMap;
+			ConfigKey.defaultMap.put(ConfigKey.MONEY_MOBS, ConfigKey.moneyMap);
 			cfgModule.version = 1.14;
 		}catch(NoSuchFieldError e) {
 		}
