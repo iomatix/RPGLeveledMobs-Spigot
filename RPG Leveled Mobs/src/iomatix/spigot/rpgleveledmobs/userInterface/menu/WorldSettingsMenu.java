@@ -23,10 +23,15 @@ import iomatix.spigot.rpgleveledmobs.config.RPGLeveledMobsConfig;
 import iomatix.spigot.rpgleveledmobs.Main;
 
 public class WorldSettingsMenu extends SettingsMenu {
+	protected ChatColor main = ChatColor.DARK_GREEN;
+	protected ChatColor sub = ChatColor.GOLD;
+	protected ChatColor special = ChatColor.BLUE;
+	protected ChatColor special_2 = ChatColor.YELLOW;
+	
 	public WorldSettingsMenu(final RPGLeveledMobsConfig config) {
 		this.config = config;
-		this.name = ChatColor.GOLD + this.formatWorldName(((WorldConfig) config).getWorld().getName()) + " "
-				+ ChatColor.DARK_GREEN + "Settings";
+		this.name = sub + this.formatWorldName(((WorldConfig) config).getWorld().getName()) + " "
+				+ main + "Settings";
 		this.statsMenu = new WorldStatsMenu(this);
 		this.levelingMenu = new WorldLevelingMenu(this);
 		this.spawningMenu = new WorldSpawningMenu(this);
@@ -100,7 +105,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 
 	protected void ButtonInheritMod(final Menu menu, final Button button, final ConfigKey key, final int pos) {
 		if (this.config.isValueInherited(key)) {
-			button.setName(button.getName() + " " + ChatColor.WHITE + "(" + ChatColor.YELLOW + "Global"
+			button.setName(button.getName() + " " + ChatColor.WHITE + "(" + special_2 + "Global"
 					+ ChatColor.WHITE + ")");
 		} else {
 			button.removeLastLoreLine();
@@ -128,7 +133,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 	protected class WorldStatsMenu extends StatsMenu {
 		public WorldStatsMenu(final SettingsMenu prev) {
 			super(prev);
-			this.name = prev.getName() + ChatColor.WHITE + " - " + ChatColor.BLUE + "Stats Menu";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special + "Stats Menu";
 		}
 
 		@Override
@@ -166,7 +171,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 	protected class WorldLevelingMenu extends LevelingMenu {
 		public WorldLevelingMenu(final SettingsMenu prev) {
 			super(prev);
-			this.name = prev.getName() + ChatColor.WHITE + " - " + ChatColor.BLUE + "Stats Menu";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special + "Stats Menu";
 		}
 
 		@Override
@@ -191,7 +196,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 	protected class WorldNamingMenu extends NamingMenu {
 		public WorldNamingMenu(final SettingsMenu prev) {
 			super(prev);
-			this.name = prev.getName() + ChatColor.WHITE + " - " + ChatColor.BLUE + "Leveling Menu";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special + "Leveling Menu";
 		}
 
 		@Override
@@ -218,7 +223,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 	protected class WorldMoneyMenu extends MoneyMenu{
 		public WorldMoneyMenu(final SettingsMenu prev) {
 			super(prev);
-			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + ChatColor.YELLOW + "Economy Menu";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special_2 + "Economy Menu";
 		}
 		@Override
 		public void ShowMenu(final Player player) {
@@ -238,7 +243,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 	protected class WorldMobArenaMenu extends MobArenaMenu {
 		public WorldMobArenaMenu(final SettingsMenu prev) {
 			super(prev);
-			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + ChatColor.BLUE + "MobArena Menu";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special + "MobArena Menu";
 		}
 
 		@Override
@@ -276,7 +281,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 			super.generateMenu();
 			final Menu thisMenu = this;
 			if (WorldSettingsMenu.this.config.isValueInherited(ConfigKey.LEVELED_MOBS)) {
-				this.menuMap.get(0).setName(this.menuMap.get(0).getName() + ChatColor.WHITE + " (" + ChatColor.YELLOW
+				this.menuMap.get(0).setName(this.menuMap.get(0).getName() + ChatColor.WHITE + " (" + special_2
 						+ "Global" + ChatColor.WHITE + ")");
 				this.menuMap.get(0).addLoreLine("");
 				this.menuMap.get(0).addLoreLine(ChatColor.GRAY + "Click to Change.");
@@ -303,7 +308,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 				});
 			}
 			if (WorldSettingsMenu.this.config.isValueInherited(ConfigKey.BLOCKED_MOBS)) {
-				this.menuMap.get(1).setName(this.menuMap.get(1).getName() + ChatColor.WHITE + " (" + ChatColor.YELLOW
+				this.menuMap.get(1).setName(this.menuMap.get(1).getName() + ChatColor.WHITE + " (" + special_2
 						+ "Global" + ChatColor.WHITE + ")");
 				this.menuMap.get(1).addLoreLine("");
 				this.menuMap.get(1).addLoreLine(ChatColor.GRAY + "Click to Change.");
@@ -338,7 +343,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 
 		public WorldNodeMenu(final Menu prev) {
 			this.prev = prev;
-			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + ChatColor.DARK_GREEN + "Spawn Nodes";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + main + "Spawn Nodes";
 			this.generateMenus();
 		}
 
@@ -382,7 +387,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 				if (prev != null) {
 					prev.setNext(this);
 				}
-				this.name = ChatColor.BLUE + "Spawn Nodes " + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + "Page " + ChatColor.GOLD
+				this.name = special + "Spawn Nodes " + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + "Page " + sub
 						+ page;
 			}
 

@@ -56,7 +56,7 @@ public abstract class RPGLeveledMobsConfig {
 	public abstract boolean isDefenseModified();
 
 	public abstract void setDefenseModified(final boolean p0);
-	
+
 	public abstract boolean isMoneyModified();
 
 	public abstract void setMoneyModified(final boolean p0);
@@ -80,11 +80,11 @@ public abstract class RPGLeveledMobsConfig {
 	public abstract double getDefenseMultiplier();
 
 	public abstract void setDefenseMultiplier(final double p0);
-	
+
 	public abstract double getMoneyMultiplier();
 
 	public abstract void setMoneyMultiplier(final double p0);
-	
+
 	public abstract double getMoneyRandomizer();
 
 	public abstract void setMoneyRandomizer(final double p0);
@@ -132,7 +132,7 @@ public abstract class RPGLeveledMobsConfig {
 		}
 		return strList;
 	}
-	
+
 	public ArrayList<String> entListToStringList(final ArrayList<EntityType> entList) {
 		final ArrayList<String> strList = new ArrayList<String>();
 		for (final EntityType ent : entList) {
@@ -211,7 +211,7 @@ public abstract class RPGLeveledMobsConfig {
 	public abstract void addMoneyMob(EntityType ent, double amount);
 
 	public abstract void removeMoneyMob(EntityType ent);
-	
+
 	public abstract double getMoneyMob(EntityType ent);
 
 }

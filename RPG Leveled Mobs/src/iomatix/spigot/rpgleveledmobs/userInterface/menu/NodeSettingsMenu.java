@@ -18,7 +18,7 @@ public class NodeSettingsMenu extends WorldSettingsMenu {
 	public NodeSettingsMenu(final SpawnNode node, final Menu prev) {
 		this.config = node;
 		this.prev = prev;
-		this.name = ChatColor.GOLD + node.getName() + ChatColor.DARK_GRAY + ": " + ChatColor.DARK_GREEN + "Settings";
+		this.name = ChatColor.DARK_GREEN + node.getName() + ChatColor.DARK_GRAY + ": " + ChatColor.GOLD + "Settings";
 		this.statsMenu = new WorldStatsMenu(this);
 		this.levelingMenu = new WorldLevelingMenu(this);
 		this.spawningMenu = new WorldSpawningMenu(this);
@@ -28,7 +28,7 @@ public class NodeSettingsMenu extends WorldSettingsMenu {
 		}
 		this.createMenu();
 		final Button deleteButton = new Button();
-		deleteButton.setIcon(Material.RED_WOOL);
+		deleteButton.setIcon(Material.REDSTONE_BLOCK);
 		deleteButton.setName(ChatColor.RED + "Delete Node");
 		deleteButton.setOnPressedListener(new Button.onButtonPressedListener() {
 			@Override

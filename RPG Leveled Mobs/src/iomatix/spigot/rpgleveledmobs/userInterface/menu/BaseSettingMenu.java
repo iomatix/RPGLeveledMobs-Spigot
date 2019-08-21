@@ -18,10 +18,10 @@ public class BaseSettingMenu extends Menu {
 		this.name =ChatColor.DARK_GRAY + "["+ChatColor.GOLD+"RPGMobs"+ChatColor.DARK_GRAY +"] " + ChatColor.DARK_GRAY + "Settings";
 		final Button globalButton = new Button();
 		globalButton.setIcon(Material.ENCHANTED_BOOK);
-		globalButton.setName(ChatColor.GREEN + "Global Config");
-		globalButton.addLoreLine(" ");
+		globalButton.setName(ChatColor.GREEN + "Global Config");		
 		globalButton.addLoreLine(
 				ChatColor.WHITE + "Configure " + ChatColor.GOLD + "Global " + ChatColor.WHITE + "settings.");
+		globalButton.addLoreLine(" ");
 		globalButton.addLoreLine(ChatColor.GRAY + "The default settings used");
 		globalButton.addLoreLine(ChatColor.GRAY + "for every world if not specifically set.");
 		globalButton.setOnPressedListener(new Button.onButtonPressedListener() {
@@ -69,7 +69,7 @@ public class BaseSettingMenu extends Menu {
 		}
 		final int exitLoc = this.getInventorySize() - 1;
 		final Button exitButton = new Button();
-		exitButton.setIcon(Material.RED_WOOL);
+		exitButton.setIcon(Material.RED_DYE);
 		exitButton.setName(ChatColor.RED + "Close");
 		exitButton.setOnPressedListener(new Button.onButtonPressedListener() {
 			@Override
