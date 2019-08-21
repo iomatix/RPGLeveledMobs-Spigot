@@ -36,12 +36,13 @@ public class SettingsMenu extends Menu {
 	protected SpawningMenu spawningMenu;
 	protected NamingMenu namingMenu;
 	protected MobArenaMenu mobArenaMenu;
+	protected MoneyMenu moneyMenu;
 	protected RPGLeveledMobsConfig config;
 	private static final HashSet<Player> listeners;
 
 	public SettingsMenu(final RPGLeveledMobsConfig config) {
 		this.config = config;
-		this.name = ChatColor.BLUE + "Global " + ChatColor.YELLOW + "Settings";
+		this.name = ChatColor.GOLD + "Global " + ChatColor.DARK_GREEN + "Settings";
 		this.statsMenu = new StatsMenu(this);
 		this.levelingMenu = new LevelingMenu(this);
 		this.spawningMenu = new SpawningMenu(this);
@@ -92,6 +93,15 @@ public class SettingsMenu extends Menu {
 				SettingsMenu.this.namingMenu.ShowMenu(event.getInteractor());
 			}
 		});
+		final Button moneyMenuButton = new Button();
+		moneyMenuButton.setIcon(Material.GOLD_INGOT);
+		moneyMenuButton.setName(ChatColor.GREEN + "Economy Settings");
+		moneyMenuButton.setOnPressedListener(new Button.onButtonPressedListener() {
+			@Override
+			public void onButtonPressed(final MenuInteractionEvent event) {
+				SettingsMenu.this.moneyMenu.ShowMenu(event.getInteractor());
+			}
+		});
 		final Button mobArenaMenuButton = new Button();
 		mobArenaMenuButton.setIcon(Material.SKELETON_SKULL);
 		mobArenaMenuButton.setName(ChatColor.GREEN + "MobArena Settings");
@@ -114,8 +124,12 @@ public class SettingsMenu extends Menu {
 		this.menuMap.put(1, levelingMenuButton);
 		this.menuMap.put(2, spawningMenuButton);
 		this.menuMap.put(3, namingMenuButton);
+		if (Main.isMoneyModuleOnline())
+		{
+			this.menuMap.put(4, moneyMenuButton);
+		}
 		if (Main.isMobArenaLoaded()) {
-			this.menuMap.put(4, mobArenaMenuButton);
+			this.menuMap.put(5, mobArenaMenuButton);
 		}
 		this.menuMap.put(8, backButton);
 	}
@@ -242,6 +256,84 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(21, healthMod);
+			final Button money = new Button();
+			money.setName(ChatColor.BLUE + "Money Settings");
+			money.addLoreLine(ChatColor.YELLOW + "Formula: baseMoney + (baseMoney * level * multiplier)");
+			money.setIcon(Material.GOLD_INGOT);
+			this.menuMap.put(4, money);
+			final Button moneyToggle = new Button();
+			moneyToggle.setName(ChatColor.GREEN + "Money Modifier Enabled");
+			moneyToggle.setIcon(Material.WRITABLE_BOOK);
+			moneyToggle.addLoreLine(" ");
+			final boolean moneyEnabled = SettingsMenu.this.config.isMoneyModified();
+			if (moneyEnabled) {
+				moneyToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
+			} else {
+				moneyToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
+			}
+			moneyToggle.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					SettingsMenu.this.config.setMoneyModified(!moneyEnabled);
+					StatsMenu.this.ShowMenu(event.getInteractor());
+				}
+			});
+			moneyToggle.addLoreLine(" ");
+			moneyToggle.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
+			this.menuMap.put(13, moneyToggle);
+			final Button moneyMod = new Button();
+			moneyMod.setIcon(Material.WRITABLE_BOOK);
+			moneyMod.setName(ChatColor.GREEN + "Money Multiplier");
+			moneyMod.addLoreLine(" ");
+			final double moneyMult = SettingsMenu.this.config.getMoneyMultiplier();
+			moneyMod.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + moneyMult);
+			moneyMod.addLoreLine(" ");
+			moneyMod.addLoreLine(ChatColor.GRAY + "Click to Change Value.");
+			moneyMod.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					if (SettingsMenu.listeners.contains(event.getInteractor())) {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+					}
+					try {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+						final DoubleChangeListener doubleChangeListener = new DoubleChangeListener(
+								event.getInteractor(), event.getMenu(),
+								SettingsMenu.this.config.getClass().getMethod("setMoneyMultiplier", Double.TYPE));
+						event.getInteractor().sendMessage(ChatColor.YELLOW + "Please enter a new value: ");
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			this.menuMap.put(22, moneyMod);
+			final Button moneyRandomizer = new Button();
+			moneyRandomizer.setIcon(Material.WRITABLE_BOOK);
+			moneyRandomizer.setName(ChatColor.GREEN + "Money Randomizer");
+			moneyRandomizer.addLoreLine(ChatColor.YELLOW + "Formula: output +/- randomizer * level * mod");
+			moneyRandomizer.addLoreLine(" ");
+			final double moneyRand = SettingsMenu.this.config.getMoneyRandomizer();
+			moneyRandomizer.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + moneyRand);
+			moneyRandomizer.addLoreLine(" ");
+			moneyRandomizer.addLoreLine(ChatColor.GRAY + "Click to Change Value.");
+			moneyRandomizer.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					if (SettingsMenu.listeners.contains(event.getInteractor())) {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+					}
+					try {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+						final DoubleChangeListener doubleChangeListener = new DoubleChangeListener(
+								event.getInteractor(), event.getMenu(),
+								SettingsMenu.this.config.getClass().getMethod("setMoneyRandomizer", Double.TYPE));
+						event.getInteractor().sendMessage(ChatColor.YELLOW + "Please enter a new value: ");
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			this.menuMap.put(31, moneyRandomizer);
 			final Button defense = new Button();
 			defense.setName(ChatColor.BLUE + "Defense Settings");
 			defense.addLoreLine(ChatColor.YELLOW + "Formula: damageTaken - (damageTaken * level * multiplier/100)");
@@ -1389,6 +1481,62 @@ public class SettingsMenu extends Menu {
 		}
 	}
 
+	protected class MoneyMenu extends Menu{
+		private final Menu prev;
+		public MoneyMenu(final SettingsMenu prev) {
+			this.name = ChatColor.GOLD + "Money" + ChatColor.DARK_GREEN + " Settings";
+			this.prev = prev;
+			this.generateMenu();
+		}
+		@Override
+		public void ShowMenu(final Player player) {
+			this.generateMenu();
+			super.ShowMenu(player);
+		}
+		public void generateMenu() {
+			final Button enabled = new Button();
+			enabled.setIcon(Material.WRITABLE_BOOK);
+			enabled.setName(ChatColor.DARK_GREEN + "Economy");
+			enabled.addLoreLine(" ");
+			final boolean moneyEnabled = Main.isMoneyModuleOnline();
+			if (moneyEnabled) {
+				enabled.setIcon(Material.GREEN_WOOL);
+				enabled.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
+				enabled.addLoreLine(ChatColor.GOLD + "Economy is enabled. Connected to Vault.");
+			} else {
+				enabled.setIcon(Material.RED_WOOL);
+				enabled.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
+				enabled.addLoreLine(" ");
+				enabled.addLoreLine(ChatColor.GRAY + "Economy is disabled. Vault not found.");
+			}
+			this.menuMap.put(0, enabled);
+			
+			
+			final Button mobSetup = new Button();
+			mobSetup.setIcon(Material.GOLD_NUGGET);
+			mobSetup.setName(ChatColor.GOLD + "Adjust money drops for each mob.");
+			mobSetup.addLoreLine(" ");
+			mobSetup.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					//Open up mob setup menu
+				}
+			});
+			this.menuMap.put(1, mobSetup);
+			
+			final Button previous = new Button();
+			previous.setIcon(Material.NETHER_STAR);
+			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
+			previous.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					MoneyMenu.this.prev.ShowMenu(event.getInteractor());
+				}
+			});
+			this.menuMap.put(8, previous);
+		}
+	
+	}
 	protected class MobArenaMenu extends Menu {
 		private final Menu prev;
 

@@ -18,7 +18,7 @@ public class NodeSettingsMenu extends WorldSettingsMenu {
 	public NodeSettingsMenu(final SpawnNode node, final Menu prev) {
 		this.config = node;
 		this.prev = prev;
-		this.name = ChatColor.BLUE + node.getName() + ChatColor.WHITE + " - " + ChatColor.YELLOW + "Settings";
+		this.name = ChatColor.GOLD + node.getName() + ChatColor.DARK_GRAY + ": " + ChatColor.DARK_GREEN + "Settings";
 		this.statsMenu = new WorldStatsMenu(this);
 		this.levelingMenu = new WorldLevelingMenu(this);
 		this.spawningMenu = new WorldSpawningMenu(this);
@@ -51,7 +51,7 @@ public class NodeSettingsMenu extends WorldSettingsMenu {
 	protected void ButtonInheritMod(final Menu menu, final Button button, final ConfigKey key, final int pos) {
 		super.ButtonInheritMod(menu, button, key, pos);
 		if (this.config.isValueInherited(key)) {
-			button.setName(button.getName().substring(0, button.getName().indexOf(40)) + "(" + ChatColor.YELLOW
+			button.setName(button.getName().substring(0, button.getName().indexOf(40)) + "(" + ChatColor.GREEN
 					+ "World" + ChatColor.WHITE + ")");
 		}
 	}

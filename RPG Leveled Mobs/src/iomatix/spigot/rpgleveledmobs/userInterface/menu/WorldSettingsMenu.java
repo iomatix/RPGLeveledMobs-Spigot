@@ -25,14 +25,17 @@ import iomatix.spigot.rpgleveledmobs.Main;
 public class WorldSettingsMenu extends SettingsMenu {
 	public WorldSettingsMenu(final RPGLeveledMobsConfig config) {
 		this.config = config;
-		this.name = ChatColor.BLUE + this.formatWorldName(((WorldConfig) config).getWorld().getName()) + " "
-				+ ChatColor.YELLOW + "Settings";
+		this.name = ChatColor.GOLD + this.formatWorldName(((WorldConfig) config).getWorld().getName()) + " "
+				+ ChatColor.DARK_GREEN + "Settings";
 		this.statsMenu = new WorldStatsMenu(this);
 		this.levelingMenu = new WorldLevelingMenu(this);
 		this.spawningMenu = new WorldSpawningMenu(this);
 		this.namingMenu = new WorldNamingMenu(this);
 		if (Main.isMobArenaLoaded()) {
 			this.mobArenaMenu = new WorldMobArenaMenu(this);
+		}
+		if (Main.isMoneyModuleOnline()) {
+		this.moneyMenu = new WorldMoneyMenu(this);	
 		}
 		this.createMenu();
 		for (int i = this.menuMap.size() - 1; i >= 0; --i) {
@@ -143,6 +146,12 @@ public class WorldSettingsMenu extends SettingsMenu {
 			WorldSettingsMenu.this.ButtonInheritMod(this, healthMod, ConfigKey.HEALTH_MOD_ENABLED, 12);
 			final Button healthMult = this.menuMap.get(21);
 			WorldSettingsMenu.this.ButtonInheritMod(this, healthMult, ConfigKey.HEALTH_PER_LEVEL, 21);
+			final Button moneyMod = this.menuMap.get(13);
+			WorldSettingsMenu.this.ButtonInheritMod(this, moneyMod, ConfigKey.MONEY_MOD_ENABLE, 13);
+			final Button moneyMult = this.menuMap.get(22);
+			WorldSettingsMenu.this.ButtonInheritMod(this, moneyMult, ConfigKey.MONEY_PER_LEVEL, 22);
+			final Button moneyRand = this.menuMap.get(31);
+			WorldSettingsMenu.this.ButtonInheritMod(this, moneyRand, ConfigKey.MONEY_RANDOM, 31);
 			final Button defenseMod = this.menuMap.get(14);
 			WorldSettingsMenu.this.ButtonInheritMod(this, defenseMod, ConfigKey.DEFENSE_MOD_ENABLE, 14);
 			final Button defenseMult = this.menuMap.get(23);
@@ -206,10 +215,30 @@ public class WorldSettingsMenu extends SettingsMenu {
 		}
 	}
 
+	protected class WorldMoneyMenu extends MoneyMenu{
+		public WorldMoneyMenu(final SettingsMenu prev) {
+			super(prev);
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + ChatColor.YELLOW + "Economy Menu";
+		}
+		@Override
+		public void ShowMenu(final Player player) {
+			super.ShowMenu(player);
+		}
+		@Override
+		public void generateMenu() {
+			super.generateMenu();
+		}
+		
+		
+	}
+
+	
+	
+
 	protected class WorldMobArenaMenu extends MobArenaMenu {
 		public WorldMobArenaMenu(final SettingsMenu prev) {
 			super(prev);
-			this.name = prev.getName() + ChatColor.WHITE + " - " + ChatColor.BLUE + "MobArena Menu";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + ChatColor.BLUE + "MobArena Menu";
 		}
 
 		@Override
@@ -234,7 +263,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 	protected class WorldSpawningMenu extends SpawningMenu {
 		public WorldSpawningMenu(final SettingsMenu prev) {
 			super(prev);
-			this.name = prev.getName() + ChatColor.WHITE + " - " + ChatColor.BLUE + "Spawning Menu";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + ChatColor.RED + "Spawning Menu";
 		}
 
 		@Override
@@ -309,7 +338,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 
 		public WorldNodeMenu(final Menu prev) {
 			this.prev = prev;
-			this.name = prev.getName() + ChatColor.WHITE + " - " + ChatColor.BLUE + "Spawn Nodes";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + ChatColor.DARK_GREEN + "Spawn Nodes";
 			this.generateMenus();
 		}
 
@@ -353,7 +382,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 				if (prev != null) {
 					prev.setNext(this);
 				}
-				this.name = ChatColor.BLUE + "Spawn Nodes " + ChatColor.WHITE + "- " + ChatColor.YELLOW + "Page "
+				this.name = ChatColor.BLUE + "Spawn Nodes " + ChatColor.DARK_GRAY + ": " + ChatColor.GRAY + "Page " + ChatColor.GOLD
 						+ page;
 			}
 
@@ -364,7 +393,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 				for (final SpawnNode node : this.nodes) {
 					final Button nodeButton = new Button();
 					nodeButton.setIcon(Material.SPAWNER);
-					nodeButton.setName(ChatColor.GREEN + "Spawn Node - " + node.getName());
+					nodeButton.setName(ChatColor.GREEN + "Spawn Node: " + node.getName());
 					nodeButton.addLoreLine("");
 					nodeButton.addLoreLine(ChatColor.WHITE + "X: " + ChatColor.LIGHT_PURPLE + node.getLocation().getX()
 							+ ChatColor.WHITE + " Y: " + ChatColor.LIGHT_PURPLE + node.getLocation().getY()

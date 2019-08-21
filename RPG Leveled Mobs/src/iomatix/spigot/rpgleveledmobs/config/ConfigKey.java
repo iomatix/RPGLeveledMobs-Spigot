@@ -161,6 +161,9 @@ public enum ConfigKey {
 		ConfigKey.defaultMap.put(ConfigKey.DAMAGE_PER_LEVEL, 1.0);
 		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_MOD_ENABLE, true);
 		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_PER_LEVEL, 0.35);
+		ConfigKey.defaultMap.put(ConfigKey.MONEY_MOD_ENABLE, true);
+		ConfigKey.defaultMap.put(ConfigKey.MONEY_PER_LEVEL, 0.35);
+		ConfigKey.defaultMap.put(ConfigKey.MONEY_RANDOM, 1.5);
 		ConfigKey.defaultMap.put(ConfigKey.LEVELED_MOBS, ConfigKey.defaultLeveled);
 		ConfigKey.defaultMap.put(ConfigKey.BLOCKED_MOBS, ConfigKey.defaultBlockedVanilla);
 		ConfigKey.defaultMap.put(ConfigKey.LEVELED_SPAWNERS, true);

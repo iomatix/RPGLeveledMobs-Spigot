@@ -15,15 +15,15 @@ import iomatix.spigot.rpgleveledmobs.Main;
 
 public class BaseSettingMenu extends Menu {
 	public BaseSettingMenu(final cfgModule configModule) {
-		this.name = ChatColor.GOLD + "RPGMobs " + ChatColor.GRAY + "Settings";
+		this.name =ChatColor.DARK_GRAY + "["+ChatColor.GOLD+"RPGMobs"+ChatColor.DARK_GRAY +"] " + ChatColor.DARK_GRAY + "Settings";
 		final Button globalButton = new Button();
 		globalButton.setIcon(Material.ENCHANTED_BOOK);
 		globalButton.setName(ChatColor.GREEN + "Global Config");
 		globalButton.addLoreLine(" ");
 		globalButton.addLoreLine(
-				ChatColor.WHITE + "Configure " + ChatColor.GOLD + "Global " + ChatColor.WHITE + "settings");
-		globalButton.addLoreLine(ChatColor.WHITE + "The default settings used");
-		globalButton.addLoreLine(ChatColor.WHITE + "for every world if not specifically set.");
+				ChatColor.WHITE + "Configure " + ChatColor.GOLD + "Global " + ChatColor.WHITE + "settings.");
+		globalButton.addLoreLine(ChatColor.GRAY + "The default settings used");
+		globalButton.addLoreLine(ChatColor.GRAY + "for every world if not specifically set.");
 		globalButton.setOnPressedListener(new Button.onButtonPressedListener() {
 			@Override
 			public void onButtonPressed(final MenuInteractionEvent event) {
@@ -36,7 +36,8 @@ public class BaseSettingMenu extends Menu {
 		for (final WorldConfig config : configModule.getWorldConfigs()) {
 			final Button configButton = new Button();
 			configButton.setIcon(Material.WRITABLE_BOOK);
-			configButton.setName(ChatColor.GREEN + this.formatWorldName(config.getWorld().getName()) + " Config");
+			configButton.setName(
+					ChatColor.GOLD + this.formatWorldName(config.getWorld().getName()) + ChatColor.GREEN + " Config");
 			if (config.isEnabled()) {
 				configButton.addLoreLine(ChatColor.WHITE + "Enabled: " + ChatColor.GREEN + "True");
 			} else {

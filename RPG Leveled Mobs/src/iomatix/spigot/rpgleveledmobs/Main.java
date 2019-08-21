@@ -79,7 +79,7 @@ public class Main extends JavaPlugin {
 		Bukkit.getScheduler().runTaskLaterAsynchronously((Plugin) this, (Runnable) new Runnable() {
 			@Override
 			public void run() {
-				Main.this.moneyscalingModule = new MoneyscalingModule();
+				Main.this.moneyscalingModule = new MoneyScalingModule();
 				Main.this.experienceModule = new ExperienceScalingModule();
 				Main.this.scalingModule = new StatsScalingModule();
 			}
@@ -101,7 +101,11 @@ public class Main extends JavaPlugin {
 	public static boolean isMobArenaLoaded() {
 		return Bukkit.getPluginManager().isPluginEnabled("MobArena");
 	}
-
+	
+	public static boolean isMoneyModuleOnline() {
+		return Bukkit.getPluginManager().isPluginEnabled("Vault");
+	}
+	
 	public static boolean isLeveledMob(final Entity ent) {
 		return ent.hasMetadata(MetaTag.RPGmob.toString()) && ent.hasMetadata(MetaTag.Level.toString());
 	}
