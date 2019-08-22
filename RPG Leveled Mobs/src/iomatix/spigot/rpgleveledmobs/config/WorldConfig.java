@@ -786,7 +786,6 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 	public double getMoneyMob(EntityType ent) {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
 			try {
-				
 				final HashMap<String, Object> temp = new HashMap<String, Object>();
 				final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
 				Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
@@ -794,7 +793,8 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 				temp.putAll(MS.getValues(false));
 
 				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
-					hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
+					hashDoubles.put(EntityType.valueOf(entry.getKey()),
+							Double.parseDouble(entry.getValue().toString()));
 				}
 				return hashDoubles.get(ent);
 			} catch (Exception e) {
@@ -808,16 +808,25 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 								Double.parseDouble(entry.getValue().toString()));
 					}
 					return hashDoubles.get(ent);
-				} catch (NullPointerException e2) {}
+				} catch (NullPointerException e2) {
+				}
 			}
 			return 0.0;
-		}else {
+		} else {
 			if (!this.moneyMobs.containsKey(ent)) {
 				this.moneyMobs.put(ent, 0.0);
 				return 0.0;
 			}
-			return this.moneyMobs.get(ent);	
+			return this.moneyMobs.get(ent);
 		}
+	}
+
+	@Override
+	public HashMap<EntityType, Double> getMoneyMobs() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
+			return (HashMap<EntityType, Double>) this.inheritedValues.get(ConfigKey.MONEY_MOBS);
+		}
+		return this.moneyMobs;
 	}
 
 	@Override
@@ -860,8 +869,8 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 
 	@Override
 	public void setMoneyMobs(final HashMap<EntityType, Double> moneyMob) {
-		this.moneyMobs = (HashMap<EntityType, Double>) moneyMob.clone();
 		final HashMap<EntityType, Double> temp = new HashMap<EntityType, Double>();
+		this.moneyMobs = (HashMap<EntityType, Double>) moneyMob.clone();
 		for (Map.Entry<EntityType, Double> type : this.moneyMobs.entrySet()) {
 			temp.put(type.getKey(), type.getValue());
 		}
@@ -873,7 +882,7 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 	@Override
 	public void addMoneyMob(final EntityType ent, final double amount) {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
-		this.inheritedValues.remove(ConfigKey.MONEY_MOBS);		
+			this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
 		}
 		this.moneyMobs.put(ent, amount);
 		this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),

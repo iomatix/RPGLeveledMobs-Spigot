@@ -15,6 +15,8 @@ import iomatix.spigot.rpgleveledmobs.config.ConfigKey;
 import iomatix.spigot.rpgleveledmobs.userInterface.Button;
 import iomatix.spigot.rpgleveledmobs.userInterface.MenuException;
 import iomatix.spigot.rpgleveledmobs.userInterface.MenuInteractionEvent;
+import iomatix.spigot.rpgleveledmobs.userInterface.menu.SettingsMenu.MoneyMenu;
+import iomatix.spigot.rpgleveledmobs.userInterface.menu.SettingsMenu.MoneyMobsMenu;
 import iomatix.spigot.rpgleveledmobs.userInterface.Menu;
 import iomatix.spigot.rpgleveledmobs.config.cfgModule;
 import iomatix.spigot.rpgleveledmobs.config.WorldConfig;
@@ -27,11 +29,10 @@ public class WorldSettingsMenu extends SettingsMenu {
 	protected ChatColor sub = ChatColor.GOLD;
 	protected ChatColor special = ChatColor.BLUE;
 	protected ChatColor special_2 = ChatColor.YELLOW;
-	
+
 	public WorldSettingsMenu(final RPGLeveledMobsConfig config) {
 		this.config = config;
-		this.name = sub + this.formatWorldName(((WorldConfig) config).getWorld().getName()) + " "
-				+ main + "Settings";
+		this.name = sub + this.formatWorldName(((WorldConfig) config).getWorld().getName()) + " " + main + "Settings";
 		this.statsMenu = new WorldStatsMenu(this);
 		this.levelingMenu = new WorldLevelingMenu(this);
 		this.spawningMenu = new WorldSpawningMenu(this);
@@ -40,7 +41,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 			this.mobArenaMenu = new WorldMobArenaMenu(this);
 		}
 		if (Main.isMoneyModuleOnline()) {
-		this.moneyMenu = new WorldMoneyMenu(this);	
+			this.moneyMenu = new WorldMoneyMenu(this);
 		}
 		this.createMenu();
 		for (int i = this.menuMap.size() - 1; i >= 0; --i) {
@@ -105,8 +106,8 @@ public class WorldSettingsMenu extends SettingsMenu {
 
 	protected void ButtonInheritMod(final Menu menu, final Button button, final ConfigKey key, final int pos) {
 		if (this.config.isValueInherited(key)) {
-			button.setName(button.getName() + " " + ChatColor.WHITE + "(" + special_2 + "Global"
-					+ ChatColor.WHITE + ")");
+			button.setName(
+					button.getName() + " " + ChatColor.WHITE + "(" + special_2 + "Global" + ChatColor.WHITE + ")");
 		} else {
 			button.removeLastLoreLine();
 			if (ConfigKey.defaultMap.get(key) instanceof Boolean) {
@@ -220,25 +221,51 @@ public class WorldSettingsMenu extends SettingsMenu {
 		}
 	}
 
-	protected class WorldMoneyMenu extends MoneyMenu{
+	protected class WorldMoneyMenu extends MoneyMenu {
+
 		public WorldMoneyMenu(final SettingsMenu prev) {
 			super(prev);
 			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special_2 + "Economy Menu";
 		}
+
 		@Override
 		public void ShowMenu(final Player player) {
 			super.ShowMenu(player);
 		}
+
 		@Override
 		public void generateMenu() {
 			super.generateMenu();
+			final Menu thisMenu = this;
+			if (WorldSettingsMenu.this.config.isValueInherited(ConfigKey.MONEY_MOBS)) {
+				this.menuMap.get(1).setName(this.menuMap.get(1).getName() + ChatColor.WHITE + " (" + special_2
+						+ "Global" + ChatColor.WHITE + ")");
+				this.menuMap.get(1).addLoreLine("");
+				this.menuMap.get(1).addLoreLine(ChatColor.GRAY + "Click to Change.");
+				this.menuMap.get(1).setOnPressedListener(new Button.onButtonPressedListener() {
+					@Override
+					public void onButtonPressed(final MenuInteractionEvent event) {
+						WorldSettingsMenu.this.config.setMoneyMobs(WorldSettingsMenu.this.config.getMoneyMobs());
+						new MoneyMobsMenu(thisMenu, 0).ShowMenu(event.getInteractor());
+					}
+				});
+			} else {
+				this.menuMap.get(1).addLoreLine("");
+				this.menuMap.get(1).addLoreLine(ChatColor.GRAY + "Click to Change. Right Click to use Global");
+				this.menuMap.get(1).setOnPressedListener(new Button.onButtonPressedListener() {
+					@Override
+					public void onButtonPressed(final MenuInteractionEvent event) {
+						if (event.getClickType() == ClickType.RIGHT) {
+							WorldSettingsMenu.this.config.useInheritedValue(ConfigKey.MONEY_MOBS);
+							WorldMoneyMenu.this.ShowMenu(event.getInteractor());
+						} else {
+							new MoneyMenu(thisMenu).ShowMenu(event.getInteractor());
+						}
+					}
+				});
+			}
 		}
-		
-		
 	}
-
-	
-	
 
 	protected class WorldMobArenaMenu extends MobArenaMenu {
 		public WorldMobArenaMenu(final SettingsMenu prev) {

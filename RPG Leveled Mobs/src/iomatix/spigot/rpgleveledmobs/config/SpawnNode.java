@@ -564,6 +564,7 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 
 	@Override
 	public double getMoneyMob(EntityType ent) {
+		if (this.moneyMobs == null) this.moneyMobs.putAll((HashMap<EntityType, Double>)this.inheritedValues.get(ConfigKey.MONEY_MOBS));
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
 			try {
 				
@@ -598,6 +599,15 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 			}
 			return this.moneyMobs.get(ent);	
 		}
+	}
+	
+	@Override
+	public HashMap<EntityType,Double> getMoneyMobs() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS))
+		{
+		return  (HashMap<EntityType,Double>)this.inheritedValues.get(ConfigKey.MONEY_MOBS);
+		}
+		return this.moneyMobs;
 	}
 
 	@Override
@@ -682,7 +692,7 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 				(Object) this.MoneyHashMapToStringList(this.moneyMobs));
 		this.worldConfig.saveNodeConfig();
 	}
-
+	
 	@Override
 	public void removeMoneyMob(final EntityType ent) {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {

@@ -221,5 +221,7 @@ public abstract class RPGLeveledMobsConfig {
 	public abstract void removeMoneyMob(EntityType ent);
 
 	public abstract double getMoneyMob(EntityType ent);
+	
+	public abstract HashMap<EntityType, Double> getMoneyMobs();
 
 }

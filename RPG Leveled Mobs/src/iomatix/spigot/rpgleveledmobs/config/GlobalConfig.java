@@ -621,6 +621,11 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	public double getMoneyMob(EntityType ent) {
 		return this.moneyMobs.get(ent);
 	}
+	
+	@Override
+	public HashMap<EntityType,Double> getMoneyMobs() {
+		return this.moneyMobs;
+	}
 
 	@Override
 	public boolean canLevel(final EntityType ent) {

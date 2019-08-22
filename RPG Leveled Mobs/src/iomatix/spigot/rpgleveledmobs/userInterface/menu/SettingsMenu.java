@@ -989,34 +989,38 @@ public class SettingsMenu extends Menu {
 				nextpage.setName(ChatColor.GRAY + "Next Page \u25b6");
 				nextpage.setOnPressedListener(new Button.onButtonPressedListener() {
 
-	@Override
-	public void onButtonPressed(final MenuInteractionEvent event) {
-		// new LeveledMenu(LeveledMenu.this,2).ShowMenu(event.getInteractor());
-	}
-});this.menuMap.put(53,nextpage);}}}
-
-protected class BlockedMenu extends Menu {
-	private final Menu prev;
-	int page = 0;
-
-	public BlockedMenu(final Menu prev, int page) {
-		this.prev = prev;
-		this.page = page;
-		this.name = ChatColor.RED + "Blocked Mobs " + ChatColor.DARK_GRAY + "page [" + (page + 1) + "]";
-		this.generateMenu(page);
+					@Override
+					public void onButtonPressed(final MenuInteractionEvent event) {
+						// new LeveledMenu(LeveledMenu.this,2).ShowMenu(event.getInteractor());
+					}
+				});
+				this.menuMap.put(53, nextpage);
+			}
+		}
 	}
 
-	@Override
-	public void ShowMenu(final Player player) {
-		this.generateMenu(page);
-		super.ShowMenu(player);
-	}
+	protected class BlockedMenu extends Menu {
+		private final Menu prev;
+		int page = 0;
 
-	public void generateMenu(int page) {
-		this.generateNewMenu(page);
-	}
+		public BlockedMenu(final Menu prev, int page) {
+			this.prev = prev;
+			this.page = page;
+			this.name = ChatColor.RED + "Blocked Mobs " + ChatColor.DARK_GRAY + "page [" + (page + 1) + "]";
+			this.generateMenu(page);
+		}
 
-	public void generateNewMenu(int page) {
+		@Override
+		public void ShowMenu(final Player player) {
+			this.generateMenu(page);
+			super.ShowMenu(player);
+		}
+
+		public void generateMenu(int page) {
+			this.generateNewMenu(page);
+		}
+
+		public void generateNewMenu(int page) {
 			if (page == 0) {
 				final MobButton Bat = new MobButton("Bat", EntityType.BAT, SettingsMenu.this.config, this, true);
 				this.menuMap.put(0, Bat);
@@ -1293,7 +1297,7 @@ protected class BlockedMenu extends Menu {
 				previous.setName(ChatColor.GREEN + "\u25c0 Previous Menu");
 				previous.setOnPressedListener(new Button.onButtonPressedListener() {
 
-	@Override
+					@Override
 					public void onButtonPressed(final MenuInteractionEvent event) {
 						BlockedMenu.this.prev.ShowMenu(event.getInteractor());
 					}
@@ -1312,284 +1316,292 @@ protected class BlockedMenu extends Menu {
 				this.menuMap.put(53, nextpage);
 
 			}
-}}
-
-protected class NamingMenu extends Menu {
-	private final Menu prev;
-
-	public NamingMenu(final SettingsMenu prev) {
-		this.name = main + "Naming " + sub + "Settings";
-		this.generateMenu();
-		this.prev = prev;
+		}
 	}
 
-	@Override
-	public void ShowMenu(final Player player) {
-		this.generateMenu();
-		super.ShowMenu(player);
-	}
+	protected class NamingMenu extends Menu {
+		private final Menu prev;
 
-	public void generateMenu() {
-		final Button showNames = new Button();
-		showNames.setName(special + "Always Show Mob Name");
-		showNames.addLoreLine(special_2 + "Displays mob names even when not looking directly at mob.");
-		showNames.addLoreLine("");
-		final boolean enabled = SettingsMenu.this.config.isAlwaysShowMobName();
-		if (enabled) {
-			showNames.setIcon(Material.GLASS);
-			showNames.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Shown");
-		} else {
-			showNames.setIcon(Material.RED_STAINED_GLASS);
-			showNames.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Hidden");
+		public NamingMenu(final SettingsMenu prev) {
+			this.name = main + "Naming " + sub + "Settings";
+			this.generateMenu();
+			this.prev = prev;
 		}
-		showNames.setOnPressedListener(new Button.onButtonPressedListener() {
-			@Override
-			public void onButtonPressed(final MenuInteractionEvent event) {
-				SettingsMenu.this.config.setAlwaysShowMobName(!enabled);
-				NamingMenu.this.ShowMenu(event.getInteractor());
-			}
-		});
-		showNames.addLoreLine("");
-		showNames.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
-		this.menuMap.put(0, showNames);
-		final Button language = new Button();
-		language.setName(special + "Language Settings");
-		language.setIcon(Material.WRITABLE_BOOK);
-		language.addLoreLine("");
-		language.addLoreLine(special_2 + "Select which language to use for mob names");
-		final NamingMenu ref = this;
-		language.setOnPressedListener(new Button.onButtonPressedListener() {
-			@Override
-			public void onButtonPressed(final MenuInteractionEvent event) {
-				new LanguageMenu(ref).ShowMenu(event.getInteractor());
-			}
-		});
-		this.menuMap.put(9, language);
-		final Button prefixLabel = new Button();
-		prefixLabel.setName(special + "Prefix Settings");
-		prefixLabel.setIcon(Material.NAME_TAG);
-		prefixLabel.hasGlowEffect(true);
-		this.menuMap.put(3, prefixLabel);
-		final Button prefixToggle = new Button();
-		prefixToggle.setIcon(Material.WRITABLE_BOOK);
-		prefixToggle.setName(ChatColor.GREEN + "Prefix Enabled");
-		prefixToggle.addLoreLine(" ");
-		final boolean prefix = SettingsMenu.this.config.isPrefixEnabled();
-		if (prefix) {
-			prefixToggle.setIcon(Material.GREEN_WOOL);
-			prefixToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
-		} else {
-			prefixToggle.setIcon(Material.RED_WOOL);
-			prefixToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
+
+		@Override
+		public void ShowMenu(final Player player) {
+			this.generateMenu();
+			super.ShowMenu(player);
 		}
-		prefixToggle.setOnPressedListener(new Button.onButtonPressedListener() {
-			@Override
-			public void onButtonPressed(final MenuInteractionEvent event) {
-				SettingsMenu.this.config.setPrefixEnabled(!prefix);
-				NamingMenu.this.ShowMenu(event.getInteractor());
+
+		public void generateMenu() {
+			final Button showNames = new Button();
+			showNames.setName(special + "Always Show Mob Name");
+			showNames.addLoreLine(special_2 + "Displays mob names even when not looking directly at mob.");
+			showNames.addLoreLine("");
+			final boolean enabled = SettingsMenu.this.config.isAlwaysShowMobName();
+			if (enabled) {
+				showNames.setIcon(Material.GLASS);
+				showNames.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Shown");
+			} else {
+				showNames.setIcon(Material.RED_STAINED_GLASS);
+				showNames.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Hidden");
 			}
-		});
-		prefixToggle.addLoreLine("");
-		prefixToggle.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
-		this.menuMap.put(12, prefixToggle);
-		final Button prefixFormat = new Button();
-		prefixFormat.setIcon(Material.WRITABLE_BOOK);
-		prefixFormat.setName(ChatColor.GREEN + "Prefix Format");
-		prefixFormat.addLoreLine(" ");
-		final String prefixString = SettingsMenu.this.config.getPrefixFormat();
-		prefixFormat.addLoreLine(ChatColor.WHITE + "Value: " + special_2 + prefixString);
-		prefixFormat.addLoreLine("");
-		prefixFormat.addLoreLine(ChatColor.GRAY + "Click to Change.");
-		prefixFormat.setOnPressedListener(new Button.onButtonPressedListener() {
-			@Override
-			public void onButtonPressed(final MenuInteractionEvent event) {
-				if (SettingsMenu.listeners.contains(event.getInteractor())) {
-					NamingMenu.menuHandler.closeMenu(event.getInteractor());
+			showNames.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					SettingsMenu.this.config.setAlwaysShowMobName(!enabled);
+					NamingMenu.this.ShowMenu(event.getInteractor());
 				}
-				try {
-					NamingMenu.menuHandler.closeMenu(event.getInteractor());
-					final StringChangeListener stringChangeListener = new StringChangeListener(event.getInteractor(),
-							event.getMenu(),
-							SettingsMenu.this.config.getClass().getMethod("setPrefixFormat", String.class));
-					event.getInteractor()
-							.sendMessage(special_2 + "Please enter a new value, use # for the mob's level.");
-				} catch (NoSuchMethodException e) {
-					e.printStackTrace();
+			});
+			showNames.addLoreLine("");
+			showNames.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
+			this.menuMap.put(0, showNames);
+			final Button language = new Button();
+			language.setName(special + "Language Settings");
+			language.setIcon(Material.WRITABLE_BOOK);
+			language.addLoreLine("");
+			language.addLoreLine(special_2 + "Select which language to use for mob names");
+			final NamingMenu ref = this;
+			language.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					new LanguageMenu(ref).ShowMenu(event.getInteractor());
 				}
+			});
+			this.menuMap.put(9, language);
+			final Button prefixLabel = new Button();
+			prefixLabel.setName(special + "Prefix Settings");
+			prefixLabel.setIcon(Material.NAME_TAG);
+			prefixLabel.hasGlowEffect(true);
+			this.menuMap.put(3, prefixLabel);
+			final Button prefixToggle = new Button();
+			prefixToggle.setIcon(Material.WRITABLE_BOOK);
+			prefixToggle.setName(ChatColor.GREEN + "Prefix Enabled");
+			prefixToggle.addLoreLine(" ");
+			final boolean prefix = SettingsMenu.this.config.isPrefixEnabled();
+			if (prefix) {
+				prefixToggle.setIcon(Material.GREEN_WOOL);
+				prefixToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
+			} else {
+				prefixToggle.setIcon(Material.RED_WOOL);
+				prefixToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
 			}
-		});
-		this.menuMap.put(21, prefixFormat);
-		final Button suffixLabel = new Button();
-		suffixLabel.setName(special + "Suffix Settings");
-		suffixLabel.setIcon(Material.NAME_TAG);
-		suffixLabel.hasGlowEffect(true);
-		this.menuMap.put(5, suffixLabel);
-		final Button suffixToggle = new Button();
-		suffixToggle.setIcon(Material.WRITABLE_BOOK);
-		suffixToggle.setName(ChatColor.GREEN + "Suffix Enabled");
-		suffixToggle.addLoreLine(" ");
-		final boolean suffix = SettingsMenu.this.config.isSuffixEnabled();
-		if (suffix) {
-			suffixToggle.setIcon(Material.GREEN_WOOL);
-			suffixToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
-		} else {
-			suffixToggle.setIcon(Material.RED_WOOL);
-			suffixToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
-		}
-		suffixToggle.setOnPressedListener(new Button.onButtonPressedListener() {
-			@Override
-			public void onButtonPressed(final MenuInteractionEvent event) {
-				SettingsMenu.this.config.setSuffixEnabled(!suffix);
-				NamingMenu.this.ShowMenu(event.getInteractor());
-			}
-		});
-		suffixToggle.addLoreLine("");
-		suffixToggle.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
-		this.menuMap.put(14, suffixToggle);
-		final Button suffixFormat = new Button();
-		suffixFormat.setIcon(Material.WRITABLE_BOOK);
-		suffixFormat.setName(ChatColor.GREEN + "Suffix Format");
-		suffixFormat.addLoreLine(" ");
-		final String suffixString = SettingsMenu.this.config.getSuffixFormat();
-		suffixFormat.addLoreLine(ChatColor.WHITE + "Value: " + special_2 + suffixString);
-		suffixFormat.addLoreLine("");
-		suffixFormat.addLoreLine(ChatColor.GRAY + "Click to Change.");
-		suffixFormat.setOnPressedListener(new Button.onButtonPressedListener() {
-			@Override
-			public void onButtonPressed(final MenuInteractionEvent event) {
-				if (SettingsMenu.listeners.contains(event.getInteractor())) {
-					NamingMenu.menuHandler.closeMenu(event.getInteractor());
+			prefixToggle.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					SettingsMenu.this.config.setPrefixEnabled(!prefix);
+					NamingMenu.this.ShowMenu(event.getInteractor());
 				}
-				try {
-					NamingMenu.menuHandler.closeMenu(event.getInteractor());
-					final StringChangeListener stringChangeListener = new StringChangeListener(event.getInteractor(),
-							event.getMenu(),
-							SettingsMenu.this.config.getClass().getMethod("setSuffixFormat", String.class));
-					event.getInteractor()
-							.sendMessage(special_2 + "Please enter a new value, use # for the mob's level.");
-				} catch (NoSuchMethodException e) {
-					e.printStackTrace();
+			});
+			prefixToggle.addLoreLine("");
+			prefixToggle.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
+			this.menuMap.put(12, prefixToggle);
+			final Button prefixFormat = new Button();
+			prefixFormat.setIcon(Material.WRITABLE_BOOK);
+			prefixFormat.setName(ChatColor.GREEN + "Prefix Format");
+			prefixFormat.addLoreLine(" ");
+			final String prefixString = SettingsMenu.this.config.getPrefixFormat();
+			prefixFormat.addLoreLine(ChatColor.WHITE + "Value: " + special_2 + prefixString);
+			prefixFormat.addLoreLine("");
+			prefixFormat.addLoreLine(ChatColor.GRAY + "Click to Change.");
+			prefixFormat.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					if (SettingsMenu.listeners.contains(event.getInteractor())) {
+						NamingMenu.menuHandler.closeMenu(event.getInteractor());
+					}
+					try {
+						NamingMenu.menuHandler.closeMenu(event.getInteractor());
+						final StringChangeListener stringChangeListener = new StringChangeListener(
+								event.getInteractor(), event.getMenu(),
+								SettingsMenu.this.config.getClass().getMethod("setPrefixFormat", String.class));
+						event.getInteractor()
+								.sendMessage(special_2 + "Please enter a new value, use # for the mob's level.");
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					}
 				}
+			});
+			this.menuMap.put(21, prefixFormat);
+			final Button suffixLabel = new Button();
+			suffixLabel.setName(special + "Suffix Settings");
+			suffixLabel.setIcon(Material.NAME_TAG);
+			suffixLabel.hasGlowEffect(true);
+			this.menuMap.put(5, suffixLabel);
+			final Button suffixToggle = new Button();
+			suffixToggle.setIcon(Material.WRITABLE_BOOK);
+			suffixToggle.setName(ChatColor.GREEN + "Suffix Enabled");
+			suffixToggle.addLoreLine(" ");
+			final boolean suffix = SettingsMenu.this.config.isSuffixEnabled();
+			if (suffix) {
+				suffixToggle.setIcon(Material.GREEN_WOOL);
+				suffixToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
+			} else {
+				suffixToggle.setIcon(Material.RED_WOOL);
+				suffixToggle.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
 			}
-		});
-		this.menuMap.put(23, suffixFormat);
-		final Button demo = new Button();
-		demo.setIcon(Material.SKELETON_SKULL);
-		demo.setName(ChatColor.GREEN + "Example Mob Name");
-		String name = " Zombie ";
-		if (prefix) {
-			name = ChatColor.translateAlternateColorCodes('&', prefixString.replace("#", "15") + name);
-		}
-		if (suffix) {
-			name = ChatColor.translateAlternateColorCodes('&', name + suffixString.replace("#", "15"));
-		}
-		name = name.trim();
-		demo.addLoreLine(" ");
-		demo.addLoreLine(ChatColor.WHITE + name);
-		this.menuMap.put(31, demo);
-		final Button previous = new Button();
-		previous.setIcon(Material.NETHER_STAR);
-		previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
-		previous.setOnPressedListener(new Button.onButtonPressedListener() {
-			@Override
-			public void onButtonPressed(final MenuInteractionEvent event) {
-				NamingMenu.this.prev.ShowMenu(event.getInteractor());
+			suffixToggle.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					SettingsMenu.this.config.setSuffixEnabled(!suffix);
+					NamingMenu.this.ShowMenu(event.getInteractor());
+				}
+			});
+			suffixToggle.addLoreLine("");
+			suffixToggle.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
+			this.menuMap.put(14, suffixToggle);
+			final Button suffixFormat = new Button();
+			suffixFormat.setIcon(Material.WRITABLE_BOOK);
+			suffixFormat.setName(ChatColor.GREEN + "Suffix Format");
+			suffixFormat.addLoreLine(" ");
+			final String suffixString = SettingsMenu.this.config.getSuffixFormat();
+			suffixFormat.addLoreLine(ChatColor.WHITE + "Value: " + special_2 + suffixString);
+			suffixFormat.addLoreLine("");
+			suffixFormat.addLoreLine(ChatColor.GRAY + "Click to Change.");
+			suffixFormat.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					if (SettingsMenu.listeners.contains(event.getInteractor())) {
+						NamingMenu.menuHandler.closeMenu(event.getInteractor());
+					}
+					try {
+						NamingMenu.menuHandler.closeMenu(event.getInteractor());
+						final StringChangeListener stringChangeListener = new StringChangeListener(
+								event.getInteractor(), event.getMenu(),
+								SettingsMenu.this.config.getClass().getMethod("setSuffixFormat", String.class));
+						event.getInteractor()
+								.sendMessage(special_2 + "Please enter a new value, use # for the mob's level.");
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			this.menuMap.put(23, suffixFormat);
+			final Button demo = new Button();
+			demo.setIcon(Material.SKELETON_SKULL);
+			demo.setName(ChatColor.GREEN + "Example Mob Name");
+			String name = " Zombie ";
+			if (prefix) {
+				name = ChatColor.translateAlternateColorCodes('&', prefixString.replace("#", "15") + name);
 			}
-		});
-		this.menuMap.put(35, previous);
-	}
-}
-
-protected class MoneyMenu extends Menu {
-	private final Menu prev;
-	protected MoneyMobsMenu moneyMobsMenu;
-
-	public MoneyMenu(final SettingsMenu prev) {
-		this.name = main + "Money" + sub + " Settings";
-		this.prev = prev;
-		this.moneyMobsMenu = new MoneyMobsMenu(this);
-		this.generateMenu();
-	}
-
-	@Override
-	public void ShowMenu(final Player player) {
-		this.generateMenu();
-		super.ShowMenu(player);
+			if (suffix) {
+				name = ChatColor.translateAlternateColorCodes('&', name + suffixString.replace("#", "15"));
+			}
+			name = name.trim();
+			demo.addLoreLine(" ");
+			demo.addLoreLine(ChatColor.WHITE + name);
+			this.menuMap.put(31, demo);
+			final Button previous = new Button();
+			previous.setIcon(Material.NETHER_STAR);
+			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
+			previous.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					NamingMenu.this.prev.ShowMenu(event.getInteractor());
+				}
+			});
+			this.menuMap.put(35, previous);
+		}
 	}
 
-	public void generateMenu() {
-		final Button enabled = new Button();
-		enabled.setIcon(Material.WRITABLE_BOOK);
-		enabled.setName(ChatColor.GREEN + "Economy");
-		enabled.addLoreLine(" ");
-		final boolean moneyEnabled = Main.isMoneyModuleOnline();
-		if (moneyEnabled) {
-			enabled.setIcon(Material.GREEN_WOOL);
-			enabled.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
-			enabled.addLoreLine(ChatColor.DARK_GREEN + "Economy is enabled. Connected to Vault.");
-		} else {
-			enabled.setIcon(Material.RED_WOOL);
-			enabled.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
+	protected class MoneyMenu extends Menu {
+		private final Menu prev;
+		protected MoneyMobsMenu moneyMobsMenu;
+
+		public MoneyMenu(final SettingsMenu prev) {
+			this.name = main + "Money" + sub + " Settings";
+			this.prev = prev;
+			this.moneyMobsMenu = new MoneyMobsMenu(this);
+			this.generateMenu();
+		}
+
+		public MoneyMenu(final Menu prev) {
+			this.name = main + "Money" + sub + " Settings";
+			this.prev = prev;
+			this.moneyMobsMenu = new MoneyMobsMenu(this);
+			this.generateMenu();
+		}
+
+		@Override
+		public void ShowMenu(final Player player) {
+			this.generateMenu();
+			super.ShowMenu(player);
+		}
+
+		public void generateMenu() {
+			final Button enabled = new Button();
+			enabled.setIcon(Material.WRITABLE_BOOK);
+			enabled.setName(ChatColor.GREEN + "Economy");
 			enabled.addLoreLine(" ");
-			enabled.addLoreLine(ChatColor.GRAY + "Economy is disabled. Vault not found.");
+			final boolean moneyEnabled = Main.isMoneyModuleOnline();
+			if (moneyEnabled) {
+				enabled.setIcon(Material.GREEN_WOOL);
+				enabled.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
+				enabled.addLoreLine(ChatColor.DARK_GREEN + "Economy is enabled. Connected to Vault.");
+			} else {
+				enabled.setIcon(Material.RED_WOOL);
+				enabled.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
+				enabled.addLoreLine(" ");
+				enabled.addLoreLine(ChatColor.GRAY + "Economy is disabled. Vault not found.");
+			}
+			this.menuMap.put(0, enabled);
+
+			final Button mobSetup = new Button();
+			mobSetup.setIcon(Material.GOLD_NUGGET);
+			mobSetup.setName(ChatColor.GREEN + "Money Settings");
+			mobSetup.addLoreLine(" ");
+			mobSetup.addLoreLine(ChatColor.YELLOW + "Adjust money drops for each mob.");
+			mobSetup.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					MoneyMenu.this.moneyMobsMenu.ShowMenu(event.getInteractor());
+				}
+			});
+			this.menuMap.put(1, mobSetup);
+
+			final Button previous = new Button();
+			previous.setIcon(Material.NETHER_STAR);
+			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
+			previous.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					MoneyMenu.this.prev.ShowMenu(event.getInteractor());
+				}
+			});
+			this.menuMap.put(8, previous);
 		}
-		this.menuMap.put(0, enabled);
 
-		final Button mobSetup = new Button();
-		mobSetup.setIcon(Material.GOLD_NUGGET);
-		mobSetup.setName(ChatColor.GREEN + "Money Settings");
-		mobSetup.addLoreLine(" ");
-		mobSetup.addLoreLine(ChatColor.YELLOW + "Adjust money drops for each mob.");
-		mobSetup.setOnPressedListener(new Button.onButtonPressedListener() {
-			@Override
-			public void onButtonPressed(final MenuInteractionEvent event) {
-				MoneyMenu.this.moneyMobsMenu.ShowMenu(event.getInteractor());
-			}
-		});
-		this.menuMap.put(1, mobSetup);
-
-		final Button previous = new Button();
-		previous.setIcon(Material.NETHER_STAR);
-		previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
-		previous.setOnPressedListener(new Button.onButtonPressedListener() {
-			@Override
-			public void onButtonPressed(final MenuInteractionEvent event) {
-				MoneyMenu.this.prev.ShowMenu(event.getInteractor());
-			}
-		});
-		this.menuMap.put(8, previous);
 	}
 
-}
+	public class MoneyMobsMenu extends Menu {
+		private final Menu prev;
+		int page = 0;
 
-public class MoneyMobsMenu extends Menu {
-	private final Menu prev;
-	int page = 0;
+		public MoneyMobsMenu(final MoneyMenu moneyMenu) {
+			this.name = main + "Economy Mobs " + ChatColor.DARK_GRAY + "page [" + (1) + "]";
+			this.prev = moneyMenu;
+			this.generateMenu(0);
+		}
 
-	public MoneyMobsMenu(final MoneyMenu moneyMenu) {
-		this.name = main + "Economy Mobs " + ChatColor.DARK_GRAY + "page [" + (1) + "]";
-		this.prev = moneyMenu;
-		this.generateMenu(0);
-	}
+		public MoneyMobsMenu(final Menu prev, int page) {
+			this.prev = prev;
+			this.page = page;
+			this.name = main + "Economy Mobs " + ChatColor.DARK_GRAY + "page [" + (page + 1) + "]";
+			this.generateMenu(page);
+		}
 
-	public MoneyMobsMenu(final Menu prev, int page) {
-		this.prev = prev;
-		this.page = page;
-		this.name = main + "Economy Mobs " + ChatColor.DARK_GRAY + "page [" + (page + 1) + "]";
-		this.generateMenu(page);
-	}
+		@Override
+		public void ShowMenu(final Player player) {
+			this.generateMenu(page);
+			super.ShowMenu(player);
+		}
 
-	@Override
-	public void ShowMenu(final Player player) {
-		this.generateMenu(page);
-		super.ShowMenu(player);
-	}
+		public void generateMenu(int page) {
+			this.generateNewMenu(page);
+		}
 
-	public void generateMenu(int page) {
-		this.generateNewMenu(page);
-	}
-
-	public void generateNewMenu(int page) {
+		public void generateNewMenu(int page) {
 			if (page == 0) {
 				final MoneyMobButton Bat = new MoneyMobButton("Bat", EntityType.BAT, SettingsMenu.this.config, this);
 				this.menuMap.put(0, Bat);
@@ -1880,7 +1892,7 @@ public class MoneyMobsMenu extends Menu {
 				previous.setName(ChatColor.GREEN + "\u25c0 Previous Menu");
 				previous.setOnPressedListener(new Button.onButtonPressedListener() {
 
-	@Override
+					@Override
 					public void onButtonPressed(final MenuInteractionEvent event) {
 						MoneyMobsMenu.this.prev.ShowMenu(event.getInteractor());
 					}
@@ -1900,57 +1912,61 @@ public class MoneyMobsMenu extends Menu {
 				this.menuMap.put(53, nextpage);
 
 			}
-}
-
-public class MoneyMobButton extends Button {
-	private final HashMap<EntityType, String> nameMap = new HashMap<EntityType, String>();
-	private double Parameter;
-
-	public MoneyMobButton(final String EntityName, final EntityType type, final RPGLeveledMobsConfig config,
-			final Menu menu) {
-		this.addLoreLine("");
-
-		try {
-			this.setIcon(Material.getMaterial(type.toString() + "_SPAWN_EGG"));
-
-		} catch (Exception e) {
-			this.setIcon(Material.getMaterial("BAT_SPAWN_EGG"));
-
 		}
 
-		final SpawnEggMeta meta = (SpawnEggMeta) this.getItemStack().getItemMeta();
-		meta.setDisplayName(ChatColor.GOLD + EntityName);
-		final ArrayList<String> lore = new ArrayList<String>();
+		public class MoneyMobButton extends Button {
+			private final HashMap<EntityType, String> nameMap = new HashMap<EntityType, String>();
+			private double Parameter;
 
-		lore.add("");
-		try {
-			lore.add(ChatColor.GREEN + "Base: " + ChatColor.GOLD + config.getMoneyMob(type) + "G.");
-		} catch (Exception e) {
-			lore.add(ChatColor.GREEN + "ERROR! " + ChatColor.GOLD + "Add " + type.toString() + " to config" + "G.");
-		}
-		meta.setLore((List) lore);
+			public MoneyMobButton(final String EntityName, final EntityType type, final RPGLeveledMobsConfig config,
+					final Menu menu) {
+				this.addLoreLine("");
 
-		if (type == EntityType.GIANT) {
-			this.setIcon(Material.ZOMBIE_SPAWN_EGG);
-		}
-		this.getItemStack().setItemMeta((ItemMeta) meta);
-		this.setOnPressedListener(new Button.onButtonPressedListener() {
-			@Override
-			public void onButtonPressed(final MenuInteractionEvent event) {
-				if (event.getClickType() == ClickType.RIGHT) {
-					SettingsMenu.this.config.addMoneyMob(type, SettingsMenu.this.config.getMoneyMob(type)-1.0);
-					if(SettingsMenu.this.config.getMoneyMob(type) < 0.0)SettingsMenu.this.config.addMoneyMob(type,0.0);
-					MoneyMobsMenu.this.ShowMenu(event.getInteractor());
-				} else {
-					SettingsMenu.this.config.addMoneyMob(type, SettingsMenu.this.config.getMoneyMob(type)+1.0);
-					MoneyMobsMenu.this.ShowMenu(event.getInteractor());
+				try {
+					this.setIcon(Material.getMaterial(type.toString() + "_SPAWN_EGG"));
+
+				} catch (Exception e) {
+					this.setIcon(Material.getMaterial("BAT_SPAWN_EGG"));
+
 				}
+
+				final SpawnEggMeta meta = (SpawnEggMeta) this.getItemStack().getItemMeta();
+				meta.setDisplayName(ChatColor.GOLD + EntityName);
+				final ArrayList<String> lore = new ArrayList<String>();
+
+				lore.add("");
+				try {
+					lore.add(ChatColor.GREEN + "Base: " + ChatColor.GOLD + config.getMoneyMob(type) + "G.");
+				} catch (Exception e) {
+					lore.add(ChatColor.GREEN + "ERROR! " + ChatColor.GOLD + "Add " + type.toString() + " to config"
+							+ "G.");
+				}
+				meta.setLore((List) lore);
+
+				if (type == EntityType.GIANT) {
+					this.setIcon(Material.ZOMBIE_SPAWN_EGG);
+				}
+				this.getItemStack().setItemMeta((ItemMeta) meta);
+				this.setOnPressedListener(new Button.onButtonPressedListener() {
+					@Override
+					public void onButtonPressed(final MenuInteractionEvent event) {
+						if (event.getClickType() == ClickType.RIGHT) {
+							SettingsMenu.this.config.addMoneyMob(type,
+									SettingsMenu.this.config.getMoneyMob(type) - 1.0);
+							if (SettingsMenu.this.config.getMoneyMob(type) < 0.0)
+								SettingsMenu.this.config.addMoneyMob(type, 0.0);
+							MoneyMobsMenu.this.ShowMenu(event.getInteractor());
+						} else {
+							SettingsMenu.this.config.addMoneyMob(type,
+									SettingsMenu.this.config.getMoneyMob(type) + 1.0);
+							MoneyMobsMenu.this.ShowMenu(event.getInteractor());
+						}
+					}
+				});
+
 			}
-		});
-	
+		}
 	}
-}
-}
 
 	protected class MobArenaMenu extends Menu {
 		private final Menu prev;
@@ -2119,151 +2135,154 @@ public class MoneyMobButton extends Button {
 			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
 			previous.setOnPressedListener(new Button.onButtonPressedListener() {
 
-		@Override
-		public void onButtonPressed(final MenuInteractionEvent event) {
-			LanguageMenu.this.prev.ShowMenu(event.getInteractor());
-		}
-	});this.menuMap.put(35,previous);
-}}
-
-protected class DoubleChangeListener implements Listener {
-	final Player player;
-	final Menu menu;
-	final Method method;
-
-	public DoubleChangeListener(final Player player, final Menu menu, final Method method) {
-		this.player = player;
-		this.menu = menu;
-		this.method = method;
-		Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
-		final DoubleChangeListener instance = this;
-		if (SettingsMenu.listeners.contains(player)) {
-			SettingsMenu.menuHandler.closeMenu(player);
-		}
-		SettingsMenu.listeners.add(player);
-		Bukkit.getScheduler().runTaskLater((Plugin) Main.RPGMobs, (Runnable) new Runnable() {
-			@Override
-			public void run() {
-				if (SettingsMenu.listeners.contains(player)) {
-					player.sendMessage(ChatColor.RED + "Value Change Timed Out");
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					LanguageMenu.this.prev.ShowMenu(event.getInteractor());
 				}
-				SettingsMenu.listeners.remove(player);
-				HandlerList.unregisterAll((Listener) instance);
-			}
-		}, 600L);
+			});
+			this.menuMap.put(35, previous);
+		}
 	}
 
-	@EventHandler
-	public void onChat(final AsyncPlayerChatEvent event) {
-		Player player = event.getPlayer();
-		if (player == this.player) {
-			try {
-				final double newValue = Double.parseDouble(event.getMessage());
-				this.method.invoke(SettingsMenu.this.config, newValue);
-			} catch (NumberFormatException exception) {
-				this.player.sendMessage(ChatColor.RED + "Unable to change value, please enter an integer");
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e2) {
-				e2.printStackTrace();
-			}
-			this.menu.ShowMenu(player);
-			HandlerList.unregisterAll((Listener) this);
-			SettingsMenu.listeners.remove(this.player);
-			event.setCancelled(true);
+	protected class DoubleChangeListener implements Listener {
+		final Player player;
+		final Menu menu;
+		final Method method;
 
+		public DoubleChangeListener(final Player player, final Menu menu, final Method method) {
+			this.player = player;
+			this.menu = menu;
+			this.method = method;
+			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
+			final DoubleChangeListener instance = this;
+			if (SettingsMenu.listeners.contains(player)) {
+				SettingsMenu.menuHandler.closeMenu(player);
+			}
+			SettingsMenu.listeners.add(player);
+			Bukkit.getScheduler().runTaskLater((Plugin) Main.RPGMobs, (Runnable) new Runnable() {
+				@Override
+				public void run() {
+					if (SettingsMenu.listeners.contains(player)) {
+						player.sendMessage(ChatColor.RED + "Value Change Timed Out");
+					}
+					SettingsMenu.listeners.remove(player);
+					HandlerList.unregisterAll((Listener) instance);
+				}
+			}, 600L);
+		}
+
+		@EventHandler
+		public void onChat(final AsyncPlayerChatEvent event) {
+			Player player = event.getPlayer();
+			if (player == this.player) {
+				try {
+					final double newValue = Double.parseDouble(event.getMessage());
+					this.method.invoke(SettingsMenu.this.config, newValue);
+				} catch (NumberFormatException exception) {
+					this.player.sendMessage(ChatColor.RED + "Unable to change value, please enter an integer");
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e2) {
+					e2.printStackTrace();
+				}
+				this.menu.ShowMenu(player);
+				HandlerList.unregisterAll((Listener) this);
+				SettingsMenu.listeners.remove(this.player);
+				event.setCancelled(true);
+
+			}
+		}
+	}
+
+	protected class IntegerChangeListener implements Listener {
+		final Player player;
+		final Menu menu;
+		final Method method;
+
+		public IntegerChangeListener(final Player player, final Menu menu, final Method method) {
+			this.player = player;
+			this.menu = menu;
+			this.method = method;
+			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
+			final IntegerChangeListener instance = this;
+			if (SettingsMenu.listeners.contains(player)) {
+				SettingsMenu.menuHandler.closeMenu(player);
+			}
+			Bukkit.getScheduler().runTaskLater((Plugin) Main.RPGMobs, (Runnable) new Runnable() {
+				@Override
+				public void run() {
+					if (SettingsMenu.listeners.contains(player)) {
+						player.sendMessage(ChatColor.RED + "Value Change Timed Out");
+					}
+					SettingsMenu.listeners.remove(player);
+					HandlerList.unregisterAll((Listener) instance);
+				}
+			}, 600L);
+		}
+
+		@EventHandler
+		public void onChat(final AsyncPlayerChatEvent event) {
+			if (event.getPlayer() == this.player) {
+				try {
+					final int newValue = Integer.parseInt(event.getMessage());
+					this.method.invoke(SettingsMenu.this.config, newValue);
+				} catch (NumberFormatException exception) {
+					this.player.sendMessage(ChatColor.RED + "Unable to change value, please enter an integer");
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e2) {
+					e2.printStackTrace();
+				}
+				this.menu.ShowMenu(event.getPlayer());
+				HandlerList.unregisterAll((Listener) this);
+				SettingsMenu.listeners.remove(this.player);
+				event.setCancelled(true);
+			}
+		}
+	}
+
+	public class StringChangeListener implements Listener {
+		final Player player;
+		final Menu menu;
+		final Method method;
+
+		public StringChangeListener(final Player player, final Menu menu, final Method method) {
+			this.player = player;
+			this.menu = menu;
+			this.method = method;
+			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
+			final StringChangeListener instance = this;
+			if (SettingsMenu.listeners.contains(player)) {
+				SettingsMenu.menuHandler.closeMenu(player);
+			}
+			Bukkit.getScheduler().runTaskLater((Plugin) Main.RPGMobs, (Runnable) new Runnable() {
+				@Override
+				public void run() {
+					if (SettingsMenu.listeners.contains(player)) {
+						player.sendMessage(ChatColor.RED + "Value Change Timed Out");
+					}
+					SettingsMenu.listeners.remove(player);
+					HandlerList.unregisterAll((Listener) instance);
+				}
+			}, 600L);
+		}
+
+		@EventHandler
+		public void onChat(final AsyncPlayerChatEvent event) {
+			if (event.getPlayer() == this.player) {
+				final String newValue = event.getMessage();
+				try {
+					this.method.invoke(SettingsMenu.this.config, newValue);
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e2) {
+					e2.printStackTrace();
+				}
+				this.menu.ShowMenu(event.getPlayer());
+				HandlerList.unregisterAll((Listener) this);
+				SettingsMenu.listeners.remove(this.player);
+				event.setCancelled(true);
+			}
 		}
 	}
 }
-
-protected class IntegerChangeListener implements Listener {
-	final Player player;
-	final Menu menu;
-	final Method method;
-
-	public IntegerChangeListener(final Player player, final Menu menu, final Method method) {
-		this.player = player;
-		this.menu = menu;
-		this.method = method;
-		Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
-		final IntegerChangeListener instance = this;
-		if (SettingsMenu.listeners.contains(player)) {
-			SettingsMenu.menuHandler.closeMenu(player);
-		}
-		Bukkit.getScheduler().runTaskLater((Plugin) Main.RPGMobs, (Runnable) new Runnable() {
-			@Override
-			public void run() {
-				if (SettingsMenu.listeners.contains(player)) {
-					player.sendMessage(ChatColor.RED + "Value Change Timed Out");
-				}
-				SettingsMenu.listeners.remove(player);
-				HandlerList.unregisterAll((Listener) instance);
-			}
-		}, 600L);
-	}
-
-	@EventHandler
-	public void onChat(final AsyncPlayerChatEvent event) {
-		if (event.getPlayer() == this.player) {
-			try {
-				final int newValue = Integer.parseInt(event.getMessage());
-				this.method.invoke(SettingsMenu.this.config, newValue);
-			} catch (NumberFormatException exception) {
-				this.player.sendMessage(ChatColor.RED + "Unable to change value, please enter an integer");
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e2) {
-				e2.printStackTrace();
-			}
-			this.menu.ShowMenu(event.getPlayer());
-			HandlerList.unregisterAll((Listener) this);
-			SettingsMenu.listeners.remove(this.player);
-			event.setCancelled(true);
-		}
-	}
-}
-
-public class StringChangeListener implements Listener {
-	final Player player;
-	final Menu menu;
-	final Method method;
-
-	public StringChangeListener(final Player player, final Menu menu, final Method method) {
-		this.player = player;
-		this.menu = menu;
-		this.method = method;
-		Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
-		final StringChangeListener instance = this;
-		if (SettingsMenu.listeners.contains(player)) {
-			SettingsMenu.menuHandler.closeMenu(player);
-		}
-		Bukkit.getScheduler().runTaskLater((Plugin) Main.RPGMobs, (Runnable) new Runnable() {
-			@Override
-			public void run() {
-				if (SettingsMenu.listeners.contains(player)) {
-					player.sendMessage(ChatColor.RED + "Value Change Timed Out");
-				}
-				SettingsMenu.listeners.remove(player);
-				HandlerList.unregisterAll((Listener) instance);
-			}
-		}, 600L);
-	}
-
-	@EventHandler
-	public void onChat(final AsyncPlayerChatEvent event) {
-		if (event.getPlayer() == this.player) {
-			final String newValue = event.getMessage();
-			try {
-				this.method.invoke(SettingsMenu.this.config, newValue);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e2) {
-				e2.printStackTrace();
-			}
-			this.menu.ShowMenu(event.getPlayer());
-			HandlerList.unregisterAll((Listener) this);
-			SettingsMenu.listeners.remove(this.player);
-			event.setCancelled(true);
-		}
-	}
-}}
