@@ -675,7 +675,7 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	@Override
 	public void addMoneyMob(final EntityType ent, final double amount) {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
-			this.moneyMobs = (HashMap<EntityType, Double>) this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
+		this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
 		}
 		this.moneyMobs.put(ent, amount);
 		this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),

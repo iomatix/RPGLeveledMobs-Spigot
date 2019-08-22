@@ -127,10 +127,8 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 					(Object) this.MoneyHashMapToStringList(ConfigKey.getDefaultMoney(this.world)));
 			this.config.saveConfig();
 			this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
-
 			final HashMap<String, Object> temp = new HashMap<String, Object>();
 			final HashMap<EntityType, Double> moneyMapHash = new HashMap<EntityType, Double>();
-
 			try {
 				temp.putAll(this.config.getConfig().getConfigurationSection(ConfigKey.MONEY_MOBS.toString())
 						.getValues(false));
@@ -874,6 +872,9 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 
 	@Override
 	public void addMoneyMob(final EntityType ent, final double amount) {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
+		this.inheritedValues.remove(ConfigKey.MONEY_MOBS);		
+		}
 		this.moneyMobs.put(ent, amount);
 		this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),
 				(Object) this.MoneyHashMapToStringList(this.moneyMobs));
