@@ -787,21 +787,45 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 	@Override
 	public double getMoneyMob(EntityType ent) {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
+			try {
 			final HashMap<String, Object> temp = new HashMap<String, Object>();
 			final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
 			Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
-			MemorySection MS = (MemorySection) var;			
+			System.out.println("CHECKPOINT 1");
+			MemorySection MS = (MemorySection) var;	
+			System.out.println("CHECKPOINT 2");
 			temp.putAll(MS.getValues(false));
-			try {
+			System.out.println("CHECKPOINT 3");
+			
 			for (final Map.Entry<String, Object> entry : temp.entrySet()) {
 				hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
 			}
+			System.out.println("CHECKPOINT 4");
 			this.moneyMobs = hashDoubles;
-			}catch (NullPointerException e) {
-				this.moneyMobs.putAll( ConfigKey.getDefaultMoney(this.world));		
+			}catch(Exception e){
+				try {
+					System.out.println("CHECKPOINT 5");
+					final HashMap<String, Object> temp = new HashMap<String, Object>();
+					final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
+					System.out.println("CHECKPOINT 6");
+					Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
+					System.out.println("CHECKPOINT 7");
+					temp.putAll((HashMap<String, Object>) var);
+					System.out.println("CHECKPOINT 8");
+					for (final Map.Entry<String, Object> entry : temp.entrySet()) {
+						hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
+					}
+					System.out.println("CHECKPOINT 9");
+					this.moneyMobs = hashDoubles;
+					
+					
+				}catch (NullPointerException e2) {
+					System.out.println("Exceptoin back to defaults");
+				this.moneyMobs.putAll( ConfigKey.getDefaultMoney(null));	
+				}
 			}
 		}
-		System.out.println("THE values"+this.moneyMobs);
+		
 		return this.moneyMobs.get(ent);
 
 	}

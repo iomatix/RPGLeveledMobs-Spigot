@@ -565,22 +565,40 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	@Override
 	public double getMoneyMob(EntityType ent) {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
+			try {
 			final HashMap<String, Object> temp = new HashMap<String, Object>();
 			final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
 			Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
-			MemorySection MS = (MemorySection) var;			
+			MemorySection MS = (MemorySection) var;	
 			temp.putAll(MS.getValues(false));
-			try {
+			
 			for (final Map.Entry<String, Object> entry : temp.entrySet()) {
 				hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
 			}
+			System.out.println("VER 1 DONE");
 			this.moneyMobs = hashDoubles;
-			}catch (NullPointerException e) {
-				this.moneyMobs.putAll( ConfigKey.getDefaultMoney(null));		
+			}catch(Exception e){
+				try {
+					final HashMap<String, Object> temp = new HashMap<String, Object>();
+					final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
+					Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
+					temp.putAll((HashMap<String, Object>) var);
+					for (final Map.Entry<String, Object> entry : temp.entrySet()) {
+						hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
+					}
+					System.out.println("VER 2 DONE");
+					this.moneyMobs = hashDoubles;
+					
+					
+				}catch (NullPointerException e2) {
+					System.out.println("Exceptoin back to defaults");
+				this.moneyMobs.putAll( ConfigKey.getDefaultMoney(null));	
+				}
 			}
 		}
-		System.out.println("THE values"+this.moneyMobs);
+		
 		return this.moneyMobs.get(ent);
+
 	}
 
 	@Override
