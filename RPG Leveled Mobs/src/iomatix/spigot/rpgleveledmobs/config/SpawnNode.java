@@ -654,7 +654,8 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 			this.moneyMobs = (HashMap<EntityType, Double>) this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
 		}
 		this.moneyMobs.put(ent, amount);
-		this.nodeConfig.set(ConfigKey.MONEY_MOBS.toString(), (Object) this.MoneyHashMapToStringList(this.moneyMobs));
+		this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),
+				(Object) this.MoneyHashMapToStringList(this.moneyMobs));
 		this.worldConfig.saveNodeConfig();
 	}
 

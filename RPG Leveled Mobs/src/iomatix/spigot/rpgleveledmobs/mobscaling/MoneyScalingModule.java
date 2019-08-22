@@ -5,8 +5,10 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -27,8 +29,8 @@ import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 import net.md_5.bungee.api.ChatColor;
 
 public class MoneyScalingModule {
-    private boolean moneyModuleOnline = false; 
-    
+	private boolean moneyModuleOnline = false;
+
 	public MoneyScalingModule() {
 		if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
 			LogsModule.info("Found Vault, Enabling Vault Money Mod.");
@@ -56,14 +58,16 @@ public class MoneyScalingModule {
 				final int moneyMod = event.getEntity().getMetadata(MetaTag.MoneyMod.toString()).get(0).asInt();
 				final double moneyValue = event.getEntity().getMetadata(MetaTag.MoneyDrop.toString()).get(0).asDouble();
 				final Double theMoney = moneyValue + moneyValue * level * moneyMod;
-				final ItemStack moneyItem = new ItemStack(Material.GOLD_NUGGET);
-				ItemMeta meta = moneyItem.getItemMeta();
-				meta.setDisplayName(ChatColor.GOLD + theMoney.toString() + "G.");
-				meta.setLore(Arrays.asList(ChatColor.GOLD + theMoney.toString() + "G",
-						ChatColor.GOLD + "RPGLeveledMobs Dropped money.", "", theMoney.toString()));
-				moneyItem.setItemMeta(meta);
-				event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation().add(0, 1, 1), moneyItem);
-
+				if (theMoney > 0) {
+					final ItemStack moneyItem = new ItemStack(Material.GOLD_NUGGET);
+					ItemMeta meta = moneyItem.getItemMeta();
+					meta.setDisplayName(ChatColor.GOLD + theMoney.toString() + "G.");
+					meta.setLore(Arrays.asList(ChatColor.GOLD + theMoney.toString() + "G",
+							ChatColor.GOLD + "RPGLeveledMobs Dropped money.", "", theMoney.toString()));
+					moneyItem.setItemMeta(meta);
+					event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation().add(0, 1, 1),
+							moneyItem);
+				}
 			}
 		}
 
@@ -78,17 +82,23 @@ public class MoneyScalingModule {
 						ev.setCancelled(true);
 						final double theMoney = Double.parseDouble(iName.replaceAll("G.", ""));
 						economy.depositPlayer((OfflinePlayer) ev.getEntity(), theMoney);
-						Bukkit.getConsoleSender()
-								.sendMessage(ChatColor.DARK_GREEN + "Got " + ChatColor.GOLD + theMoney + "G");
+						
+						Player thePlayer = Bukkit.getPlayerExact(ev.getEntity().getName());
+						try {
+						thePlayer.sendMessage(ChatColor.DARK_GREEN + "Got " + ChatColor.GOLD + theMoney + "G");
+						thePlayer.playSound(ev.getEntity().getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.8f, 0.9f);
+						}catch(Exception e) {
+							Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "Got " + ChatColor.GOLD + theMoney + "G");
+						}
+						
 					}
 				}
 			}
 		}
 	}
-	
-    public boolean isMoneyModuleOnline()
-    {
-    	
-    	return this.moneyModuleOnline;
-    }
+
+	public boolean isMoneyModuleOnline() {
+
+		return this.moneyModuleOnline;
+	}
 }
