@@ -22,6 +22,7 @@ public class NodeSettingsMenu extends WorldSettingsMenu {
 		this.statsMenu = new WorldStatsMenu(this);
 		this.levelingMenu = new WorldLevelingMenu(this);
 		this.spawningMenu = new WorldSpawningMenu(this);
+		this.moneyMenu = new MoneyMenu(this);
 		this.namingMenu = new WorldNamingMenu(this);
 		if (Main.isMoneyModuleOnline()){
 			this.moneyMenu = new MoneyMenu(this);	

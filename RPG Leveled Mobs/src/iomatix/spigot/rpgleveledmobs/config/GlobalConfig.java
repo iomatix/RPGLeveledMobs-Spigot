@@ -619,6 +619,7 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 
 	@Override
 	public double getMoneyMob(EntityType ent) {
+		if(this.getMoneyMobs().get(ent) == null)this.moneyMobs.put(ent,0.0);
 		return this.moneyMobs.get(ent);
 	}
 	

@@ -50,7 +50,7 @@ public enum ConfigKey {
 	MOB_ARENA_WAVES_PER_LEVEL("MobArena.WavesPerLevel", "How many waves before increasing level"),
 	MOB_ARENA_MULTIPLIER("MobArena.Multiplier",
 			"What percentage of experience to drop for mobs killed inside of a mob arena. [ModifiedExperience * multiplier]"),
-	MONEY_MOBS("Money.MoneyMobs", "A list of mobs with currency values assigned which each drops on death."),
+	MONEY_MOBS("Economy.MoneyMobs", "A list of mobs with currency values assigned which each drops on death."),
 	MONEY_MOD_ENABLE("Stats.Money.Enabled","Whether or not to increase the money amount a mob will drop by their level."),
 	MONEY_PER_LEVEL("Stats.Money.Multiplier","The percentage of money increase per level. Formula = [BaseMoney + (BaseMoney * level * multiplier)]"),
 	MONEY_RANDOM("Stats.Money.Random","Value by money drop may increase or decrease.");

@@ -128,7 +128,7 @@ public abstract class RPGLeveledMobsConfig {
 	public HashMap<String, String> MoneyHashMapToStringList(final HashMap<EntityType, Double> entList) {
 		final HashMap<String, String> strList = new HashMap<String, String>();
 		for (Map.Entry<EntityType, Double> entry : entList.entrySet()) {
-			strList.put(entry.getKey().toString(), entry.getValue().toString());
+			System.out.println(strList);
 		}
 		return strList;
 	}

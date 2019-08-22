@@ -564,15 +564,17 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 
 	@Override
 	public double getMoneyMob(EntityType ent) {
-		return getMoneyMobs().get(ent);
+		if(this.getMoneyMobs().get(ent) == null)this.moneyMobs.put(ent,0.0);
+		return this.getMoneyMobs().get(ent);
 	}
 
 	@Override
 	public HashMap<EntityType, Double> getMoneyMobs() {
-		if (this.moneyMobs == null) { this.moneyMobs = new HashMap<EntityType, Double>(); }
+		if (this.moneyMobs == null) {
+			this.moneyMobs = new HashMap<EntityType, Double>();
+		}
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
-	try {
-				
+			try {
 				final HashMap<String, Object> temp = new HashMap<String, Object>();
 				final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
 				Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
@@ -580,7 +582,8 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 				temp.putAll(MS.getValues(false));
 
 				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
-					hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
+					hashDoubles.put(EntityType.valueOf(entry.getKey()),
+							Double.parseDouble(entry.getValue().toString()));
 				}
 				return hashDoubles;
 			} catch (Exception e) {
@@ -594,11 +597,13 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 								Double.parseDouble(entry.getValue().toString()));
 					}
 					return hashDoubles;
-				} catch (NullPointerException e2) {}
-			
+				} catch (NullPointerException e2) {
+					System.out.println("NOTHING last exception");
+				}
 			}
 		}
-		return this.moneyMobs;	
+		System.out.println(this.moneyMobs);
+		return this.moneyMobs;
 	}
 
 	@Override
@@ -678,10 +683,19 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
 			this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
 		}
+		if(this.moneyMobs != null) {
 		this.moneyMobs.put(ent, amount);
-		this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),
+		this.nodeConfig.set(ConfigKey.MONEY_MOBS.toString(),
 				(Object) this.MoneyHashMapToStringList(this.moneyMobs));
 		this.worldConfig.saveNodeConfig();
+		}else
+		{
+			this.getMoneyMobs();
+			this.moneyMobs.put(ent, amount);
+			this.nodeConfig.set(ConfigKey.MONEY_MOBS.toString(),
+					(Object) this.MoneyHashMapToStringList(this.moneyMobs));
+			this.worldConfig.saveNodeConfig();	
+		}
 	}
 
 	@Override

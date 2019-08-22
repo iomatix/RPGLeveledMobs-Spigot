@@ -1951,14 +1951,11 @@ public class SettingsMenu extends Menu {
 					@Override
 					public void onButtonPressed(final MenuInteractionEvent event) {
 						if (event.getClickType() == ClickType.RIGHT) {
-							SettingsMenu.this.config.addMoneyMob(type,
-									SettingsMenu.this.config.getMoneyMob(type) - 1.0);
-							if (SettingsMenu.this.config.getMoneyMob(type) < 0.0)
-								SettingsMenu.this.config.addMoneyMob(type, 0.0);
+							SettingsMenu.this.config.addMoneyMob(type, SettingsMenu.this.config.getMoneyMob(type) - 1.0);
+							if (SettingsMenu.this.config.getMoneyMob(type) < 0.0) SettingsMenu.this.config.addMoneyMob(type, 0.0);
 							MoneyMobsMenu.this.ShowMenu(event.getInteractor());
 						} else {
-							SettingsMenu.this.config.addMoneyMob(type,
-									SettingsMenu.this.config.getMoneyMob(type) + 1.0);
+							SettingsMenu.this.config.addMoneyMob(type, SettingsMenu.this.config.getMoneyMob(type) + 1.0);
 							MoneyMobsMenu.this.ShowMenu(event.getInteractor());
 						}
 					}
