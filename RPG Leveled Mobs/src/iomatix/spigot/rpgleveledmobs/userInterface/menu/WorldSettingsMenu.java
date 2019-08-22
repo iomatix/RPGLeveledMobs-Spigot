@@ -235,37 +235,10 @@ public class WorldSettingsMenu extends SettingsMenu {
 
 		@Override
 		public void generateMenu() {
-			super.generateMenu();			
+			super.generateMenu();
 			final Menu thisMenu = this;
-			if (WorldSettingsMenu.this.config.isValueInherited(ConfigKey.MONEY_MOBS)) {
-				this.menuMap.get(1).setName(this.menuMap.get(1).getName() + ChatColor.WHITE + " (" + special_2
-						+ "Global" + ChatColor.WHITE + ")");
-				this.menuMap.get(1).addLoreLine("");
-				this.menuMap.get(1).addLoreLine(ChatColor.GRAY + "Click to Change.");
-				WorldSettingsMenu.this.ButtonInheritMod(this,this.menuMap.get(1), ConfigKey.MONEY_MOBS, 1);
-				this.menuMap.get(1).setOnPressedListener(new Button.onButtonPressedListener() {
-					@Override
-					public void onButtonPressed(final MenuInteractionEvent event) {
-						WorldSettingsMenu.this.config.setMoneyMobs(WorldSettingsMenu.this.config.getMoneyMobs());
-						new MoneyMobsMenu(thisMenu, 0).ShowMenu(event.getInteractor());
-					}
-				});
-			} else {
-				this.menuMap.get(1).addLoreLine("");
-				this.menuMap.get(1).addLoreLine(ChatColor.GRAY + "Click to Change. Right Click to use Global");
-				WorldSettingsMenu.this.ButtonInheritMod(this,this.menuMap.get(1), ConfigKey.MONEY_MOBS, 1);
-				this.menuMap.get(1).setOnPressedListener(new Button.onButtonPressedListener() {
-					@Override
-					public void onButtonPressed(final MenuInteractionEvent event) {
-						if (event.getClickType() == ClickType.RIGHT) {
-							WorldSettingsMenu.this.config.useInheritedValue(ConfigKey.MONEY_MOBS);
-							WorldMoneyMenu.this.ShowMenu(event.getInteractor());
-						} else {
-							new MoneyMobsMenu(thisMenu, 0).ShowMenu(event.getInteractor());
-						}
-					}
-				});
-			}
+			final Button moneyMob = this.menuMap.get(1);
+			WorldSettingsMenu.this.ButtonInheritMod(this, moneyMob, ConfigKey.MONEY_MOBS, 1);
 		}
 	}
 

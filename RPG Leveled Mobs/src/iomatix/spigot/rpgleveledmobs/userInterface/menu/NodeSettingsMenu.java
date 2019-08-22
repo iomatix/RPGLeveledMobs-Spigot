@@ -12,20 +12,23 @@ import iomatix.spigot.rpgleveledmobs.config.SpawnNode;
 import iomatix.spigot.rpgleveledmobs.Main;
 
 public class NodeSettingsMenu extends WorldSettingsMenu {
+	protected ChatColor main = ChatColor.DARK_GREEN;
+	protected ChatColor sub = ChatColor.GOLD;
+	protected ChatColor special = ChatColor.BLUE;
+	protected ChatColor special_2 = ChatColor.YELLOW;
 
 	final Menu prev;
 
 	public NodeSettingsMenu(final SpawnNode node, final Menu prev) {
 		this.config = node;
 		this.prev = prev;
-		this.name = ChatColor.DARK_GREEN + node.getName() + ChatColor.DARK_GRAY + ": " + ChatColor.GOLD + "Settings";
+		this.name = main + node.getName() + ChatColor.DARK_GRAY + ": " + sub + "Settings";
 		this.statsMenu = new WorldStatsMenu(this);
 		this.levelingMenu = new WorldLevelingMenu(this);
 		this.spawningMenu = new WorldSpawningMenu(this);
-		this.moneyMenu = new MoneyMenu(this);
 		this.namingMenu = new WorldNamingMenu(this);
-		if (Main.isMoneyModuleOnline()){
-			this.moneyMenu = new MoneyMenu(this);	
+		if (Main.isMoneyModuleOnline()) {
+			this.moneyMenu = new MoneyMenu(this);
 		}
 		if (Main.isMobArenaLoaded()) {
 			this.mobArenaMenu = new WorldMobArenaMenu(this);
@@ -55,8 +58,8 @@ public class NodeSettingsMenu extends WorldSettingsMenu {
 	protected void ButtonInheritMod(final Menu menu, final Button button, final ConfigKey key, final int pos) {
 		super.ButtonInheritMod(menu, button, key, pos);
 		if (this.config.isValueInherited(key)) {
-			button.setName(button.getName().substring(0, button.getName().indexOf(40)) + "(" + ChatColor.GREEN
-					+ "World" + ChatColor.WHITE + ")");
+			button.setName(button.getName().substring(0, button.getName().indexOf(40)) + "(" + ChatColor.GREEN + "World"
+					+ ChatColor.WHITE + ")");
 		}
 	}
 }
