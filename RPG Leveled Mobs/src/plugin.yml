@@ -11,4 +11,4 @@ commands:
     description: RPG Level Mobs command prefix.
     usage: /rpgmobs
     permission: rpgleveledmobs.admin
-    permission-message: You don't have the myplugin.mycommand permission.
+    permission-message: You do not have rpgleveledmobs permission to use the RPGLeveledMobs plugin.
