@@ -564,41 +564,44 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 
 	@Override
 	public double getMoneyMob(EntityType ent) {
-		if (!this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
-			return this.moneyMobs.get(ent);
-		}
-		if (!this.moneyMobs.containsKey(ent)) {
-			this.moneyMobs.put(ent, 0.0);
-		}
-		try {
-			final HashMap<String, Object> temp = new HashMap<String, Object>();
-			final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
-			Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
-			MemorySection MS = (MemorySection) var;
-			temp.putAll(MS.getValues(false));
-
-			for (final Map.Entry<String, Object> entry : temp.entrySet()) {
-				hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
-			}
-			System.out.println("CHECKPOINT 4");
-			return hashDoubles.get(ent);
-		} catch (Exception e) {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
 			try {
 				final HashMap<String, Object> temp = new HashMap<String, Object>();
 				final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
 				Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
-				temp.putAll((HashMap<String, Object>) var);
+				MemorySection MS = (MemorySection) var;
+				temp.putAll(MS.getValues(false));
+
 				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
 					hashDoubles.put(EntityType.valueOf(entry.getKey()),
 							Double.parseDouble(entry.getValue().toString()));
 				}
-				System.out.println("CHECKPOINT 9");
+				System.out.println("CHECKPOINT 4");
 				return hashDoubles.get(ent);
-			} catch (NullPointerException e2) {
-				System.out.println("Exceptoin back to defaults");
+			} catch (Exception e) {
+				try {
+					final HashMap<String, Object> temp = new HashMap<String, Object>();
+					final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
+					Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
+					temp.putAll((HashMap<String, Object>) var);
+					for (final Map.Entry<String, Object> entry : temp.entrySet()) {
+						hashDoubles.put(EntityType.valueOf(entry.getKey()),
+								Double.parseDouble(entry.getValue().toString()));
+					}
+					System.out.println("CHECKPOINT 9");
+					return hashDoubles.get(ent);
+				} catch (NullPointerException e2) {
+					System.out.println("Exceptoin back to defaults");
+				}
 			}
+			return 0.0;
+		} else {
+			if (!this.moneyMobs.containsKey(ent)) {
+				this.moneyMobs.put(ent, 0.0);
+				return 0.0;
+			}
+			return this.moneyMobs.get(ent);
 		}
-		return 0.0;
 	}
 
 	@Override
