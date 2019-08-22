@@ -117,7 +117,6 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
 					hashDoubles.put(EntityType.valueOf(entry.getKey()),
 							Double.parseDouble(entry.getValue().toString()));
-					System.out.println(entry.getKey() + " :-: " + entry.getValue().toString());
 				}
 				this.moneyMobs = hashDoubles;
 			} catch (NullPointerException e) {
@@ -138,7 +137,6 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
 					moneyMapHash.put(EntityType.valueOf(entry.getKey()),
 							Double.parseDouble(entry.getValue().toString()));
-					System.out.println(entry.getKey() + " ::: " + entry.getValue().toString());
 				}
 				this.moneyMobs = moneyMapHash;
 			} catch (NullPointerException e) {
@@ -790,6 +788,7 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 	public double getMoneyMob(EntityType ent) {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
 			try {
+				
 				final HashMap<String, Object> temp = new HashMap<String, Object>();
 				final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
 				Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
@@ -797,10 +796,8 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 				temp.putAll(MS.getValues(false));
 
 				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
-					hashDoubles.put(EntityType.valueOf(entry.getKey()),
-							Double.parseDouble(entry.getValue().toString()));
+					hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
 				}
-				System.out.println("CHECKPOINT 4");
 				return hashDoubles.get(ent);
 			} catch (Exception e) {
 				try {
@@ -812,19 +809,16 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 						hashDoubles.put(EntityType.valueOf(entry.getKey()),
 								Double.parseDouble(entry.getValue().toString()));
 					}
-					System.out.println("CHECKPOINT 9");
 					return hashDoubles.get(ent);
-				} catch (NullPointerException e2) {
-					System.out.println("Exceptoin back to defaults");
-				}
+				} catch (NullPointerException e2) {}
 			}
 			return 0.0;
-		} else {
+		}else {
 			if (!this.moneyMobs.containsKey(ent)) {
 				this.moneyMobs.put(ent, 0.0);
 				return 0.0;
 			}
-			return this.moneyMobs.get(ent);
+			return this.moneyMobs.get(ent);	
 		}
 	}
 
