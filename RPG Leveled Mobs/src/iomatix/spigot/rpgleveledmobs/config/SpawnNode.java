@@ -598,11 +598,9 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 					}
 					return hashDoubles;
 				} catch (NullPointerException e2) {
-					System.out.println("NOTHING last exception");
 				}
 			}
 		}
-		System.out.println(this.moneyMobs);
 		return this.moneyMobs;
 	}
 
