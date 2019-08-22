@@ -57,7 +57,7 @@ public class MoneyScalingModule {
 				final int level = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
 				final int moneyMod = event.getEntity().getMetadata(MetaTag.MoneyMod.toString()).get(0).asInt();
 				final double moneyValue = event.getEntity().getMetadata(MetaTag.MoneyDrop.toString()).get(0).asDouble();
-				final Double theMoney = moneyValue + moneyValue * level * moneyMod;
+				final Double theMoney = (double) Math.round((moneyValue + moneyValue * level * moneyMod) * 100) / 100;
 				if (theMoney > 0) {
 					final ItemStack moneyItem = new ItemStack(Material.GOLD_NUGGET);
 					ItemMeta meta = moneyItem.getItemMeta();
@@ -65,7 +65,7 @@ public class MoneyScalingModule {
 					meta.setLore(Arrays.asList(ChatColor.GOLD + theMoney.toString() + "G",
 							ChatColor.GOLD + "RPGLeveledMobs Dropped money.", "", theMoney.toString()));
 					moneyItem.setItemMeta(meta);
-					event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation().add(0, 1, 1),
+					event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation().add(0, 0, 1.35),
 							moneyItem);
 				}
 			}
@@ -73,25 +73,20 @@ public class MoneyScalingModule {
 
 		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 		public void onPickup(final EntityPickupItemEvent ev) {
-
 			if (ev.getEntityType() == EntityType.PLAYER) {
+				try {
 				final Item item = ev.getItem();
-				if (item.getCustomName() != null) {
-					String iName = ChatColor.stripColor(item.getCustomName());
-					if (iName.substring(iName.length() - 2, iName.length()) == "G.") {
+				String iName = ChatColor.stripColor(item.getItemStack().getItemMeta().getDisplayName());
+					if ("G.".equals(iName.substring(iName.length() - 2, iName.length()))) {
 						ev.setCancelled(true);
 						final double theMoney = Double.parseDouble(iName.replaceAll("G.", ""));
 						economy.depositPlayer((OfflinePlayer) ev.getEntity(), theMoney);
-						
 						Player thePlayer = Bukkit.getPlayerExact(ev.getEntity().getName());
-						try {
-						thePlayer.sendMessage(ChatColor.DARK_GREEN + "Got " + ChatColor.GOLD + theMoney + "G");
+						thePlayer.sendMessage(ChatColor.DARK_GREEN + "Received " + ChatColor.GOLD + theMoney + ChatColor.DARK_GREEN + "G");
 						thePlayer.playSound(ev.getEntity().getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.8f, 0.9f);
-						}catch(Exception e) {
-							Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "Got " + ChatColor.GOLD + theMoney + "G");
-						}
-						
+						item.remove();
 					}
+				} catch (Exception e) {
 				}
 			}
 		}

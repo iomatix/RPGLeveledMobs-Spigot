@@ -567,12 +567,19 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
 			final HashMap<String, Object> temp = new HashMap<String, Object>();
 			final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
-			temp.putAll(((MemorySection) this.inheritedValues.get(ConfigKey.MONEY_MOBS)).getValues(false));
+			Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
+			MemorySection MS = (MemorySection) var;			
+			temp.putAll(MS.getValues(false));
+			try {
 			for (final Map.Entry<String, Object> entry : temp.entrySet()) {
 				hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
 			}
 			this.moneyMobs = hashDoubles;
+			}catch (NullPointerException e) {
+				this.moneyMobs.putAll( ConfigKey.getDefaultMoney(null));		
+			}
 		}
+		System.out.println("THE values"+this.moneyMobs);
 		return this.moneyMobs.get(ent);
 	}
 

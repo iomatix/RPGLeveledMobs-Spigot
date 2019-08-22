@@ -112,15 +112,15 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 			final HashMap<String, Object> temp = new HashMap<String, Object>();
 			final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
 			try {
-				temp.putAll(this.config.getConfig().getConfigurationSection(ConfigKey.MONEY_MOBS.toString())
-						.getValues(false));
+				temp.putAll(this.config.getConfig().getConfigurationSection(ConfigKey.MONEY_MOBS.toString()).getValues(false));
 				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
 					hashDoubles.put(EntityType.valueOf(entry.getKey()),
 							Double.parseDouble(entry.getValue().toString()));
+					System.out.println(entry.getKey()+" :-: "+entry.getValue().toString());
 				}
 				this.moneyMobs = hashDoubles;
 			} catch (NullPointerException e) {
-				this.moneyMobs = ConfigKey.getDefaultMoney(this.world);
+			this.moneyMobs = ConfigKey.getDefaultMoney(this.world);
 			}
 		} else {
 			this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),
@@ -132,11 +132,11 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 			final HashMap<EntityType, Double> moneyMapHash = new HashMap<EntityType, Double>();
 
 			try {
-				temp.putAll(this.config.getConfig().getConfigurationSection(ConfigKey.MONEY_MOBS.toString())
-						.getValues(false));
+			temp.putAll(this.config.getConfig().getConfigurationSection(ConfigKey.MONEY_MOBS.toString()).getValues(false));
 				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
 					moneyMapHash.put(EntityType.valueOf(entry.getKey()),
 							Double.parseDouble(entry.getValue().toString()));
+					System.out.println(entry.getKey()+" ::: "+entry.getValue().toString());
 				}
 				this.moneyMobs = moneyMapHash;
 			} catch (NullPointerException e) {
@@ -789,13 +789,19 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
 			final HashMap<String, Object> temp = new HashMap<String, Object>();
 			final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
-			temp.putAll(((MemorySection) this.inheritedValues.get(ConfigKey.MONEY_MOBS)).getValues(false));
+			Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
+			MemorySection MS = (MemorySection) var;			
+			temp.putAll(MS.getValues(false));
+			try {
 			for (final Map.Entry<String, Object> entry : temp.entrySet()) {
 				hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
 			}
 			this.moneyMobs = hashDoubles;
-
+			}catch (NullPointerException e) {
+				this.moneyMobs.putAll( ConfigKey.getDefaultMoney(this.world));		
+			}
 		}
+		System.out.println("THE values"+this.moneyMobs);
 		return this.moneyMobs.get(ent);
 
 	}
