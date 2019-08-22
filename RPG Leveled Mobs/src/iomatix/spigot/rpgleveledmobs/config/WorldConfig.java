@@ -784,8 +784,15 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 
 	@Override
 	public double getMoneyMob(EntityType ent) {
+		return getMoneyMobs().get(ent);
+	}
+
+	@Override
+	public HashMap<EntityType, Double> getMoneyMobs() {
+		if (this.moneyMobs == null) { this.moneyMobs = new HashMap<EntityType, Double>(); }
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
-			try {
+	try {
+				
 				final HashMap<String, Object> temp = new HashMap<String, Object>();
 				final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
 				Object var = this.inheritedValues.get(ConfigKey.MONEY_MOBS);
@@ -793,10 +800,9 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 				temp.putAll(MS.getValues(false));
 
 				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
-					hashDoubles.put(EntityType.valueOf(entry.getKey()),
-							Double.parseDouble(entry.getValue().toString()));
+					hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
 				}
-				return hashDoubles.get(ent);
+				return hashDoubles;
 			} catch (Exception e) {
 				try {
 					final HashMap<String, Object> temp = new HashMap<String, Object>();
@@ -807,26 +813,12 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 						hashDoubles.put(EntityType.valueOf(entry.getKey()),
 								Double.parseDouble(entry.getValue().toString()));
 					}
-					return hashDoubles.get(ent);
-				} catch (NullPointerException e2) {
-				}
+					return hashDoubles;
+				} catch (NullPointerException e2) {}
+			
 			}
-			return 0.0;
-		} else {
-			if (!this.moneyMobs.containsKey(ent)) {
-				this.moneyMobs.put(ent, 0.0);
-				return 0.0;
-			}
-			return this.moneyMobs.get(ent);
 		}
-	}
-
-	@Override
-	public HashMap<EntityType, Double> getMoneyMobs() {
-		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
-			return (HashMap<EntityType, Double>) this.inheritedValues.get(ConfigKey.MONEY_MOBS);
-		}
-		return this.moneyMobs;
+		return this.moneyMobs;	
 	}
 
 	@Override

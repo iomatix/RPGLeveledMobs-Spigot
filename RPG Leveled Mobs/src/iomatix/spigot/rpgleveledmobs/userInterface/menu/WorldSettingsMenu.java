@@ -259,7 +259,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 							WorldSettingsMenu.this.config.useInheritedValue(ConfigKey.MONEY_MOBS);
 							WorldMoneyMenu.this.ShowMenu(event.getInteractor());
 						} else {
-							new MoneyMenu(thisMenu).ShowMenu(event.getInteractor());
+							new MoneyMobsMenu(thisMenu, 0).ShowMenu(event.getInteractor());
 						}
 					}
 				});

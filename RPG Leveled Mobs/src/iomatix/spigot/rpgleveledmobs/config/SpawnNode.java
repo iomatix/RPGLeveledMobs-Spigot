@@ -564,9 +564,14 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 
 	@Override
 	public double getMoneyMob(EntityType ent) {
-		if (this.moneyMobs == null) this.moneyMobs.putAll((HashMap<EntityType, Double>)this.inheritedValues.get(ConfigKey.MONEY_MOBS));
+		return getMoneyMobs().get(ent);
+	}
+
+	@Override
+	public HashMap<EntityType, Double> getMoneyMobs() {
+		if (this.moneyMobs == null) { this.moneyMobs = new HashMap<EntityType, Double>(); }
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
-			try {
+	try {
 				
 				final HashMap<String, Object> temp = new HashMap<String, Object>();
 				final HashMap<EntityType, Double> hashDoubles = new HashMap<EntityType, Double>();
@@ -577,7 +582,7 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
 					hashDoubles.put(EntityType.valueOf(entry.getKey()), Double.parseDouble(entry.getValue().toString()));
 				}
-				return hashDoubles.get(ent);
+				return hashDoubles;
 			} catch (Exception e) {
 				try {
 					final HashMap<String, Object> temp = new HashMap<String, Object>();
@@ -588,26 +593,12 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 						hashDoubles.put(EntityType.valueOf(entry.getKey()),
 								Double.parseDouble(entry.getValue().toString()));
 					}
-					return hashDoubles.get(ent);
+					return hashDoubles;
 				} catch (NullPointerException e2) {}
+			
 			}
-			return 0.0;
-		}else {
-			if (!this.moneyMobs.containsKey(ent)) {
-				this.moneyMobs.put(ent, 0.0);
-				return 0.0;
-			}
-			return this.moneyMobs.get(ent);	
 		}
-	}
-	
-	@Override
-	public HashMap<EntityType,Double> getMoneyMobs() {
-		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS))
-		{
-		return  (HashMap<EntityType,Double>)this.inheritedValues.get(ConfigKey.MONEY_MOBS);
-		}
-		return this.moneyMobs;
+		return this.moneyMobs;	
 	}
 
 	@Override
@@ -685,14 +676,14 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	@Override
 	public void addMoneyMob(final EntityType ent, final double amount) {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
-		this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
+			this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
 		}
 		this.moneyMobs.put(ent, amount);
 		this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),
 				(Object) this.MoneyHashMapToStringList(this.moneyMobs));
 		this.worldConfig.saveNodeConfig();
 	}
-	
+
 	@Override
 	public void removeMoneyMob(final EntityType ent) {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
