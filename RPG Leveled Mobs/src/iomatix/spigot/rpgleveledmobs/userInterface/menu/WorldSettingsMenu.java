@@ -222,12 +222,16 @@ public class WorldSettingsMenu extends SettingsMenu {
 	}
 
 	protected class WorldMoneyMenu extends MoneyMenu {
+		public WorldMoneyMenu(final Menu prev) {
+			super(prev);
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special_2 + "Economy Menu";
+		}
 
 		public WorldMoneyMenu(final SettingsMenu prev) {
 			super(prev);
 			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special_2 + "Economy Menu";
 		}
-
+		
 		@Override
 		public void ShowMenu(final Player player) {
 			super.ShowMenu(player);
@@ -236,10 +240,11 @@ public class WorldSettingsMenu extends SettingsMenu {
 		@Override
 		public void generateMenu() {
 			super.generateMenu();
-			final Menu thisMenu = this;
 			final Button moneyMob = this.menuMap.get(1);
-			WorldSettingsMenu.this.ButtonInheritMod(this, moneyMob, ConfigKey.MONEY_MOBS, 1);
+			WorldSettingsMenu.this.ButtonInheritMod(this, moneyMob, ConfigKey.ALWAYS_SHOW_MOB_NAME, 1);
 		}
+		
+
 	}
 
 	protected class WorldMobArenaMenu extends MobArenaMenu {

@@ -1509,18 +1509,16 @@ public class SettingsMenu extends Menu {
 		private final Menu prev;
 		protected MoneyMobsMenu moneyMobsMenu;
 
-		public MoneyMenu(final SettingsMenu prev) {
-			this.name = main + "Money" + sub + " Settings";
-			this.prev = prev;
-			this.moneyMobsMenu = new MoneyMobsMenu(this);
-			this.generateMenu();
-		}
-
 		public MoneyMenu(final Menu prev) {
 			this.name = main + "Money" + sub + " Settings";
 			this.prev = prev;
 			this.moneyMobsMenu = new MoneyMobsMenu(this);
-			this.generateMenu();
+		}
+
+		public MoneyMenu(final SettingsMenu prev) {
+			this.name = main + "Money" + sub + " Settings";
+			this.prev = prev;
+			this.moneyMobsMenu = new MoneyMobsMenu(this);
 		}
 
 		@Override
@@ -1534,8 +1532,7 @@ public class SettingsMenu extends Menu {
 			enabled.setIcon(Material.WRITABLE_BOOK);
 			enabled.setName(ChatColor.GREEN + "Economy");
 			enabled.addLoreLine(" ");
-			final boolean moneyEnabled = Main.isMoneyModuleOnline();
-			if (moneyEnabled) {
+			if (Main.isMoneyModuleOnline()) {
 				enabled.setIcon(Material.GREEN_WOOL);
 				enabled.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
 				enabled.addLoreLine(ChatColor.DARK_GREEN + "Economy is enabled. Connected to Vault.");
