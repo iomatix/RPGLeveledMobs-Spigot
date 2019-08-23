@@ -78,15 +78,10 @@ public class SpawnModule implements Listener {
 							(Object) node.getDefenseMultiplier()));
 		}	
 		if (node.isMoneyModified()) {
-			
-			double money = node.getMoneyMob(livingEntity.getType());
-			if (node.getMoneyRandomizer() != 0.0) {
-				money = Math.abs(node.getMoneyRandomizer());
-				money = Math.random() * (money - (-money)) + (-money);
-				money = node.getMoneyMob(livingEntity.getType())+money;
-			}
+			livingEntity.setMetadata(MetaTag.MoneyRandomizer.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) Math.abs(node.getMoneyRandomizer())));
 			livingEntity.setMetadata(MetaTag.MoneyDrop.toString(),
-					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) money));
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getMoneyMob(livingEntity.getType())));
 			livingEntity.setMetadata(MetaTag.MoneyMod.toString(),
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getMoneyMultiplier()));
 		}

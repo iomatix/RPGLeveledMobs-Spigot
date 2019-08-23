@@ -57,7 +57,10 @@ public class MoneyScalingModule {
 				final int level = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
 				final int moneyMod = event.getEntity().getMetadata(MetaTag.MoneyMod.toString()).get(0).asInt();
 				final double moneyValue = event.getEntity().getMetadata(MetaTag.MoneyDrop.toString()).get(0).asDouble();
-				final Double theMoney = (double) Math.round((moneyValue + moneyValue * level * moneyMod) * 100) / 100;
+				double moneyRandomizer = Math.abs(event.getEntity().getMetadata(MetaTag.MoneyRandomizer.toString()).get(0).asDouble());
+				if(moneyRandomizer != 0)moneyRandomizer = Math.random() * (moneyRandomizer - (-moneyRandomizer)) + (-moneyRandomizer);
+				final double theRandomizer = moneyRandomizer *level * moneyMod;
+				final Double theMoney = (double) Math.round((moneyValue + moneyValue * level * moneyMod + theRandomizer) * 100) / 100;
 				if (theMoney > 0) {
 					final ItemStack moneyItem = new ItemStack(Material.GOLD_NUGGET);
 					ItemMeta meta = moneyItem.getItemMeta();

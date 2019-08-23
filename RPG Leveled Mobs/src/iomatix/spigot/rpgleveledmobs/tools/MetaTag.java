@@ -4,7 +4,7 @@ public enum MetaTag {
 
 	RPGmob("RPGMob"), Level("RPGMobLevel"), DamageMod("RPGMobDamageMod"), DefenseMod("RPGMobDefenseMod"),
 	ExpMod("RPGMobExpMod"), RecentKill("RPGMobRecentKill"), ArenaExpMod("RPGMobArenaXpMod"),
-	MoneyMod("RPGMobMoneyMod"), MoneyDrop("RPGMobMoneyDrop");
+	MoneyMod("RPGMobMoneyMod"), MoneyDrop("RPGMobMoneyDrop"), MoneyRandomizer("RPGMobMoneyRandomizer");
 
 	private String tag;
 
