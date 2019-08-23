@@ -85,7 +85,7 @@ public class MoneyScalingModule {
 						final double theMoney = Double.parseDouble(iName.replaceAll("G.", ""));
 						economy.depositPlayer((OfflinePlayer) ev.getEntity(), theMoney);
 						Player thePlayer = Bukkit.getPlayerExact(ev.getEntity().getName());
-						thePlayer.sendMessage(ChatColor.DARK_GREEN + "Received " + ChatColor.GOLD + theMoney + ChatColor.DARK_GREEN + "G");
+						thePlayer.sendMessage(ChatColor.DARK_GREEN + "Received " + ChatColor.GOLD + ChatColor.BOLD + theMoney + ChatColor.GOLD + " coins");
 						thePlayer.playSound(ev.getEntity().getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.8f, 0.9f);
 						item.remove();
 					}

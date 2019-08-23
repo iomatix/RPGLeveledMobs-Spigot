@@ -118,9 +118,11 @@ public class ExperienceScalingModule {
 					|| !event.getPlayerData().getPlayer().hasMetadata(MetaTag.RecentKill.toString())) {
 				return;
 			}
+			try {
 			final double expModifier = (double) ((LinkedList) event.getPlayerData().getPlayer()
 					.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).removeFirst();
 			event.setExp((int) Math.floor(event.getExp() + event.getExp() * expModifier));
+			}catch(NullPointerException e) { return;}
 		}
 	}
 }
