@@ -866,6 +866,9 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 
 	@Override
 	public void setMoneyMobs(final HashMap<EntityType, Double> moneyMob) {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_MOBS)) {
+			this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
+		}
 		final HashMap<EntityType, Double> temp = new HashMap<EntityType, Double>();
 		this.moneyMobs = (HashMap<EntityType, Double>) moneyMob.clone();
 		for (Map.Entry<EntityType, Double> type : this.moneyMobs.entrySet()) {
