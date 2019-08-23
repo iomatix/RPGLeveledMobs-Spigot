@@ -28,7 +28,7 @@ public class NodeSettingsMenu extends WorldSettingsMenu {
 		this.spawningMenu = new WorldSpawningMenu(this);
 		this.namingMenu = new WorldNamingMenu(this);
 		if (Main.isMoneyModuleOnline()) {
-			this.moneyMenu = new MoneyMenu(this);
+			this.moneyMenu = new WorldMoneyMenu(this);
 		}
 		if (Main.isMobArenaLoaded()) {
 			this.mobArenaMenu = new WorldMobArenaMenu(this);

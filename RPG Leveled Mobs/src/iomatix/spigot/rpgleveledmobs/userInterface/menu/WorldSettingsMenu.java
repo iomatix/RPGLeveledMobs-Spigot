@@ -222,11 +222,6 @@ public class WorldSettingsMenu extends SettingsMenu {
 	}
 
 	protected class WorldMoneyMenu extends MoneyMenu {
-		public WorldMoneyMenu(final Menu prev) {
-			super(prev);
-			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special_2 + "Economy Menu";
-		}
-
 		public WorldMoneyMenu(final SettingsMenu prev) {
 			super(prev);
 			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special_2 + "Economy Menu";

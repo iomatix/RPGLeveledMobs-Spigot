@@ -1509,12 +1509,6 @@ public class SettingsMenu extends Menu {
 		private final Menu prev;
 		protected MoneyMobsMenu moneyMobsMenu;
 
-		public MoneyMenu(final Menu prev) {
-			this.name = main + "Money" + sub + " Settings";
-			this.prev = prev;
-			this.moneyMobsMenu = new MoneyMobsMenu(this);
-		}
-
 		public MoneyMenu(final SettingsMenu prev) {
 			this.name = main + "Money" + sub + " Settings";
 			this.prev = prev;
@@ -1528,6 +1522,7 @@ public class SettingsMenu extends Menu {
 		}
 
 		public void generateMenu() {
+			this.menuMap.clear();
 			final Button enabled = new Button();
 			enabled.setIcon(Material.WRITABLE_BOOK);
 			enabled.setName(ChatColor.GREEN + "Economy");
@@ -1568,18 +1563,11 @@ public class SettingsMenu extends Menu {
 			});
 			this.menuMap.put(8, previous);
 		}
-
 	}
 
 	public class MoneyMobsMenu extends Menu {
 		private final Menu prev;
 		int page = 0;
-
-		public MoneyMobsMenu(final MoneyMenu moneyMenu) {
-			this.name = main + "Economy Mobs " + ChatColor.DARK_GRAY + "page [" + (1) + "]";
-			this.prev = moneyMenu;
-			this.generateMenu(0);
-		}
 
 		public MoneyMobsMenu(final Menu prev, int page) {
 			this.prev = prev;
@@ -1587,6 +1575,13 @@ public class SettingsMenu extends Menu {
 			this.name = main + "Economy Mobs " + ChatColor.DARK_GRAY + "page [" + (page + 1) + "]";
 			this.generateMenu(page);
 		}
+		
+		public MoneyMobsMenu(final MoneyMenu moneyMenu) {
+			this.name = main + "Economy Mobs " + ChatColor.DARK_GRAY + "page [" + (1) + "]";
+			this.prev = moneyMenu;
+			this.generateMenu(0);
+		}
+
 
 		@Override
 		public void ShowMenu(final Player player) {
