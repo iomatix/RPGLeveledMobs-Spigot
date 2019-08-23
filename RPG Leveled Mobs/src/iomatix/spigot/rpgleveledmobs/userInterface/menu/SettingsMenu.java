@@ -332,7 +332,7 @@ public class SettingsMenu extends Menu {
 			final Button moneyRandomizer = new Button();
 			moneyRandomizer.setIcon(Material.WRITABLE_BOOK);
 			moneyRandomizer.setName(ChatColor.GREEN + "Money Randomizer");
-			moneyRandomizer.addLoreLine(special_2 + "Formula: output +/- randomizer + randomizer * (level+mod)/2");
+			moneyRandomizer.addLoreLine(special_2 + "Formula: output +/- randomizer + randomizer * (level*mod)/2");
 			moneyRandomizer.addLoreLine(" ");
 			final double moneyRand = SettingsMenu.this.config.getMoneyRandomizer();
 			moneyRandomizer.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + moneyRand);
