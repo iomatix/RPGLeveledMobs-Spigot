@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -75,19 +75,21 @@ public class MoneyScalingModule {
 		}
 
 		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-		public void onPickup(final EntityPickupItemEvent ev) {
-			if (ev.getEntityType() == EntityType.PLAYER) {
+		public void PlayerInteractEvent(final PlayerInteractEvent ev) {
+			if (ev.hasItem()) {
 				try {
-				final Item item = ev.getItem();
-				String iName = ChatColor.stripColor(item.getItemStack().getItemMeta().getDisplayName());
+				ItemStack item = ev.getItem();
+				String iName = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 					if ("G.".equals(iName.substring(iName.length() - 2, iName.length()))) {
-						ev.setCancelled(true);
-						final double theMoney = Double.parseDouble(iName.replaceAll("G.", ""));
-						economy.depositPlayer((OfflinePlayer) ev.getEntity(), theMoney);
-						Player thePlayer = Bukkit.getPlayerExact(ev.getEntity().getName());
+						
+						final double theMoney = Double.parseDouble(iName.replaceAll("G.", ""))*item.getAmount();
+						item.setAmount(0);
+						item.setData(null);
+						economy.depositPlayer((OfflinePlayer)ev.getPlayer(), theMoney);
+						Player thePlayer = Bukkit.getPlayerExact(ev.getPlayer().getName());
 						thePlayer.sendMessage(ChatColor.DARK_GREEN + "You have found " + ChatColor.GOLD + ChatColor.BOLD + theMoney + ChatColor.GOLD + ChatColor.BOLD + " coins");
-						thePlayer.playSound(ev.getEntity().getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.8f, 0.9f);
-						item.remove();
+						thePlayer.playSound(ev.getPlayer().getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.8f, 0.9f);
+						
 					}
 				} catch (Exception e) {
 				}
