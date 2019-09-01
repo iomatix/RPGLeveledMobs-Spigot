@@ -155,17 +155,7 @@ public class SpawnModule implements Listener {
 			livingEntity.setHealth(newMaxHealth);
 		}
 
-		String startName;
-		try {
-			if (!livingEntity.hasMetadata(MetaTag.CustomName.toString()))
-				livingEntity.setMetadata(MetaTag.CustomName.toString(),
-						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
-								(Object) livingEntity.getCustomName()));
-			startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
-		} catch (NullPointerException e) {
-			startName = null;
-		}
-
+		String startName = livingEntity.getCustomName();
 		if (startName == null || startName.toLowerCase().equals("null")) {
 			if (node.getMobNameLanguage() != Language.ENGLISH) {
 				if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
@@ -178,6 +168,11 @@ public class SpawnModule implements Listener {
 				startName = livingEntity.getName();
 			}
 		}
+			if (!livingEntity.hasMetadata(MetaTag.CustomName.toString()))
+				livingEntity.setMetadata(MetaTag.CustomName.toString(),
+						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+								(Object) startName));
+		
 		if (!slime && node.isPrefixEnabled()) {
 			startName = ChatColor.translateAlternateColorCodes('&',
 					node.getPrefixFormat().replace("#", level + "") + " " + ChatColor.WHITE + startName);
@@ -211,19 +206,18 @@ public class SpawnModule implements Listener {
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onMobTame(final EntityTameEvent event) {
-		final LivingEntity tamedEntity = event.getEntity();
+		final LivingEntity tamedEntity = event.getEntity();	
 		
-		
-		
-		if (!tamedEntity.hasMetadata(MetaTag.Level.toString()) ||!tamedEntity.hasMetadata(MetaTag.BaseHealth.toString())  ) {ResetCommand.LoadTheMetaData(tamedEntity);}
+		if (!tamedEntity.hasMetadata(MetaTag.Level.toString()) ||!tamedEntity.hasMetadata(MetaTag.BaseHealth.toString())  ) {
+			ResetCommand.LoadTheMetaData(tamedEntity);
+			}
 		else {
 		final SpawnNode node = cfgModule.getConfigModule().getSpawnNode(tamedEntity.getLocation());
 		if (node == null) {
 			return;
 		}
-		if (node.isHealthModified()) {
-			final double startMaxHealth = tamedEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble();
-			final double newMaxHealth = startMaxHealth + startMaxHealth * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble() * node.getHealthMultiplier();
+		if (node.isHealthModified() && node.canLevel(tamedEntity.getType()) && !node.isBlocked(tamedEntity.getType())) {
+			final double newMaxHealth = 57 + 57 * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble() * node.getHealthMultiplier();
 			tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
 			tamedEntity.setHealth(newMaxHealth);
 		}

@@ -150,10 +150,9 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 		}
 		String startName;
 
-		if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))
-			startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
-		else
-			startName = null;
+		if (livingEntity.hasMetadata(MetaTag.CustomName.toString())) startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
+		else startName = livingEntity.getCustomName();
+		
 		if (startName == null || startName.toLowerCase().equals("null")) {
 			if (node.getMobNameLanguage() != Language.ENGLISH) {
 				if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
