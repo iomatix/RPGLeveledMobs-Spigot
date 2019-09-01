@@ -19,6 +19,7 @@ import iomatix.spigot.rpgleveledmobs.Main;
 import iomatix.spigot.rpgleveledmobs.cmds.core.ClearCommand;
 import iomatix.spigot.rpgleveledmobs.cmds.core.NearestSpawnCommand;
 import iomatix.spigot.rpgleveledmobs.cmds.core.RefreshCommand;
+import iomatix.spigot.rpgleveledmobs.cmds.core.ResetCommand;
 import iomatix.spigot.rpgleveledmobs.cmds.core.SettingsCommand;
 import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
 
@@ -40,6 +41,7 @@ public class cmdModule implements CommandExecutor, Listener {
 		this.registerCommand(new NearestSpawnCommand());
 		this.registerCommand(new ClearCommand());
 		this.registerCommand(new RefreshCommand());
+		this.registerCommand(new ResetCommand());
 	}
 
 	public boolean onCommand(final CommandSender commandSender, final Command command, final String label,
