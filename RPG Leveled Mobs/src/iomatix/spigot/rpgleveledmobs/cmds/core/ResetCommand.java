@@ -121,12 +121,19 @@ public class ResetCommand implements RPGlvlmobsCommand {
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getMoneyMultiplier()));
 		}
 		if (node.isHealthModified()) {
-			final double startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-			final double newMaxHealth = startMaxHealth + startMaxHealth * level * node.getHealthMultiplier();
-			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
-			livingEntity.setHealth(newMaxHealth);
+			double startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+			if(startMaxHealth > 80) {
+				if(entityType.equals(EntityType.ENDER_DRAGON) || entityType.equals(EntityType.WITHER))livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300.0);
+				else livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(80.0);
+				
+				startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+				
+				final double newMaxHealth = startMaxHealth + startMaxHealth * level * node.getHealthMultiplier();
+				livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
+				livingEntity.setHealth(newMaxHealth);
+			}
 		}
-		String startName = livingEntity.getCustomName();
+		String startName = null;
 		if (startName == null || startName.toLowerCase().equals("null")) {
 			if (node.getMobNameLanguage() != Language.ENGLISH) {
 				if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
@@ -172,7 +179,7 @@ public class ResetCommand implements RPGlvlmobsCommand {
 				++refreshed;
 			}
 		}
-		sender.sendMessage(ChatColor.GOLD + LogsModule.PLUGIN_TITLE + ChatColor.GRAY + " force refreshed " + ChatColor.GOLD
+		sender.sendMessage(ChatColor.GOLD + LogsModule.PLUGIN_TITLE + ChatColor.GRAY + " force reseted " + ChatColor.GOLD
 				+ refreshed + ChatColor.GRAY + " mobs in " + ChatColor.AQUA + worlds + ChatColor.GRAY + " worlds.");
 		return true;
 
@@ -190,7 +197,7 @@ public class ResetCommand implements RPGlvlmobsCommand {
 
 	@Override
 	public String getDescription() {
-		return "Reset all existing mobs to the current nodes settings.";
+		return "Reset all existing mobs to the current nodes settings. (!!! UNSTABLE !!!)";
 	}
 
 	@Override

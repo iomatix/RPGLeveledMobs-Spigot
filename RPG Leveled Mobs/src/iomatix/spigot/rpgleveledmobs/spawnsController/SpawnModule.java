@@ -20,6 +20,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import iomatix.spigot.rpgleveledmobs.Main;
+import iomatix.spigot.rpgleveledmobs.cmds.core.RefreshCommand;
 import iomatix.spigot.rpgleveledmobs.config.SpawnNode;
 import iomatix.spigot.rpgleveledmobs.config.cfgModule;
 import iomatix.spigot.rpgleveledmobs.tools.Language;
@@ -192,7 +193,11 @@ public class SpawnModule implements Listener {
 	
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onMobTame(final EntityTameEvent event) {
-		LoadTheMetaData(event.getEntity());
+		final LivingEntity tamedEntity = event.getEntity();
+		if (tamedEntity.hasMetadata(MetaTag.RPGmob.toString())) {
+			tamedEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
+		}
+		RefreshCommand.LoadTheMetaData(tamedEntity);
 	}
 
 }
