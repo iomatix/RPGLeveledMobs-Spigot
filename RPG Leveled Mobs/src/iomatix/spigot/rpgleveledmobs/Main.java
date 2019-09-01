@@ -102,11 +102,11 @@ public class Main extends JavaPlugin {
 	public static boolean isMobArenaLoaded() {
 		return Bukkit.getPluginManager().isPluginEnabled("MobArena");
 	}
-	
+
 	public static boolean isMoneyModuleOnline() {
 		return Bukkit.getPluginManager().isPluginEnabled("Vault");
 	}
-	
+
 	public static boolean isLeveledMob(final Entity ent) {
 		return ent.hasMetadata(MetaTag.RPGmob.toString()) && ent.hasMetadata(MetaTag.Level.toString());
 	}

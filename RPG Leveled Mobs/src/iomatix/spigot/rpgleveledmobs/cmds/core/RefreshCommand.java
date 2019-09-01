@@ -138,7 +138,6 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getMoneyMultiplier()));
 		}
 		if (node.isHealthModified()) {
-			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue());
 			if (!livingEntity.hasMetadata(MetaTag.BaseHealth.toString()))
 				livingEntity.setMetadata(MetaTag.BaseHealth.toString(),
 						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
@@ -151,9 +150,11 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 		}
 		String startName;
 
-		if (livingEntity.hasMetadata(MetaTag.CustomName.toString())) startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
-		else startName = livingEntity.getCustomName();
-		
+		if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))
+			startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
+		else
+			startName = livingEntity.getCustomName();
+
 		if (startName == null || startName.toLowerCase().equals("null")) {
 			if (node.getMobNameLanguage() != Language.ENGLISH) {
 				if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {

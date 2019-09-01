@@ -168,11 +168,10 @@ public class SpawnModule implements Listener {
 				startName = livingEntity.getName();
 			}
 		}
-			if (!livingEntity.hasMetadata(MetaTag.CustomName.toString()))
-				livingEntity.setMetadata(MetaTag.CustomName.toString(),
-						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
-								(Object) startName));
-		
+		if (!livingEntity.hasMetadata(MetaTag.CustomName.toString()))
+			livingEntity.setMetadata(MetaTag.CustomName.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) startName));
+
 		if (!slime && node.isPrefixEnabled()) {
 			startName = ChatColor.translateAlternateColorCodes('&',
 					node.getPrefixFormat().replace("#", level + "") + " " + ChatColor.WHITE + startName);
@@ -206,29 +205,29 @@ public class SpawnModule implements Listener {
 
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onMobTame(final EntityTameEvent event) {
-		final LivingEntity tamedEntity = event.getEntity();	
+		final LivingEntity tamedEntity = event.getEntity();
 		EntityType entityType = tamedEntity.getType();
 		Location location = tamedEntity.getLocation();
-		if (!tamedEntity.hasMetadata(MetaTag.Level.toString()) ||!tamedEntity.hasMetadata(MetaTag.BaseHealth.toString())  ) {
+		if (!tamedEntity.hasMetadata(MetaTag.Level.toString())
+				|| !tamedEntity.hasMetadata(MetaTag.BaseHealth.toString())) {
 			ResetCommand.LoadTheMetaData(tamedEntity);
+		} else {
+			final SpawnNode node = cfgModule.getConfigModule().getSpawnNode(location);
+			if (node == null) {
+				return;
 			}
-		else {
-		final SpawnNode node = cfgModule.getConfigModule().getSpawnNode(location);
-		if (node == null) {
-			return;
+			if (node.isHealthModified() && node.canLevel(entityType) && !node.isBlocked(entityType)) {
+				Bukkit.getScheduler().scheduleSyncDelayedTask((Plugin) Main.RPGMobs, new Runnable() {
+					@Override
+					public void run() {
+						final Double newMaxHealth = 65
+								+ 111 * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble()
+										* node.getHealthMultiplier();
+						tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
+						tamedEntity.setHealth(newMaxHealth);
+					}
+				}, 15L);
+			}
 		}
-		if (node.isHealthModified() && node.canLevel(entityType) && !node.isBlocked(entityType)) {
-			tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue());
-			
-			Bukkit.getScheduler().scheduleSyncDelayedTask((Plugin) Main.RPGMobs, new Runnable() {
-				@Override
-			    public void run() {
-					final Double newMaxHealth = 65 + 111 * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble() * node.getHealthMultiplier();
-					tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
-					tamedEntity.setHealth(newMaxHealth);          
-			    }
-			}, 15L);
-		}	
-	}
 	}
 }
