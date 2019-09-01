@@ -212,10 +212,23 @@ public class SpawnModule implements Listener {
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onMobTame(final EntityTameEvent event) {
 		final LivingEntity tamedEntity = event.getEntity();
-		if (tamedEntity.hasMetadata(MetaTag.RPGmob.toString())) {
-			tamedEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
+		
+		
+		
+		if (!tamedEntity.hasMetadata(MetaTag.Level.toString()) ||!tamedEntity.hasMetadata(MetaTag.BaseHealth.toString())  ) {ResetCommand.LoadTheMetaData(tamedEntity);}
+		else {
+		final SpawnNode node = cfgModule.getConfigModule().getSpawnNode(tamedEntity.getLocation());
+		if (node == null) {
+			return;
 		}
-		ResetCommand.LoadTheMetaData(tamedEntity);
+		if (node.isHealthModified()) {
+			final double startMaxHealth = tamedEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble();
+			final double newMaxHealth = startMaxHealth + startMaxHealth * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble() * node.getHealthMultiplier();
+			tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
+			tamedEntity.setHealth(newMaxHealth);
+		}
+		
 	}
-
+	
+	}
 }
