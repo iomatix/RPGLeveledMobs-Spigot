@@ -28,11 +28,11 @@ import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 
 public class ResetCommand implements RPGlvlmobsCommand {
 
-	public void LoadTheMetaData(LivingEntity livingEntity) {
+	public static void LoadTheMetaData(LivingEntity livingEntity) {
 		LoadMobMetaData(livingEntity, CreatureSpawnEvent.SpawnReason.DEFAULT);
 	}
 
-	public void LoadMobMetaData(LivingEntity livingEntity, CreatureSpawnEvent.SpawnReason SpawnReason) {
+	public static void LoadMobMetaData(LivingEntity livingEntity, CreatureSpawnEvent.SpawnReason SpawnReason) {
 		EntityType entityType = livingEntity.getType();
 		Location location = livingEntity.getLocation();
 		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString())) {
@@ -121,34 +121,41 @@ public class ResetCommand implements RPGlvlmobsCommand {
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getMoneyMultiplier()));
 		}
 		if (node.isHealthModified()) {
-			double startMaxHealth = 0;
-			if (livingEntity.hasMetadata(MetaTag.BaseHealth.toString()))
-				startMaxHealth = livingEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble();
-			else
-				startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+			if (!livingEntity.hasMetadata(MetaTag.BaseHealth.toString()))
+				livingEntity.setMetadata(MetaTag.BaseHealth.toString(),
+						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+								(Object) livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()));
+			final double startMaxHealth = livingEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble();
 
 			final double newMaxHealth = startMaxHealth + startMaxHealth * level * node.getHealthMultiplier();
 			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
 			livingEntity.setHealth(newMaxHealth);
 
 		}
-		String startName = null;
+
+		String startName;
+
 		if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))
 			startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
-		else {
-			if (startName == null || startName.toLowerCase().equals("null")) {
-				if (node.getMobNameLanguage() != Language.ENGLISH) {
-					if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
-						startName = ChatColor.WHITE
-								+ MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType());
-					} else {
-						startName = "";
-					}
+		else
+			startName = null;
+
+		if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))
+			startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
+
+		if (startName == null || startName.toLowerCase().equals("null")) {
+			if (node.getMobNameLanguage() != Language.ENGLISH) {
+				if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
+					startName = ChatColor.WHITE
+							+ MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType());
 				} else {
-					startName = livingEntity.getName();
+					startName = "";
 				}
+			} else {
+				startName = livingEntity.getName();
 			}
 		}
+
 		if (!slime && node.isPrefixEnabled()) {
 			startName = ChatColor.translateAlternateColorCodes('&',
 					node.getPrefixFormat().replace("#", level + "") + " " + ChatColor.WHITE + startName);

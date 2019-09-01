@@ -21,6 +21,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import iomatix.spigot.rpgleveledmobs.Main;
 import iomatix.spigot.rpgleveledmobs.cmds.core.RefreshCommand;
+import iomatix.spigot.rpgleveledmobs.cmds.core.ResetCommand;
 import iomatix.spigot.rpgleveledmobs.config.SpawnNode;
 import iomatix.spigot.rpgleveledmobs.config.cfgModule;
 import iomatix.spigot.rpgleveledmobs.tools.Language;
@@ -47,14 +48,15 @@ public class SpawnModule implements Listener {
 				return;
 			}
 		} else {
-			if (livingEntity.hasMetadata(MetaTag.RPGmob.toString())) livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
+			if (livingEntity.hasMetadata(MetaTag.RPGmob.toString()))
+				livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
 			LoadMobMetaData(livingEntity, CreatureSpawnEvent.SpawnReason.DEFAULT);
 		}
 	}
 
 	public void LoadMobMetaData(LivingEntity livingEntity, CreatureSpawnEvent.SpawnReason SpawnReason) {
-		EntityType entityType = livingEntity.getType();
-		Location location = livingEntity.getLocation();
+		final EntityType entityType = livingEntity.getType();
+		final Location location = livingEntity.getLocation();
 		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString())) {
 			return;
 		}
@@ -141,21 +143,29 @@ public class SpawnModule implements Listener {
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getMoneyMultiplier()));
 		}
 		if (node.isHealthModified()) {
-			double startMaxHealth = 0;
-			if (livingEntity.hasMetadata(MetaTag.BaseHealth.toString()))  startMaxHealth = livingEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble();
-			else startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-			
-			livingEntity.setMetadata(MetaTag.BaseHealth.toString(),
-					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) startMaxHealth));
+
+			if (!livingEntity.hasMetadata(MetaTag.BaseHealth.toString()))
+				livingEntity.setMetadata(MetaTag.BaseHealth.toString(),
+						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+								(Object) livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()));
+			final double startMaxHealth = livingEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble();
+
 			final double newMaxHealth = startMaxHealth + startMaxHealth * level * node.getHealthMultiplier();
 			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
 			livingEntity.setHealth(newMaxHealth);
 		}
-		
-		String startName = null;
-		if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))  startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
-		else startName = livingEntity.getCustomName();
-		
+
+		String startName;
+		try {
+			if (!livingEntity.hasMetadata(MetaTag.CustomName.toString()))
+				livingEntity.setMetadata(MetaTag.CustomName.toString(),
+						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+								(Object) livingEntity.getCustomName()));
+			startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
+		} catch (NullPointerException e) {
+			startName = null;
+		}
+
 		if (startName == null || startName.toLowerCase().equals("null")) {
 			if (node.getMobNameLanguage() != Language.ENGLISH) {
 				if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
@@ -198,14 +208,14 @@ public class SpawnModule implements Listener {
 		LoadMobMetaData(event.getEntity(), event.getSpawnReason());
 
 	}
-	
+
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onMobTame(final EntityTameEvent event) {
 		final LivingEntity tamedEntity = event.getEntity();
 		if (tamedEntity.hasMetadata(MetaTag.RPGmob.toString())) {
 			tamedEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
 		}
-		RefreshCommand.LoadTheMetaData(tamedEntity);
+		ResetCommand.LoadTheMetaData(tamedEntity);
 	}
 
 }
