@@ -2,8 +2,9 @@ package iomatix.spigot.rpgleveledmobs.spawnsController;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,33 +25,31 @@ public class SpawnModule implements Listener {
 	public SpawnModule() {
 		Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
 	}
-
-	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-	public void onMobSpawn(final CreatureSpawnEvent event) {
-
-		final LivingEntity livingEntity = event.getEntity();
-		if (event.getEntity().hasMetadata(MetaTag.RPGmob.toString())) {
+   
+	public void LoadMobMetaData(LivingEntity livingEntity, CreatureSpawnEvent.SpawnReason SpawnReason, Location location, EntityType entityType ) {
+		
+		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString())) {
 			return;
 		}
 		boolean slime = false;
-		if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SLIME_SPLIT) {
+		if (SpawnReason == CreatureSpawnEvent.SpawnReason.SLIME_SPLIT) {
 			slime = true;
 		}
-		final SpawnNode node = cfgModule.getConfigModule().getSpawnNode(event.getLocation());
+		final SpawnNode node = cfgModule.getConfigModule().getSpawnNode(location);
 		if (node == null) {
 			return;
 		}
-		if (!node.isLeveledSpawners() && event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER) {
+		if (!node.isLeveledSpawners() && SpawnReason == CreatureSpawnEvent.SpawnReason.SPAWNER) {
 			return;
 		}
-		if (node.isBlocked(event.getEntityType())) {
+		if (node.isBlocked(entityType)) {
 			return;
 		}
-		if (!node.canLevel(event.getEntityType())) {
+		if (!node.canLevel(entityType)) {
 			return;
 		}
 		if (node.isExperienceModified()) {
-			if (node.isArenaLocation(event.getLocation())) {
+			if (node.isArenaLocation(location)) {
 				if (!node.isMobArenaLeveled()) {
 					return;
 				}
@@ -63,7 +62,7 @@ public class SpawnModule implements Listener {
 								(Object) node.getExperienceMultiplier()));
 			}
 		}
-		final int level = node.getLevel(event.getLocation());
+		final int level = node.getLevel(location);
 		livingEntity.setMetadata(MetaTag.RPGmob.toString(),
 				(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) true));
 		livingEntity.setMetadata(MetaTag.Level.toString(),
@@ -118,5 +117,13 @@ public class SpawnModule implements Listener {
 		}
 		livingEntity.setCustomNameVisible(node.isAlwaysShowMobName());
 	}
+	
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+	public void onMobSpawn(final CreatureSpawnEvent event) {
+       
+		LoadMobMetaData(event.getEntity(),event.getSpawnReason(),event.getLocation(),event.getEntityType());
+
+	}
+	
 
 }
