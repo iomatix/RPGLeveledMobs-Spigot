@@ -87,8 +87,7 @@ public class ExperienceScalingModule {
 		@EventHandler(priority = EventPriority.HIGHEST)
 		public void onEntityDeath(final EntityDeathEvent event) {
 			if (SkillAPI.getSettings().isUseOrbs()) {
-				event.setDroppedExp(
-						ExperienceScalingModule.this.handleOrbExp((Entity) event.getEntity(), event.getDroppedExp()));
+				event.setDroppedExp(ExperienceScalingModule.this.handleOrbExp((Entity) event.getEntity(), event.getDroppedExp()));
 			} else if (event.getEntity().hasMetadata(MetaTag.RPGmob.toString())
 					&& event.getEntity().hasMetadata(MetaTag.Level.toString())
 					&& event.getEntity().hasMetadata(MetaTag.ExpMod.toString())) {
@@ -114,15 +113,14 @@ public class ExperienceScalingModule {
 
 		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 		public void onPlayerGainExp(final PlayerExperienceGainEvent event) {
-			if (event.getSource() != ExpSource.MOB
-					|| !event.getPlayerData().getPlayer().hasMetadata(MetaTag.RecentKill.toString())) {
+			final Player killer = event.getPlayerData().getPlayer();
+			if (event.getSource() != ExpSource.MOB || !killer.hasMetadata(MetaTag.RecentKill.toString())) {
 				return;
 			}
 			try {
-			final double expModifier = (double) ((LinkedList) event.getPlayerData().getPlayer()
-					.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).removeFirst();
-			event.setExp((int) Math.floor(event.getExp() + event.getExp() * expModifier));
-			}catch(NullPointerException e) { return;}
+			final double expModifier = (double) ((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).removeFirst();
+			if (expModifier != 0) event.setExp((int) Math.floor(event.getExp() + event.getExp() * expModifier));
+			}catch(Exception e) { return;}
 		}
 	}
 }
