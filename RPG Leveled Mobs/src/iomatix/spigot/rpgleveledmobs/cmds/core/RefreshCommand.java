@@ -138,28 +138,31 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getMoneyMultiplier()));
 		}
 		if (node.isHealthModified()) {
-			double startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-			if(startMaxHealth > 80) {
-				if(entityType.equals(EntityType.ENDER_DRAGON) || entityType.equals(EntityType.WITHER))livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300.0);
-				else livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(80.0);
-				
+			double startMaxHealth = 0;
+			if (livingEntity.hasMetadata(MetaTag.BaseHealth.toString()))
+				startMaxHealth = livingEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble();
+			else
 				startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-			}
+
 			final double newMaxHealth = startMaxHealth + startMaxHealth * level * node.getHealthMultiplier();
 			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
 			livingEntity.setHealth(newMaxHealth);
 		}
 		String startName = null;
-		if (startName == null || startName.toLowerCase().equals("null")) {
-			if (node.getMobNameLanguage() != Language.ENGLISH) {
-				if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
-					startName = ChatColor.WHITE
-							+ MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType());
+		if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))
+			startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
+		else {
+			if (startName == null || startName.toLowerCase().equals("null")) {
+				if (node.getMobNameLanguage() != Language.ENGLISH) {
+					if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
+						startName = ChatColor.WHITE
+								+ MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType());
+					} else {
+						startName = "";
+					}
 				} else {
-					startName = "";
+					startName = livingEntity.getName();
 				}
-			} else {
-				startName = livingEntity.getName();
 			}
 		}
 		if (!slime && node.isPrefixEnabled()) {
@@ -178,8 +181,6 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 
 	}
 
-	
-	
 	public static boolean execute() {
 		int refreshed = 0;
 		int worlds = 0;
@@ -195,12 +196,14 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 				++refreshed;
 			}
 		}
-		Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + LogsModule.PLUGIN_TITLE + ChatColor.GRAY + " refreshed " + ChatColor.GOLD
-				+ refreshed + ChatColor.GRAY + " mobs in " + ChatColor.AQUA + worlds + ChatColor.GRAY + " worlds.");
+		Bukkit.getConsoleSender()
+				.sendMessage(ChatColor.GOLD + LogsModule.PLUGIN_TITLE + ChatColor.GRAY + " refreshed " + ChatColor.GOLD
+						+ refreshed + ChatColor.GRAY + " mobs in " + ChatColor.AQUA + worlds + ChatColor.GRAY
+						+ " worlds.");
 		return true;
 
 	}
-	
+
 	@Override
 	public boolean execute(final CommandSender sender, final ArrayList<String> args) {
 		int refreshed = 0;

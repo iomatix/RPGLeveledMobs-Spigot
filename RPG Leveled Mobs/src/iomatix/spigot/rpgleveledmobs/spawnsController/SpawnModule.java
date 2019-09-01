@@ -47,8 +47,7 @@ public class SpawnModule implements Listener {
 				return;
 			}
 		} else {
-			if (livingEntity.hasMetadata(MetaTag.RPGmob.toString()))
-				livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
+			if (livingEntity.hasMetadata(MetaTag.RPGmob.toString())) livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
 			LoadMobMetaData(livingEntity, CreatureSpawnEvent.SpawnReason.DEFAULT);
 		}
 	}
@@ -142,12 +141,21 @@ public class SpawnModule implements Listener {
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getMoneyMultiplier()));
 		}
 		if (node.isHealthModified()) {
-			final double startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+			double startMaxHealth = 0;
+			if (livingEntity.hasMetadata(MetaTag.BaseHealth.toString()))  startMaxHealth = livingEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble();
+			else startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+			
+			livingEntity.setMetadata(MetaTag.BaseHealth.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) startMaxHealth));
 			final double newMaxHealth = startMaxHealth + startMaxHealth * level * node.getHealthMultiplier();
 			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
 			livingEntity.setHealth(newMaxHealth);
 		}
-		String startName = livingEntity.getCustomName();
+		
+		String startName = null;
+		if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))  startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
+		else startName = livingEntity.getCustomName();
+		
 		if (startName == null || startName.toLowerCase().equals("null")) {
 			if (node.getMobNameLanguage() != Language.ENGLISH) {
 				if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
