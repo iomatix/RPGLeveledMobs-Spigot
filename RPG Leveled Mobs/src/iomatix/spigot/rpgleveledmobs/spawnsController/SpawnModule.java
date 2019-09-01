@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -187,6 +188,11 @@ public class SpawnModule implements Listener {
 
 		LoadMobMetaData(event.getEntity(), event.getSpawnReason());
 
+	}
+	
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+	public void onMobTame(final EntityTameEvent event) {
+		LoadMobMetaData(event.getEntity(), CreatureSpawnEvent.SpawnReason.DEFAULT);
 	}
 
 }
