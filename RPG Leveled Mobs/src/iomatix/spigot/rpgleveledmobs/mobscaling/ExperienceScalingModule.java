@@ -3,15 +3,19 @@ package iomatix.spigot.rpgleveledmobs.mobscaling;
 import java.util.LinkedList;
 
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Tameable;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.event.Listener;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.Bukkit;
 
 import com.sucy.skill.api.enums.ExpSource;
@@ -91,7 +95,24 @@ public class ExperienceScalingModule {
 			} else if (event.getEntity().hasMetadata(MetaTag.RPGmob.toString())
 					&& event.getEntity().hasMetadata(MetaTag.Level.toString())
 					&& event.getEntity().hasMetadata(MetaTag.ExpMod.toString())) {
-				final Player killer = event.getEntity().getKiller();
+				Player tempKiller = null;
+				if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+					final EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
+		            final Entity damager = nEvent.getDamager();
+		            if(damager != null && damager instanceof Tameable ) {
+		            	final Tameable thePet = (Tameable) damager;
+		            	if(thePet.isTamed()) {
+
+		            		tempKiller = (Player)((Tameable)damager).getOwner();
+		            	}
+		            	
+		            }
+				}else if (event.getEntity().getKiller() != null)
+				{
+					tempKiller = event.getEntity().getKiller();
+				}
+				
+				final Player killer = tempKiller;
 				if (killer != null && killer.hasPermission("skillapi.exp")) {
 					if (killer.getGameMode() == GameMode.CREATIVE && SkillAPI.getSettings().isBlockCreative()) {
 						return;
