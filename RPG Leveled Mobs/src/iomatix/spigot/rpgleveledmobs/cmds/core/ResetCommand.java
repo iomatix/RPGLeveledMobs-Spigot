@@ -1,61 +1,42 @@
-package iomatix.spigot.rpgleveledmobs.spawnsController;
+package iomatix.spigot.rpgleveledmobs.cmds.core;
 
-import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import iomatix.spigot.rpgleveledmobs.Main;
+import iomatix.spigot.rpgleveledmobs.cmds.RPGlvlmobsCommand;
 import iomatix.spigot.rpgleveledmobs.config.SpawnNode;
 import iomatix.spigot.rpgleveledmobs.config.cfgModule;
+import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
+import iomatix.spigot.rpgleveledmobs.spawnsController.MobNamesMap;
+import iomatix.spigot.rpgleveledmobs.spawnsController.SpawnModule;
 import iomatix.spigot.rpgleveledmobs.tools.Language;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 
-public class SpawnModule implements Listener {
-
-	public SpawnModule() {
-		Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
-	}
+public class ResetCommand implements RPGlvlmobsCommand {
 
 	public void LoadTheMetaData(LivingEntity livingEntity) {
-		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString()) && livingEntity.hasMetadata(MetaTag.Level.toString())
-				&& livingEntity.hasMetadata(MetaTag.ExpMod.toString())
-				&& livingEntity.hasMetadata(MetaTag.MoneyDrop.toString())
-				&& livingEntity.hasMetadata(MetaTag.MoneyMod.toString())) {
-			final int level = livingEntity.getMetadata(MetaTag.Level.toString()).get(0).asInt();
-			final double moneyMod = livingEntity.getMetadata(MetaTag.MoneyMod.toString()).get(0).asDouble();
-			final double moneyDrop = livingEntity.getMetadata(MetaTag.MoneyDrop.toString()).get(0).asDouble();
-			final double ExpMod = livingEntity.getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble();
-			if (!(level > 0) || !(ExpMod > 0) || !(moneyDrop > 0) || !(moneyMod > 0)) {
-				livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
 				LoadMobMetaData(livingEntity, CreatureSpawnEvent.SpawnReason.DEFAULT);
-				return;
-			}
-		} else {
-			if (livingEntity.hasMetadata(MetaTag.RPGmob.toString()))
-				livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
-			LoadMobMetaData(livingEntity, CreatureSpawnEvent.SpawnReason.DEFAULT);
-		}
 	}
 
 	public void LoadMobMetaData(LivingEntity livingEntity, CreatureSpawnEvent.SpawnReason SpawnReason) {
 		EntityType entityType = livingEntity.getType();
 		Location location = livingEntity.getLocation();
 		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString())) {
-			return;
+			livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
 		}
 		boolean slime = false;
 		if (SpawnReason == CreatureSpawnEvent.SpawnReason.SLIME_SPLIT) {
@@ -174,19 +155,51 @@ public class SpawnModule implements Listener {
 
 	}
 
-	public void LoadMobsData() {
+	
+	@Override
+	public boolean execute(final CommandSender sender, final ArrayList<String> args) {
+		int refreshed = 0;
+		int worlds = 0;
+		boolean worldRefresh = false;
 		for (final World world : Bukkit.getWorlds()) {
+			worldRefresh = false;
 			for (final LivingEntity ent : world.getLivingEntities()) {
 				LoadTheMetaData(ent);
+				if (worldRefresh == false) {
+					worldRefresh = true;
+					++worlds;
+				}
+				++refreshed;
 			}
 		}
-	}
-
-	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-	public void onMobSpawn(final CreatureSpawnEvent event) {
-
-		LoadMobMetaData(event.getEntity(), event.getSpawnReason());
+		sender.sendMessage(ChatColor.GOLD + LogsModule.PLUGIN_TITLE + ChatColor.GRAY + " force refreshed " + ChatColor.GOLD
+				+ refreshed + ChatColor.GRAY + " mobs in " + ChatColor.AQUA + worlds + ChatColor.GRAY + " worlds.");
+		return true;
 
 	}
 
+	@Override
+	public String getCommandLabel() {
+		return "reset";
+	}
+
+	@Override
+	public String getFormattedCommand() {
+		return "Reset Mobs";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Reset all existing mobs to the current nodes settings.";
+	}
+
+	@Override
+	public String getUsage() {
+		return "/RPGmobs reset";
+	}
+
+	@Override
+	public String getFormattedUsage() {
+		return ChatColor.GRAY + "/RPGmobs " + ChatColor.GREEN + "Reset";
+	}
 }

@@ -8,7 +8,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.World;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-
+import org.bukkit.command.ConsoleCommandSender;
 import net.md_5.bungee.api.ChatColor;
 
 import com.garbagemule.MobArena.MobArena;
@@ -24,6 +24,7 @@ import iomatix.spigot.rpgleveledmobs.tools.Metrics;
 import iomatix.spigot.rpgleveledmobs.userInterface.MenuHandler;
 import iomatix.spigot.rpgleveledmobs.cmds.RPGlvlmobsCommand;
 import iomatix.spigot.rpgleveledmobs.cmds.cmdModule;
+import iomatix.spigot.rpgleveledmobs.cmds.core.RefreshCommand;
 
 public class Main extends JavaPlugin {
 
@@ -53,7 +54,7 @@ public class Main extends JavaPlugin {
 			LogsModule.warning("Error starting metrics!");
 
 		}
-
+		RefreshCommand.execute();
 	}
 
 	@Override

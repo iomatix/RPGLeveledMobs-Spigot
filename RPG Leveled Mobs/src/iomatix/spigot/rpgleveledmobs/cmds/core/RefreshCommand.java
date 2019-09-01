@@ -1,36 +1,34 @@
-package iomatix.spigot.rpgleveledmobs.spawnsController;
+package iomatix.spigot.rpgleveledmobs.cmds.core;
 
-import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import iomatix.spigot.rpgleveledmobs.Main;
+import iomatix.spigot.rpgleveledmobs.cmds.RPGlvlmobsCommand;
 import iomatix.spigot.rpgleveledmobs.config.SpawnNode;
 import iomatix.spigot.rpgleveledmobs.config.cfgModule;
+import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
+import iomatix.spigot.rpgleveledmobs.spawnsController.MobNamesMap;
+import iomatix.spigot.rpgleveledmobs.spawnsController.SpawnModule;
 import iomatix.spigot.rpgleveledmobs.tools.Language;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 
-public class SpawnModule implements Listener {
+public class RefreshCommand implements RPGlvlmobsCommand {
 
-	public SpawnModule() {
-		Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
-	}
-
-	public void LoadTheMetaData(LivingEntity livingEntity) {
+	public static void LoadTheMetaData(LivingEntity livingEntity) {
 		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString()) && livingEntity.hasMetadata(MetaTag.Level.toString())
 				&& livingEntity.hasMetadata(MetaTag.ExpMod.toString())
 				&& livingEntity.hasMetadata(MetaTag.MoneyDrop.toString())
@@ -51,7 +49,7 @@ public class SpawnModule implements Listener {
 		}
 	}
 
-	public void LoadMobMetaData(LivingEntity livingEntity, CreatureSpawnEvent.SpawnReason SpawnReason) {
+	public static void LoadMobMetaData(LivingEntity livingEntity, CreatureSpawnEvent.SpawnReason SpawnReason) {
 		EntityType entityType = livingEntity.getType();
 		Location location = livingEntity.getLocation();
 		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString())) {
@@ -174,19 +172,73 @@ public class SpawnModule implements Listener {
 
 	}
 
-	public void LoadMobsData() {
+	
+	
+	public static boolean execute() {
+		int refreshed = 0;
+		int worlds = 0;
+		boolean worldRefresh = false;
 		for (final World world : Bukkit.getWorlds()) {
+			worldRefresh = false;
 			for (final LivingEntity ent : world.getLivingEntities()) {
 				LoadTheMetaData(ent);
+				if (worldRefresh == false) {
+					worldRefresh = true;
+					++worlds;
+				}
+				++refreshed;
 			}
 		}
-	}
-
-	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-	public void onMobSpawn(final CreatureSpawnEvent event) {
-
-		LoadMobMetaData(event.getEntity(), event.getSpawnReason());
+		Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + LogsModule.PLUGIN_TITLE + ChatColor.GRAY + " refreshed " + ChatColor.GOLD
+				+ refreshed + ChatColor.GRAY + " mobs in " + ChatColor.AQUA + worlds + ChatColor.GRAY + " worlds.");
+		return true;
 
 	}
+	
+	@Override
+	public boolean execute(final CommandSender sender, final ArrayList<String> args) {
+		int refreshed = 0;
+		int worlds = 0;
+		boolean worldRefresh = false;
+		for (final World world : Bukkit.getWorlds()) {
+			worldRefresh = false;
+			for (final LivingEntity ent : world.getLivingEntities()) {
+				LoadTheMetaData(ent);
+				if (worldRefresh == false) {
+					worldRefresh = true;
+					++worlds;
+				}
+				++refreshed;
+			}
+		}
+		sender.sendMessage(ChatColor.GOLD + LogsModule.PLUGIN_TITLE + ChatColor.GRAY + " refreshed " + ChatColor.GOLD
+				+ refreshed + ChatColor.GRAY + " mobs in " + ChatColor.AQUA + worlds + ChatColor.GRAY + " worlds.");
+		return true;
 
+	}
+
+	@Override
+	public String getCommandLabel() {
+		return "refresh";
+	}
+
+	@Override
+	public String getFormattedCommand() {
+		return "Refresh Mobs";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Refresh all existing mobs to their current metadata settings - fix the mobs and convert non-leveled ones to the RPGmobs.";
+	}
+
+	@Override
+	public String getUsage() {
+		return "/RPGmobs Refresh";
+	}
+
+	@Override
+	public String getFormattedUsage() {
+		return ChatColor.GRAY + "/RPGmobs " + ChatColor.GREEN + "Refresh";
+	}
 }
