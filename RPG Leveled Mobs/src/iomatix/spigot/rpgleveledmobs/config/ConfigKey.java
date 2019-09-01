@@ -28,8 +28,8 @@ public enum ConfigKey {
 	DAMAGE_PER_LEVEL("Stats.Damage.Multiplier",
 			"The percentage of damage increase per level. Formula = [BaseDamage + (BaseDamage * level * mulitplier)]"),
 	DEFENSE_MOD_ENABLE("Stats.Defense.Enabled",
-			"Wheter or not to increase the total mob defense by their level. Formula = [DamageTaken - (DamageTaken * level * mulitplier/100)]"),
-	DEFENSE_PER_LEVEL("Stats.Defense.Multiplier", "The percentage of damage resited per level."),
+			"Wheter or not to increase the total mob defense by their level. Formula = [damageTaken * (1 - min(20,max(multiplier * level/5,level*multiplier-damageTaken/2))/25)]"),
+	DEFENSE_PER_LEVEL("Stats.Defense.Multiplier", "The defense points per level."),
 	EXPERIENCE_MOD_ENABLED("Stats.Experience.Enabled",
 			"Whether or not to increase the amount of experience dropped by a monster"),
 	EXPERIENCE_MODIFIER("Stats.Experience.Multiplier",
@@ -183,7 +183,7 @@ public enum ConfigKey {
 		ConfigKey.defaultMap.put(ConfigKey.DAMAGE_MOD_ENABLE, true);
 		ConfigKey.defaultMap.put(ConfigKey.DAMAGE_PER_LEVEL, 1.0);
 		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_MOD_ENABLE, true);
-		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_PER_LEVEL, 0.35);
+		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_PER_LEVEL, 3);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_MOD_ENABLE, true);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_PER_LEVEL, 0.35);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_RANDOM, 1.5);

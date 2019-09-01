@@ -358,7 +358,7 @@ public class SettingsMenu extends Menu {
 			this.menuMap.put(31, moneyRandomizer);
 			final Button defense = new Button();
 			defense.setName(special + "Defense Settings");
-			defense.addLoreLine(special_2 + "Formula: damageTaken - (damageTaken * level * multiplier/100)");
+			defense.addLoreLine(special_2 + "Formula: damageTaken * (1 - min(20,max(multiplier * level/5,level*multiplier-damageTaken/2))/25)");
 			defense.setIcon(Material.IRON_CHESTPLATE);
 			this.menuMap.put(5, defense);
 			final Button defenseToggle = new Button();
