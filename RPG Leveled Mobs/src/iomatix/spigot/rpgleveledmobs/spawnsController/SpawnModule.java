@@ -220,8 +220,12 @@ public class SpawnModule implements Listener {
 				Bukkit.getScheduler().scheduleSyncDelayedTask((Plugin) Main.RPGMobs, new Runnable() {
 					@Override
 					public void run() {
-						final Double newMaxHealth = 65
-								+ 111 * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble()
+						if (tamedEntity.hasMetadata(MetaTag.BaseHealth.toString()))tamedEntity.removeMetadata(MetaTag.MoneyMod.toString(), (Plugin) Main.RPGMobs);
+							tamedEntity.setMetadata(MetaTag.BaseHealth.toString(),
+									(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+											(Object) 87));
+						final Double newMaxHealth = tamedEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble()
+								+ tamedEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble() * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble()
 										* node.getHealthMultiplier();
 						tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
 						tamedEntity.setHealth(newMaxHealth);

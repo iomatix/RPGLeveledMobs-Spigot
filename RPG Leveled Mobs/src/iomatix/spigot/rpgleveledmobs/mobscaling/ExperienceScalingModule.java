@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.GameMode;
+import org.bukkit.World;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -20,9 +21,11 @@ import org.bukkit.Bukkit;
 
 import com.sucy.skill.api.enums.ExpSource;
 import com.sucy.skill.api.event.PlayerExperienceGainEvent;
+import com.sucy.skill.api.event.PlayerLevelUpEvent;
 import com.sucy.skill.SkillAPI;
 
 import iomatix.spigot.rpgleveledmobs.Main;
+import iomatix.spigot.rpgleveledmobs.cmds.core.RefreshCommand;
 import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 
@@ -142,6 +145,30 @@ public class ExperienceScalingModule {
 			final double expModifier = (double) ((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).removeFirst();
 			if (expModifier != 0) event.setExp((int) Math.floor(event.getExp() + event.getExp() * expModifier));
 			}catch(Exception e) { return;}
+		}
+		
+		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+		public void onPlayerGainLevel(final PlayerLevelUpEvent event) {
+			final int newLevel = event.getLevel();
+			final Player who = event.getPlayerData().getPlayer();
+			for (final World world : Bukkit.getWorlds()) {
+				for (final Entity ent : world.getEntities()) {
+					if(ent instanceof Tameable) {
+						Tameable thePet = (Tameable) ent;
+						if((thePet.isTamed() && thePet.getOwner().getName().equals(who.getName()))) {
+							
+							if (thePet.hasMetadata(MetaTag.Level.toString())) {
+								thePet.removeMetadata(MetaTag.Level.toString(), (Plugin) Main.RPGMobs);
+							}
+							thePet.setMetadata(MetaTag.Level.toString(),
+									(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) newLevel));
+							RefreshCommand.RefreshMetaToLevel((LivingEntity)thePet);
+						}
+					}
+				}
+			}
+			
+		
 		}
 	}
 }

@@ -27,6 +27,58 @@ import iomatix.spigot.rpgleveledmobs.tools.Language;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 
 public class RefreshCommand implements RPGlvlmobsCommand {
+	public static void RefreshMetaToLevel(LivingEntity livingEntity) {
+		EntityType entType = livingEntity.getType();
+		Location location = livingEntity.getLocation();
+		if (livingEntity.hasMetadata(MetaTag.BaseHealth.toString())
+				&& livingEntity.hasMetadata(MetaTag.Level.toString())) {
+			final int level = livingEntity.getMetadata(MetaTag.Level.toString()).get(0).asInt();
+			final double HealthMultiplier = livingEntity.getMetadata(MetaTag.HealthMod.toString()).get(0).asDouble();
+			final double startMaxHealth = livingEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble();
+			final double newMaxHealth = startMaxHealth + startMaxHealth * level * HealthMultiplier;
+			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
+			livingEntity.setHealth(newMaxHealth);
+
+			final SpawnNode node = cfgModule.getConfigModule().getSpawnNode(location);
+			if (node == null) {
+				if (livingEntity.hasMetadata(MetaTag.CustomName.toString())) livingEntity.setCustomName(livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString());
+				else	livingEntity.setCustomName(livingEntity.getName());
+				return;
+			}
+			String startName;
+
+			if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))
+				startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
+			else
+				startName = livingEntity.getCustomName();
+
+			if (startName == null || startName.toLowerCase().equals("null")) {
+				if (node.getMobNameLanguage() != Language.ENGLISH) {
+					if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
+						startName = ChatColor.WHITE
+								+ MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType());
+					} else {
+						startName = "";
+					}
+				} else {
+					startName = livingEntity.getName();
+				}
+			}
+
+			if (node.isPrefixEnabled()) {
+				startName = ChatColor.translateAlternateColorCodes('&',
+						node.getPrefixFormat().replace("#", level + "") + " " + ChatColor.WHITE + startName);
+			}
+			if (node.isSuffixEnabled()) {
+				startName = ChatColor.translateAlternateColorCodes('&',
+						startName + " " + node.getSuffixFormat().replace("#", level + ""));
+			}
+			if (startName != null && startName.length() > 1 && (node.isSuffixEnabled() || node.isPrefixEnabled())) {
+				livingEntity.setCustomName(startName);
+			}
+			livingEntity.setCustomNameVisible(node.isAlwaysShowMobName());
+		}
+	}
 
 	public static void LoadTheMetaData(LivingEntity livingEntity) {
 		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString()) && livingEntity.hasMetadata(MetaTag.Level.toString())
@@ -42,6 +94,7 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 				LoadMobMetaData(livingEntity, CreatureSpawnEvent.SpawnReason.DEFAULT);
 				return;
 			}
+			RefreshMetaToLevel(livingEntity);
 		} else {
 			if (livingEntity.hasMetadata(MetaTag.RPGmob.toString()))
 				livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
