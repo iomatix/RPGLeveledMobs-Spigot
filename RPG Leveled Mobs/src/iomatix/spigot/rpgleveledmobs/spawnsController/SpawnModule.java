@@ -192,7 +192,7 @@ public class SpawnModule implements Listener {
 	
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onMobTame(final EntityTameEvent event) {
-		LoadMobMetaData(event.getEntity(), CreatureSpawnEvent.SpawnReason.DEFAULT);
+		LoadTheMetaData(event.getEntity());
 	}
 
 }
