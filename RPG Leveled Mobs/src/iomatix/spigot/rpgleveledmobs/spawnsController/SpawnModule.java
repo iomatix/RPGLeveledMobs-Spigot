@@ -207,23 +207,28 @@ public class SpawnModule implements Listener {
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onMobTame(final EntityTameEvent event) {
 		final LivingEntity tamedEntity = event.getEntity();	
-		
+		EntityType entityType = tamedEntity.getType();
+		Location location = tamedEntity.getLocation();
 		if (!tamedEntity.hasMetadata(MetaTag.Level.toString()) ||!tamedEntity.hasMetadata(MetaTag.BaseHealth.toString())  ) {
 			ResetCommand.LoadTheMetaData(tamedEntity);
 			}
 		else {
-		final SpawnNode node = cfgModule.getConfigModule().getSpawnNode(tamedEntity.getLocation());
+		final SpawnNode node = cfgModule.getConfigModule().getSpawnNode(location);
 		if (node == null) {
 			return;
 		}
-		if (node.isHealthModified() && node.canLevel(tamedEntity.getType()) && !node.isBlocked(tamedEntity.getType())) {
+		if (node.isHealthModified() && node.canLevel(entityType) && !node.isBlocked(entityType)) {
 			tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue());
-			final double newMaxHealth = 65 + 111 * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble() * node.getHealthMultiplier();
-			tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
-			tamedEntity.setHealth(newMaxHealth);
-		}
-		
+			
+			Bukkit.getScheduler().scheduleSyncDelayedTask((Plugin) Main.RPGMobs, new Runnable() {
+				@Override
+			    public void run() {
+					final Double newMaxHealth = 65 + 111 * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble() * node.getHealthMultiplier();
+					tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
+					tamedEntity.setHealth(newMaxHealth);          
+			    }
+			}, 15L);
+		}	
 	}
-	
 	}
 }
