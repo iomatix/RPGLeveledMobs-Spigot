@@ -217,7 +217,8 @@ public class SpawnModule implements Listener {
 			return;
 		}
 		if (node.isHealthModified() && node.canLevel(tamedEntity.getType()) && !node.isBlocked(tamedEntity.getType())) {
-			final double newMaxHealth = 57 + 57 * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble() * node.getHealthMultiplier();
+			tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue());
+			final double newMaxHealth = 65 + 111 * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble() * node.getHealthMultiplier();
 			tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
 			tamedEntity.setHealth(newMaxHealth);
 		}

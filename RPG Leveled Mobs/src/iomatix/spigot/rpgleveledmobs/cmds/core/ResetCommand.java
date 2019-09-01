@@ -121,6 +121,7 @@ public class ResetCommand implements RPGlvlmobsCommand {
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getMoneyMultiplier()));
 		}
 		if (node.isHealthModified()) {
+			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue());
 			if (!livingEntity.hasMetadata(MetaTag.BaseHealth.toString()))
 				livingEntity.setMetadata(MetaTag.BaseHealth.toString(),
 						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
