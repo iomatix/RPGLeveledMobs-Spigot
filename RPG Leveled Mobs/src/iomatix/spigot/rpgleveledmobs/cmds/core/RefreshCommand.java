@@ -196,8 +196,14 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
 								(Object) livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()));
 			final double startMaxHealth = livingEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble();
-
-			final double newMaxHealth = startMaxHealth + startMaxHealth * level * node.getHealthMultiplier();
+			
+			final double healthMultiplier =  node.getHealthMultiplier();
+			final double newMaxHealth = startMaxHealth + startMaxHealth * level * healthMultiplier;
+			if (!livingEntity.hasMetadata(MetaTag.HealthMod.toString()))
+				livingEntity.setMetadata(MetaTag.HealthMod.toString(),
+						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+								(Object) healthMultiplier));
+			
 			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
 			livingEntity.setHealth(newMaxHealth);
 		}

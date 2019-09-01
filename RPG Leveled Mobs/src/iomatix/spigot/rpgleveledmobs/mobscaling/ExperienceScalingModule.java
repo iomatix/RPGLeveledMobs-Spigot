@@ -99,7 +99,7 @@ public class ExperienceScalingModule {
 					&& event.getEntity().hasMetadata(MetaTag.Level.toString())
 					&& event.getEntity().hasMetadata(MetaTag.ExpMod.toString())) {
 				Player tempKiller = null;
-				if (event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+				if (event.getEntity().getKiller() == null && event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
 					final EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
 		            final Entity damager = nEvent.getDamager();
 		            if(damager != null && damager instanceof Tameable ) {
