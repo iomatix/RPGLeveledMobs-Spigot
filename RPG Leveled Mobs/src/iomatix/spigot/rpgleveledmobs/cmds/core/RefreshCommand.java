@@ -52,7 +52,7 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 			else
 				startName = livingEntity.getCustomName();
 
-			if (startName == null || startName.toLowerCase().equals("null")) {
+			if (startName == null || startName.toLowerCase().equals("null") || startName.length() > 12) {
 				if (node.getMobNameLanguage() != Language.ENGLISH) {
 					if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
 						startName = ChatColor.WHITE
@@ -214,7 +214,7 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 		else
 			startName = livingEntity.getCustomName();
 
-		if (startName == null || startName.toLowerCase().equals("null")) {
+		if (startName == null || startName.toLowerCase().equals("null") || startName.length() > 12) {
 			if (node.getMobNameLanguage() != Language.ENGLISH) {
 				if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
 					startName = ChatColor.WHITE

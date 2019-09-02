@@ -144,8 +144,8 @@ public class ResetCommand implements RPGlvlmobsCommand {
 			startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
 		else
 			startName = livingEntity.getCustomName();
-
-		if (startName == null || startName.toLowerCase().equals("null")) {
+        
+		if (startName == null || startName.toLowerCase().equals("null") || startName.length() > 12) {
 			if (node.getMobNameLanguage() != Language.ENGLISH) {
 				if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
 					startName = ChatColor.WHITE
