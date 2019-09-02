@@ -30,7 +30,7 @@ public class RPGMobsGainMoney extends Event implements Cancellable{
     
     @Override
     public boolean isCancelled() {
-        return isCancelled;
+        return this.isCancelled;
     }
     
     @Override
@@ -54,7 +54,7 @@ public class RPGMobsGainMoney extends Event implements Cancellable{
         return this.Money;
     }
     public void transaction() {
-    	economy.depositPlayer((OfflinePlayer) this.Who, this.Money); //to event
+    	economy.depositPlayer((OfflinePlayer) this.Who, this.Money); 
     }
 
 }

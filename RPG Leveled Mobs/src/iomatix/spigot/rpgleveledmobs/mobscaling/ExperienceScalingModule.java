@@ -161,6 +161,8 @@ public class ExperienceScalingModule {
 				Bukkit.getPluginManager().callEvent(gainExperienceEvent);
 				if (!(gainExperienceEvent.isCancelled())) {
 					event.setExp((int) Math.floor(theExp));
+				}else { 
+					event.setCancelled(true);
 				}
 				
 			}

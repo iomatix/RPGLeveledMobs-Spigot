@@ -23,12 +23,12 @@ public class RPGMobsGainExperience extends Event implements Cancellable {
     {
     	this.Experience = exp;
     	this.Who = who;
-    	 this.isCancelled = false;	
+    	this.isCancelled = false;	
     }
     
     @Override
     public boolean isCancelled() {
-        return isCancelled;
+        return this.isCancelled;
     }
     
     @Override

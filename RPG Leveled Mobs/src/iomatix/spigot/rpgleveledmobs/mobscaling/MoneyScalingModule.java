@@ -82,19 +82,17 @@ public class MoneyScalingModule {
 				String iName = ChatColor.stripColor(item.getItemStack().getItemMeta().getDisplayName());
 					if ("G.".equals(iName.substring(iName.length() - 2, iName.length()))) {
 						ev.setCancelled(true);
+						item.remove();
 						final double theMoney = Double.parseDouble(iName.replaceAll("G.", ""));
 						
 						Player thePlayer = Bukkit.getPlayerExact(ev.getEntity().getName());
-							
 						RPGMobsGainMoney gainMoneyEvent = new RPGMobsGainMoney(theMoney,thePlayer,economy);
 						Bukkit.getPluginManager().callEvent(gainMoneyEvent);
 						if (!(gainMoneyEvent.isCancelled())) {
 							gainMoneyEvent.transaction();
-						}
+							SendMoneyMessageToPlayer(theMoney,thePlayer);
+						}	
 						
-						SendMoneyMessageToPlayer(theMoney,thePlayer);
-						
-						item.remove();
 					}
 				} catch (Exception e) {
 				}
