@@ -83,13 +83,17 @@ public class MoneyScalingModule {
 					if ("G.".equals(iName.substring(iName.length() - 2, iName.length()))) {
 						ev.setCancelled(true);
 						final double theMoney = Double.parseDouble(iName.replaceAll("G.", ""));
-						economy.depositPlayer((OfflinePlayer) ev.getEntity(), theMoney);
-						Player thePlayer = Bukkit.getPlayerExact(ev.getEntity().getName());
-						thePlayer.sendMessage(ChatColor.DARK_GREEN + "You have found " + ChatColor.GOLD + ChatColor.BOLD + theMoney + ChatColor.GOLD + ChatColor.BOLD + " coins");
-						thePlayer.playSound(ev.getEntity().getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.8f, 0.9f);
 						
-						RPGMobsGainMoney gainMoneyEvent = new RPGMobsGainMoney(theMoney,(Player)ev.getEntity());
+						Player thePlayer = Bukkit.getPlayerExact(ev.getEntity().getName());
+							
+						RPGMobsGainMoney gainMoneyEvent = new RPGMobsGainMoney(theMoney,thePlayer,economy);
 						Bukkit.getPluginManager().callEvent(gainMoneyEvent);
+						if (!(gainMoneyEvent.isCancelled())) {
+							gainMoneyEvent.transaction();
+						}
+						
+						SendMoneyMessageToPlayer(theMoney,thePlayer);
+						
 						item.remove();
 					}
 				} catch (Exception e) {
@@ -97,7 +101,12 @@ public class MoneyScalingModule {
 			}
 		}
 	}
-
+	
+	public static void SendMoneyMessageToPlayer(double amount, Player player) {
+		player.sendMessage(ChatColor.DARK_GREEN + "You have found " + ChatColor.GOLD + ChatColor.BOLD + amount + ChatColor.GOLD + ChatColor.BOLD + " coins");
+		player.playSound(player.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.8f, 0.9f);
+	}
+	
 	public boolean isMoneyModuleOnline() {
 
 		return this.moneyModuleOnline;

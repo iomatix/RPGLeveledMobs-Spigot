@@ -155,9 +155,14 @@ public class ExperienceScalingModule {
 			try {
 			final double expModifier = (double) ((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).removeFirst();
 			if (expModifier != 0) {
-				event.setExp((int) Math.floor(event.getExp() + event.getExp() * expModifier));
-				RPGMobsGainExperience gainExperienceEvent = new RPGMobsGainExperience(event.getExp(),killer);
+	
+				final double theExp = event.getExp() + event.getExp() * expModifier;
+				RPGMobsGainExperience gainExperienceEvent = new RPGMobsGainExperience(theExp,killer);
 				Bukkit.getPluginManager().callEvent(gainExperienceEvent);
+				if (!(gainExperienceEvent.isCancelled())) {
+					event.setExp((int) Math.floor(theExp));
+				}
+				
 			}
 			}catch(Exception e) { return;}
 		}
