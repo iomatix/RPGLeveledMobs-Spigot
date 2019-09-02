@@ -122,16 +122,15 @@ public class StatsScalingModule {
 				final int level = StatsScalingModule.this.getLevel(event.getEntity());
 				final double defenseMod = StatsScalingModule.this.getDefenseMod(event.getEntity());
 				final double damage = event.getDamage();
-				final double output = damage - damage * level * defenseMod / 100;
-				if (output < 1)
-					event.setDamage(1);
-				else
+				final double output = event.getDamage() * (1 - (Math.min(20.0,Math.max(level*defenseMod/5,(level * defenseMod)-(event.getDamage()/2))))/25);
+		
 					event.setDamage(output);
-			}
+			
 
 		}
 	}
-
+	}
+	
 	private class SkillAPIHandler implements Listener {
 		public SkillAPIHandler() {
 			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
@@ -144,15 +143,14 @@ public class StatsScalingModule {
 				final double damageMod = StatsScalingModule.this.getDamageMod((Entity) event.getDamager());
 				event.setDamage(event.getDamage() + level * damageMod * event.getDamage());
 			}
+			
 			if (StatsScalingModule.this.isDefenseModded((Entity) event.getTarget())) {
 				final int level = StatsScalingModule.this.getLevel((Entity) event.getTarget());
 				final double defenseMod = StatsScalingModule.this.getDefenseMod((Entity) event.getTarget());
-				final double output = event.getDamage() - level * event.getDamage() * defenseMod / 100;
-				if (output < 1) {
-					event.setDamage(1);
-				} else {
+				final double output = event.getDamage() * (1 - (Math.min(20.0,Math.max(level*defenseMod/5,(level * defenseMod)-(event.getDamage()/2))))/25);
+
 					event.setDamage(output);
-				}
+				
 			}
 
 		}
@@ -162,12 +160,11 @@ public class StatsScalingModule {
 			if (StatsScalingModule.this.isDefenseModded((Entity) event.getTarget())) {
 				final int level = StatsScalingModule.this.getLevel((Entity) event.getTarget());
 				final double defenseMod = StatsScalingModule.this.getDefenseMod((Entity) event.getTarget());
-				final double output = event.getDamage() - level * defenseMod * event.getDamage();
-				if (output < 1)
-					event.setDamage(1);
-				else
+				final double output = event.getDamage() * (1 - (Math.min(20.0,Math.max(level*defenseMod/5,(level * defenseMod)-(event.getDamage()/2))))/25);
+	
 					event.setDamage(output);
-			}
+			
 		}
 	}
+}
 }

@@ -42,6 +42,7 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		final long startTime = System.currentTimeMillis();
 		(Main.RPGMobs = this).loadModules();
+		
 
 		final long endTime = System.currentTimeMillis();
 		LogsModule.info(ChatColor.GRAY + " [" + ChatColor.GOLD + "RPG Leveled Mobs" + ChatColor.GRAY + "] "
@@ -109,6 +110,16 @@ public class Main extends JavaPlugin {
 
 	public static boolean isLeveledMob(final Entity ent) {
 		return ent.hasMetadata(MetaTag.RPGmob.toString()) && ent.hasMetadata(MetaTag.Level.toString());
+	}
+	
+	public ExperienceScalingModule getExperienceScalingModuleInstance()
+	{
+	return this.experienceModule;
+	}
+	
+	public MoneyScalingModule getMoneyScalingModuleInstance()
+	{
+	return this.moneyscalingModule;
 	}
 
 	public static int getMobLevel(final Entity ent) {

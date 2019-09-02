@@ -24,14 +24,18 @@ import com.sucy.skill.api.event.PlayerExperienceGainEvent;
 import com.sucy.skill.api.event.PlayerLevelUpEvent;
 import com.sucy.skill.SkillAPI;
 
+import iomatix.spigot.rpgleveledmobs.events.RPGMobsGainExperience;
+import iomatix.spigot.rpgleveledmobs.events.RPGMobsGainMoney;
 import iomatix.spigot.rpgleveledmobs.Main;
 import iomatix.spigot.rpgleveledmobs.cmds.core.RefreshCommand;
 import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 
 public class ExperienceScalingModule {
+	private boolean SkillAPIHandled;
 	public ExperienceScalingModule() {
 		boolean experienceHandled = false;
+		SkillAPIHandled = false;
 		if (Bukkit.getPluginManager().isPluginEnabled("Heroes")) {
 			LogsModule.info("Found Heroes, Enabling Heroes Experience Mod.");
 			new HeroesHandler();
@@ -41,11 +45,17 @@ public class ExperienceScalingModule {
 			LogsModule.info("Found SkillAPI, Enabling SkillAPI Experience Mod.");
 			new SkillAPIHandler();
 			experienceHandled = true;
+			SkillAPIHandled = true;
 		}
 		if (!experienceHandled) {
 			LogsModule.info("No Leveling Plugins Found, Enabling Vanilla Experience Mod.");
 			new VanillaHandler();
 		}
+	}
+	
+	public boolean isSkillApiHandled()
+	{
+		return SkillAPIHandled;
 	}
 
 	private int handleOrbExp(final Entity ent, final int droppedXp) {
@@ -88,7 +98,8 @@ public class ExperienceScalingModule {
 
 	private class SkillAPIHandler implements Listener {
 		public SkillAPIHandler() {
-			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
+			Bukkit.getPluginManager().registerEvents((Listener) this,(Plugin) Main.RPGMobs );
+			
 		}
 
 		@EventHandler(priority = EventPriority.HIGHEST)
@@ -143,7 +154,11 @@ public class ExperienceScalingModule {
 			}
 			try {
 			final double expModifier = (double) ((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).removeFirst();
-			if (expModifier != 0) event.setExp((int) Math.floor(event.getExp() + event.getExp() * expModifier));
+			if (expModifier != 0) {
+				event.setExp((int) Math.floor(event.getExp() + event.getExp() * expModifier));
+				RPGMobsGainExperience gainExperienceEvent = new RPGMobsGainExperience(event.getExp(),killer);
+				Bukkit.getPluginManager().callEvent(gainExperienceEvent);
+			}
 			}catch(Exception e) { return;}
 		}
 		

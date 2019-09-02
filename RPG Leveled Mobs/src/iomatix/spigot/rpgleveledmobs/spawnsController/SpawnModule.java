@@ -5,11 +5,13 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -17,6 +19,10 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
+
+import com.sucy.skill.SkillAPI;
+import com.sucy.skill.api.player.PlayerData;
+
 import org.bukkit.metadata.FixedMetadataValue;
 
 import iomatix.spigot.rpgleveledmobs.Main;
@@ -26,6 +32,7 @@ import iomatix.spigot.rpgleveledmobs.config.SpawnNode;
 import iomatix.spigot.rpgleveledmobs.config.cfgModule;
 import iomatix.spigot.rpgleveledmobs.tools.Language;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
+import iomatix.spigot.rpgleveledmobs.mobscaling.ExperienceScalingModule;
 
 public class SpawnModule implements Listener {
 
@@ -224,15 +231,24 @@ public class SpawnModule implements Listener {
 				Bukkit.getScheduler().scheduleSyncDelayedTask((Plugin) Main.RPGMobs, new Runnable() {
 					@Override
 					public void run() {
-						if (tamedEntity.hasMetadata(MetaTag.BaseHealth.toString()))tamedEntity.removeMetadata(MetaTag.MoneyMod.toString(), (Plugin) Main.RPGMobs);
+						if(Main.RPGMobs.getExperienceScalingModuleInstance().isSkillApiHandled() && (event.getOwner() != null) && (((Player)event.getOwner()).hasPermission("skillapi.exp"))) {
+							PlayerData playerData = SkillAPI.getPlayerData((OfflinePlayer) event.getOwner());
+							int level = playerData.hasClass() ? playerData.getMainClass().getLevel() : 0;
+							if (level > 0) {
+								if (tamedEntity.hasMetadata(MetaTag.Level.toString()))tamedEntity.removeMetadata(MetaTag.Level.toString(), (Plugin) Main.RPGMobs);
+								tamedEntity.setMetadata(MetaTag.Level.toString(),
+										(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+												(Object) level));
+							}
+						}
+						
+						
+						if (tamedEntity.hasMetadata(MetaTag.BaseHealth.toString()))tamedEntity.removeMetadata(MetaTag.BaseHealth.toString(), (Plugin) Main.RPGMobs);
+						
 							tamedEntity.setMetadata(MetaTag.BaseHealth.toString(),
 									(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
 											(Object) 87));
-						final Double newMaxHealth = tamedEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble()
-								+ tamedEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble() * tamedEntity.getMetadata(MetaTag.Level.toString()).get(0).asDouble()
-										* node.getHealthMultiplier();
-						tamedEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
-						tamedEntity.setHealth(newMaxHealth);
+							RefreshCommand.RefreshMetaToLevel(tamedEntity);
 					}
 				}, 15L);
 			}

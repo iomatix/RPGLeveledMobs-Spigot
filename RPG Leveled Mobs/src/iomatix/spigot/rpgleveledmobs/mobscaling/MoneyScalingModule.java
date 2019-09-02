@@ -23,6 +23,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 import net.milkbowl.vault.economy.Economy;
 
+import iomatix.spigot.rpgleveledmobs.events.RPGMobsGainMoney;
 import iomatix.spigot.rpgleveledmobs.Main;
 import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
@@ -37,7 +38,6 @@ public class MoneyScalingModule {
 			new VaultHandler();
 			this.moneyModuleOnline = true;
 		}
-
 	}
 
 	private class VaultHandler implements Listener {
@@ -87,6 +87,9 @@ public class MoneyScalingModule {
 						Player thePlayer = Bukkit.getPlayerExact(ev.getEntity().getName());
 						thePlayer.sendMessage(ChatColor.DARK_GREEN + "You have found " + ChatColor.GOLD + ChatColor.BOLD + theMoney + ChatColor.GOLD + ChatColor.BOLD + " coins");
 						thePlayer.playSound(ev.getEntity().getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.8f, 0.9f);
+						
+						RPGMobsGainMoney gainMoneyEvent = new RPGMobsGainMoney(theMoney,(Player)ev.getEntity());
+						Bukkit.getPluginManager().callEvent(gainMoneyEvent);
 						item.remove();
 					}
 				} catch (Exception e) {
