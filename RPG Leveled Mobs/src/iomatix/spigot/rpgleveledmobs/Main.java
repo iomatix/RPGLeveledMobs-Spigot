@@ -101,7 +101,7 @@ public class Main extends JavaPlugin {
 				Main.this.spawnModule = new SpawnModule();
 				RefreshCommand.execute();
 			}
-		}, 40L);
+		}, 80L);
 	}
 
 	public void registerCommand(final RPGlvlmobsCommand command) {

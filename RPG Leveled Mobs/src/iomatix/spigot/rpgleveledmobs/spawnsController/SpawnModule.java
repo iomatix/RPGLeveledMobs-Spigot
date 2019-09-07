@@ -273,7 +273,7 @@ public class SpawnModule implements Listener {
 						}
 						RefreshCommand.RefreshMetaToLevel(tamedEntity);
 					}
-				}, 15L);
+				}, 20L);
 			}
 		}
 	}

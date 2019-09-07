@@ -180,6 +180,10 @@ public class ResetCommand implements RPGlvlmobsCommand {
 				startName = livingEntity.getName();
 			}
 		}
+		if (!livingEntity.hasMetadata(MetaTag.CustomName.toString()))
+			livingEntity.setMetadata(MetaTag.CustomName.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) startName));
+		
 		if (!slime && node.isPrefixEnabled()) {
 			startName = ChatColor.translateAlternateColorCodes('&',
 					node.getPrefixFormat().replace("#", level + "") + " " + ChatColor.WHITE + startName);

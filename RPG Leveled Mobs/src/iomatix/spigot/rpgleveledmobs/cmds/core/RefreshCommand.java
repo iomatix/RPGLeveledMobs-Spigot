@@ -1,6 +1,5 @@
 package iomatix.spigot.rpgleveledmobs.cmds.core;
 
-
 import java.util.ArrayList;
 
 import net.md_5.bungee.api.ChatColor;
@@ -43,18 +42,17 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 			final double healthModifier = livingEntity.getMetadata(MetaTag.HealthMod.toString()).get(0).asDouble();
 			final double BaseHP = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
 			final double BaseAdditionalHealth = BaseHP * healthModifier * level;
-			
-			if(livingEntity.hasMetadata(MetaTag.BaseAdditionalHealth.toString())) {
+
+			if (livingEntity.hasMetadata(MetaTag.BaseAdditionalHealth.toString())) {
 				livingEntity.removeMetadata(MetaTag.BaseAdditionalHealth.toString(), (Plugin) Main.RPGMobs);
 			}
-			livingEntity.setMetadata(MetaTag.BaseAdditionalHealth.toString(), (MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
-					(Object) BaseAdditionalHealth));
+			livingEntity.setMetadata(MetaTag.BaseAdditionalHealth.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) BaseAdditionalHealth));
 			final AttributeModifier HealthMod = new AttributeModifier("RPGMobsHealthMod", BaseAdditionalHealth,
 					AttributeModifier.Operation.ADD_NUMBER);
-			if (livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers() != null)
-			{
-				for(AttributeModifier modifier : livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers())
-				{
+			if (livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers() != null) {
+				for (AttributeModifier modifier : livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)
+						.getModifiers()) {
 					livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).removeModifier(modifier);
 				}
 			}
@@ -65,7 +63,7 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 			if (node == null) {
 				return;
 			}
-			String startName=livingEntity.getCustomName();
+			String startName = livingEntity.getCustomName();
 
 			if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))
 				startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
@@ -82,6 +80,9 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 					startName = livingEntity.getName();
 				}
 			}
+			if (!livingEntity.hasMetadata(MetaTag.CustomName.toString()))
+				livingEntity.setMetadata(MetaTag.CustomName.toString(),
+						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) startName));
 
 			if (node.isPrefixEnabled()) {
 				startName = ChatColor.translateAlternateColorCodes('&',
@@ -166,10 +167,11 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 		}
 		int level = node.getLevel(location);
 		if (Main.RPGMobs.getExperienceScalingModuleInstance().isSkillApiHandled()) {
-			if(livingEntity instanceof Tameable) {
-				if (((Tameable) livingEntity).getOwner() != null 
+			if (livingEntity instanceof Tameable) {
+				if (((Tameable) livingEntity).getOwner() != null
 						&& ((Player) ((Tameable) livingEntity).getOwner()).hasPermission("skillapi.exp")) {
-					PlayerData playerData = SkillAPI.getPlayerData((OfflinePlayer)  ((Tameable)livingEntity).getOwner());
+					PlayerData playerData = SkillAPI
+							.getPlayerData((OfflinePlayer) ((Tameable) livingEntity).getOwner());
 					int levelSKILLAPI = playerData.hasClass() ? playerData.getMainClass().getLevel() : 0;
 					if (levelSKILLAPI > 0) {
 						level = levelSKILLAPI;
@@ -179,7 +181,7 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 		}
 		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString())) {
 			livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
-		}	
+		}
 		livingEntity.setMetadata(MetaTag.RPGmob.toString(),
 				(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) true));
 		if (livingEntity.hasMetadata(MetaTag.Level.toString())) {
@@ -233,21 +235,19 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) newHealthMod));
 			final AttributeModifier HealthMod = new AttributeModifier("RPGMobsHealthMod", newHealthMod,
 					AttributeModifier.Operation.ADD_NUMBER);
-			if (livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers() != null)
-			{
-				for(AttributeModifier modifier : livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers())
-				{
+			if (livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers() != null) {
+				for (AttributeModifier modifier : livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)
+						.getModifiers()) {
 					livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).removeModifier(modifier);
 				}
 			}
 			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).addModifier(HealthMod);
 			livingEntity.setHealth(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 		}
-		String startName=livingEntity.getCustomName();
+		String startName = livingEntity.getCustomName();
 
 		if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))
 			startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
-
 
 		if (startName == null || startName.toLowerCase().equals("null")) {
 			if (node.getMobNameLanguage() != null) {
@@ -261,6 +261,9 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 				startName = livingEntity.getName();
 			}
 		}
+		if (!livingEntity.hasMetadata(MetaTag.CustomName.toString()))
+			livingEntity.setMetadata(MetaTag.CustomName.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) startName));
 
 		if (!slime && node.isPrefixEnabled()) {
 			startName = ChatColor.translateAlternateColorCodes('&',
