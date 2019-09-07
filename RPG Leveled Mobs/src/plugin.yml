@@ -2,7 +2,7 @@ main: iomatix.spigot.rpgleveledmobs.Main
 softdepend: [MobArena, Heroes, LegendQuest, SkillAPI, Vault]
 load: POSTWORLD
 name: RPGLeveledMobs
-version: 1.4
+version: 2.0
 api-version: 1.14
 author: iomatix
 description: Leveled mobs with scaling attributes compatible with many RPG plugins.

@@ -7,14 +7,22 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Tameable;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
+
+import com.sucy.skill.SkillAPI;
+import com.sucy.skill.api.player.PlayerData;
+
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 
 import iomatix.spigot.rpgleveledmobs.Main;
 import iomatix.spigot.rpgleveledmobs.cmds.RPGlvlmobsCommand;
@@ -35,9 +43,6 @@ public class ResetCommand implements RPGlvlmobsCommand {
 	public static void LoadMobMetaData(LivingEntity livingEntity, CreatureSpawnEvent.SpawnReason SpawnReason) {
 		EntityType entityType = livingEntity.getType();
 		Location location = livingEntity.getLocation();
-		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString())) {
-			livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
-		}
 		boolean slime = false;
 		if (SpawnReason == CreatureSpawnEvent.SpawnReason.SLIME_SPLIT) {
 			slime = true;
@@ -76,7 +81,20 @@ public class ResetCommand implements RPGlvlmobsCommand {
 								(Object) node.getExperienceMultiplier()));
 			}
 		}
-		final int level = node.getLevel(location);
+		int level = node.getLevel(location);
+		if (Main.RPGMobs.getExperienceScalingModuleInstance().isSkillApiHandled()) {
+			if (livingEntity instanceof Tameable) {
+				if (((Tameable) livingEntity).getOwner() != null 
+						&& ((Player) ((Tameable) livingEntity).getOwner()).hasPermission("skillapi.exp")) {
+					PlayerData playerData = SkillAPI
+							.getPlayerData((OfflinePlayer) ((Tameable) livingEntity).getOwner());
+					int levelSKILLAPI = playerData.hasClass() ? playerData.getMainClass().getLevel() : 0;
+					if (levelSKILLAPI > 0) {
+						level = levelSKILLAPI;
+					}
+				}
+			}
+		}
 		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString())) {
 			livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
 		}
@@ -121,32 +139,37 @@ public class ResetCommand implements RPGlvlmobsCommand {
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getMoneyMultiplier()));
 		}
 		if (node.isHealthModified()) {
-			if (!livingEntity.hasMetadata(MetaTag.BaseHealth.toString()))
-				livingEntity.setMetadata(MetaTag.BaseHealth.toString(),
-						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
-								(Object) livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue()));
-			final double startMaxHealth = livingEntity.getMetadata(MetaTag.BaseHealth.toString()).get(0).asDouble();
+			final double startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+			final double healthMultiplier = node.getHealthMultiplier();
+			if (livingEntity.hasMetadata(MetaTag.HealthMod.toString()))
+				livingEntity.removeMetadata(MetaTag.HealthMod.toString(), (Plugin) Main.RPGMobs);
+			livingEntity.setMetadata(MetaTag.HealthMod.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) healthMultiplier));
 
-			final double healthMultiplier =  node.getHealthMultiplier();
-			final double newMaxHealth = startMaxHealth + startMaxHealth * level * healthMultiplier;
-			if (livingEntity.hasMetadata(MetaTag.HealthMod.toString()))livingEntity.removeMetadata(MetaTag.HealthMod.toString(), (Plugin) Main.RPGMobs);
-				livingEntity.setMetadata(MetaTag.HealthMod.toString(),
-						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
-								(Object) healthMultiplier));
-			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(newMaxHealth);
-			livingEntity.setHealth(newMaxHealth);
+			final double NewHealthMod = startMaxHealth * level * healthMultiplier;
+			if (livingEntity.hasMetadata(MetaTag.BaseAdditionalHealth.toString()))
+				livingEntity.removeMetadata(MetaTag.BaseAdditionalHealth.toString(), (Plugin) Main.RPGMobs);
 
+			livingEntity.setMetadata(MetaTag.BaseAdditionalHealth.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) NewHealthMod));
+			final AttributeModifier HealthMod = new AttributeModifier("RPGMobsHealthMod", NewHealthMod,
+					AttributeModifier.Operation.ADD_NUMBER);
+			if (livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers() != null) {
+				for (AttributeModifier modifier : livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)
+						.getModifiers()) {
+					livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).removeModifier(modifier);
+				}
+			}
+			livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).addModifier(HealthMod);
+			livingEntity.setHealth(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 		}
 
-		String startName;
+		String startName=livingEntity.getCustomName();
 
 		if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))
 			startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
-		else
-			startName = livingEntity.getCustomName();
-        
-		if (startName == null || startName.toLowerCase().equals("null") || startName.length() > 12) {
-			if (node.getMobNameLanguage() != Language.ENGLISH) {
+		if (startName == null || startName.toLowerCase().equals("null")) {
+			if (node.getMobNameLanguage() != null) {
 				if (MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType()) != null) {
 					startName = ChatColor.WHITE
 							+ MobNamesMap.getMobName(node.getMobNameLanguage(), livingEntity.getType());
@@ -157,7 +180,6 @@ public class ResetCommand implements RPGlvlmobsCommand {
 				startName = livingEntity.getName();
 			}
 		}
-
 		if (!slime && node.isPrefixEnabled()) {
 			startName = ChatColor.translateAlternateColorCodes('&',
 					node.getPrefixFormat().replace("#", level + "") + " " + ChatColor.WHITE + startName);

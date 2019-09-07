@@ -6,6 +6,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.command.ConsoleCommandSender;
@@ -42,7 +44,6 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		final long startTime = System.currentTimeMillis();
 		(Main.RPGMobs = this).loadModules();
-		
 
 		final long endTime = System.currentTimeMillis();
 		LogsModule.info(ChatColor.GRAY + " [" + ChatColor.GOLD + "RPG Leveled Mobs" + ChatColor.GRAY + "] "
@@ -55,35 +56,50 @@ public class Main extends JavaPlugin {
 			LogsModule.warning("Error starting metrics!");
 
 		}
-		RefreshCommand.execute();
+		
 	}
 
 	@Override
 	public void onDisable() {
 		LogsModule.saveLog();
+		LogsModule.info(ChatColor.GRAY + " [" + ChatColor.GOLD + "RPG Leveled Mobs" + ChatColor.GRAY + "] "
+				+ ChatColor.GRAY + " disabling... ");
+		final long startTime = System.currentTimeMillis();
 		for (final World world : Bukkit.getWorlds()) {
 			for (final LivingEntity ent : world.getLivingEntities()) {
 				if (ent.hasMetadata(MetaTag.RPGmob.toString())) {
-					for (final MetaTag tag : MetaTag.values()) {
-						ent.removeMetadata(tag.toString(), (Plugin) this);
-					}
-					ent.remove();
+						ent.setCustomName(null);
+						for (final MetaTag tag : MetaTag.values()) {
+							ent.removeMetadata(tag.toString(), (Plugin) this);
+						}			
+						
+						if (ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers() != null) {
+							for (AttributeModifier modifier : ent.getAttribute(Attribute.GENERIC_MAX_HEALTH)
+									.getModifiers()) {
+								ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).removeModifier(modifier);
+							}
+						}
 				}
 			}
 		}
+		final long endTime = System.currentTimeMillis();
+		LogsModule.info(ChatColor.GRAY + " [" + ChatColor.GOLD + "RPG Leveled Mobs" + ChatColor.GRAY + "] "
+				+ ChatColor.GRAY + " disabled in " + ChatColor.GOLD + (endTime * 1.0 - startTime * 1.0) / 1000.0
+				+ ChatColor.GRAY + " seconds");
 	}
 
 	private void loadModules() {
 		this.configModule = this.getConfigModule();
 		this.commandModule = new cmdModule();
-		this.menuHandler = new MenuHandler();
-		this.spawnModule = new SpawnModule();
+		this.menuHandler = new MenuHandler();	
 		Bukkit.getScheduler().runTaskLaterAsynchronously((Plugin) this, (Runnable) new Runnable() {
 			@Override
 			public void run() {
 				Main.this.moneyscalingModule = new MoneyScalingModule();
 				Main.this.experienceModule = new ExperienceScalingModule();
 				Main.this.scalingModule = new StatsScalingModule();
+				Main.this.spawnModule = new SpawnModule();
+				RefreshCommand.execute();
 			}
 		}, 40L);
 	}
@@ -111,15 +127,13 @@ public class Main extends JavaPlugin {
 	public static boolean isLeveledMob(final Entity ent) {
 		return ent.hasMetadata(MetaTag.RPGmob.toString()) && ent.hasMetadata(MetaTag.Level.toString());
 	}
-	
-	public ExperienceScalingModule getExperienceScalingModuleInstance()
-	{
-	return this.experienceModule;
+
+	public ExperienceScalingModule getExperienceScalingModuleInstance() {
+		return this.experienceModule;
 	}
-	
-	public MoneyScalingModule getMoneyScalingModuleInstance()
-	{
-	return this.moneyscalingModule;
+
+	public MoneyScalingModule getMoneyScalingModuleInstance() {
+		return this.moneyscalingModule;
 	}
 
 	public static int getMobLevel(final Entity ent) {

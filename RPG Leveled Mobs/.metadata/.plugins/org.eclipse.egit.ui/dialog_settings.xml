@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item key="GitSelectRepositoryPage.lastRepository" value="G:\Minecraft - Server\_Moje_Pluginy\__REPOSITORIES\RPGLeveledMobs-Spigot\.git"/>
+	<item key="org.eclipse.egit.ui.internal.clone.GitSelectWizardPageWizardSel" value="2"/>
 	<section name="GitImportWizard">
+		<item key="GitProjectsImportPage.STORE_NESTED_PROJECTS" value="false"/>
 	</section>
 </section>

@@ -7,6 +7,8 @@ import org.bukkit.entity.Tameable;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.GameMode;
 import org.bukkit.World;
+import org.bukkit.attribute.Attributable;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;

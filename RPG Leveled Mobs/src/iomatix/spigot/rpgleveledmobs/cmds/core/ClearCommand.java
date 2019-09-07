@@ -38,12 +38,12 @@ public class ClearCommand implements RPGlvlmobsCommand {
 
 	@Override
 	public String getCommandLabel() {
-		return "clearmobs";
+		return "clear";
 	}
 
 	@Override
 	public String getFormattedCommand() {
-		return "Clear Mobs";
+		return "Clear";
 	}
 
 	@Override
@@ -53,11 +53,11 @@ public class ClearCommand implements RPGlvlmobsCommand {
 
 	@Override
 	public String getUsage() {
-		return "/RPGmobs ClearMobs";
+		return "/RPGmobs Clear";
 	}
 
 	@Override
 	public String getFormattedUsage() {
-		return ChatColor.GRAY + "/RPGmobs " + ChatColor.GREEN + "ClearMobs";
+		return ChatColor.GRAY + "/RPGmobs " + ChatColor.GREEN + "Clear";
 	}
 }
