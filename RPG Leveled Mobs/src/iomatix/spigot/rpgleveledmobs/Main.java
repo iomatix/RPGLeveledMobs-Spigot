@@ -10,7 +10,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.command.ConsoleCommandSender;
 import net.md_5.bungee.api.ChatColor;
 
 import com.garbagemule.MobArena.MobArena;
@@ -21,6 +20,7 @@ import iomatix.spigot.rpgleveledmobs.mobscaling.ExperienceScalingModule;
 import iomatix.spigot.rpgleveledmobs.mobscaling.MoneyScalingModule;
 import iomatix.spigot.rpgleveledmobs.mobscaling.StatsScalingModule;
 import iomatix.spigot.rpgleveledmobs.spawnsController.SpawnModule;
+import iomatix.spigot.rpgleveledmobs.tools.AutomaticRefreshListener;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 import iomatix.spigot.rpgleveledmobs.tools.Metrics;
 import iomatix.spigot.rpgleveledmobs.userInterface.MenuHandler;
@@ -39,6 +39,7 @@ public class Main extends JavaPlugin {
 	ExperienceScalingModule experienceModule;
 	StatsScalingModule scalingModule;
 	MoneyScalingModule moneyscalingModule;
+	AutomaticRefreshListener automaticRefreshListener;
 
 	@Override
 	public void onEnable() {
@@ -99,9 +100,11 @@ public class Main extends JavaPlugin {
 				Main.this.experienceModule = new ExperienceScalingModule();
 				Main.this.scalingModule = new StatsScalingModule();
 				Main.this.spawnModule = new SpawnModule();
+				Main.this.automaticRefreshListener = new AutomaticRefreshListener();
 				RefreshCommand.execute();
 			}
-		}, 80L);
+		}, 85L);
+
 	}
 
 	public void registerCommand(final RPGlvlmobsCommand command) {
