@@ -1,5 +1,5 @@
 main: iomatix.spigot.rpgleveledmobs.Main
-softdepend: [MobArena, Heroes, LegendQuest, SkillAPI, Vault]
+softdepend: [MobArena, Heroes, LegendQuest, SkillAPI, Vault, Towny]
 load: POSTWORLD
 name: RPGLeveledMobs
 version: 2.0

@@ -223,5 +223,11 @@ public abstract class RPGLeveledMobsConfig {
 	public abstract double getMoneyMob(EntityType ent);
 	
 	public abstract HashMap<EntityType, Double> getMoneyMobs();
+	
+	public abstract Double getTownyRatio();
+	
+	public abstract boolean getisTownySubtract();
+	
+	public abstract boolean getisTownyNationSupport();
 
 }

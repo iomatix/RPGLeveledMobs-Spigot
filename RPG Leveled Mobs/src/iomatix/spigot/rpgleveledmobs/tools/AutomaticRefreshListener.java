@@ -16,7 +16,7 @@ public class AutomaticRefreshListener implements Listener {
 		Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
 	}
 	public void AutomaticRefresh() {
-	if(Bukkit.getOnlinePlayers().isEmpty() || Bukkit.getOnlinePlayers().size() < 2) RefreshCommand.execute();	
+	if(Bukkit.getOnlinePlayers().isEmpty() || Bukkit.getOnlinePlayers().size() < 2) RefreshCommand.execute();
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)

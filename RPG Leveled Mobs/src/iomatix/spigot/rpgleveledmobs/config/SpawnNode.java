@@ -50,6 +50,9 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	private boolean mobArenaWaveLevelingEnabled;
 	private double mobArenaMultiplier;
 	private double mobArenaWavesPerLevel;
+	private Double TownyRatio;
+	private boolean TownySubtract;
+	private boolean TownyNationSupport;
 	private boolean alwaysShowMobName;
 	private final Random rand;
 	private HashMap<EntityType, Double> moneyMobs;
@@ -728,7 +731,27 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 		}
 		return this.blockedMobs;
 	}
-
+	@Override
+	public Double getTownyRatio() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_RATIO)) {
+			return (Double) this.inheritedValues.get(ConfigKey.MONEY_TOWNY_RATIO);
+		}
+		return this.TownyRatio;
+	}
+	@Override
+	public boolean getisTownySubtract() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_SUBTRACT)) {
+			return (boolean) this.inheritedValues.get(ConfigKey.MONEY_TOWNY_SUBTRACT);
+		}
+		return this.TownySubtract;
+	}
+	@Override
+	public boolean getisTownyNationSupport() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_SUPPORTNATION)) {
+			return (boolean) this.inheritedValues.get(ConfigKey.MONEY_TOWNY_SUPPORTNATION);
+		}
+		return this.TownyNationSupport;
+	}
 	@Override
 	public boolean isLeveledSpawners() {
 		if (this.inheritedValues.containsKey(ConfigKey.LEVELED_SPAWNERS)) {
@@ -751,6 +774,7 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 		}
 	}
 
+		
 	public EntityType getRandomAllowedMob() {
 		ArrayList<EntityType> blocked;
 		if (this.isValueInherited(ConfigKey.BLOCKED_MOBS)) {

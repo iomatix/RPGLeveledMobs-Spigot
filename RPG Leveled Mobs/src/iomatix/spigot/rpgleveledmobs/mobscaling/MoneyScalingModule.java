@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
@@ -16,12 +15,15 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import net.milkbowl.vault.economy.Economy;
+
+import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.object.Town;
+import com.palmergames.bukkit.towny.object.Nation;
+import com.palmergames.bukkit.towny.object.Resident;
 
 import iomatix.spigot.rpgleveledmobs.events.RPGMobsGainMoney;
 import iomatix.spigot.rpgleveledmobs.Main;
@@ -31,12 +33,18 @@ import net.md_5.bungee.api.ChatColor;
 
 public class MoneyScalingModule {
 	private boolean moneyModuleOnline = false;
+	private boolean townyModuleOnline = false;
 
 	public MoneyScalingModule() {
 		if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-			LogsModule.info("Found Vault, Enabling Vault Money Mod.");
+			LogsModule.info("Found Vault, Enabling Vault Money Module.");
 			new VaultHandler();
 			this.moneyModuleOnline = true;
+			if (Bukkit.getPluginManager().isPluginEnabled("Towny")) {
+				LogsModule.info("Found Towny, Enabling Towny Economy Module.");
+
+				this.townyModuleOnline = true;
+			}
 		}
 	}
 
@@ -57,10 +65,13 @@ public class MoneyScalingModule {
 				final int level = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
 				final int moneyMod = event.getEntity().getMetadata(MetaTag.MoneyMod.toString()).get(0).asInt();
 				final double moneyValue = event.getEntity().getMetadata(MetaTag.MoneyDrop.toString()).get(0).asDouble();
-				double moneyRandomizer = Math.abs(event.getEntity().getMetadata(MetaTag.MoneyRandomizer.toString()).get(0).asDouble());
-				if(moneyRandomizer != 0) moneyRandomizer = Math.random() * (moneyRandomizer - (-moneyRandomizer)) + (-moneyRandomizer);
-				final double theRandomizer = moneyRandomizer + moneyRandomizer *((level*moneyMod)/2);	
-				final Double theMoney = (double) Math.round(((moneyValue+ theRandomizer + (moneyValue * level * moneyMod))) * 100) / 100;
+				double moneyRandomizer = Math
+						.abs(event.getEntity().getMetadata(MetaTag.MoneyRandomizer.toString()).get(0).asDouble());
+				if (moneyRandomizer != 0)
+					moneyRandomizer = Math.random() * (moneyRandomizer - (-moneyRandomizer)) + (-moneyRandomizer);
+				final double theRandomizer = moneyRandomizer + moneyRandomizer * ((level * moneyMod) / 2);
+				final Double theMoney = (double) Math
+						.round(((moneyValue + theRandomizer + (moneyValue * level * moneyMod))) * 100) / 100;
 				if (theMoney > 0) {
 					final ItemStack moneyItem = new ItemStack(Material.GOLD_NUGGET);
 					ItemMeta meta = moneyItem.getItemMeta();
@@ -78,35 +89,72 @@ public class MoneyScalingModule {
 		public void onPickup(final EntityPickupItemEvent ev) {
 			if (ev.getEntityType() == EntityType.PLAYER) {
 				try {
-				final Item item = ev.getItem();
-				String iName = ChatColor.stripColor(item.getItemStack().getItemMeta().getDisplayName());
+					final Item item = ev.getItem();
+					String iName = ChatColor.stripColor(item.getItemStack().getItemMeta().getDisplayName());
 					if ("G.".equals(iName.substring(iName.length() - 2, iName.length()))) {
 						ev.setCancelled(true);
 						item.remove();
 						final double theMoney = Double.parseDouble(iName.replaceAll("G.", ""));
-						
+
 						Player thePlayer = Bukkit.getPlayerExact(ev.getEntity().getName());
-						RPGMobsGainMoney gainMoneyEvent = new RPGMobsGainMoney(theMoney,thePlayer,economy);
-						Bukkit.getPluginManager().callEvent(gainMoneyEvent);
-						if (!(gainMoneyEvent.isCancelled())) {
-							gainMoneyEvent.transaction();
-							SendMoneyMessageToPlayer(theMoney,thePlayer);
-						}	
-						
+
+						double tempMoney = theMoney;
+						if (isTownyModuleOnline()) {
+							Resident resident = TownyAPI.getInstance().getDataSource().getResident(thePlayer.getName());
+							if (resident.hasTown()) {
+								final Double TownyRatio = Math
+										.abs(Main.RPGMobs.getConfigModule().getGlobalConfig().getTownyRatio());
+								if (TownyRatio != 0) {
+
+									final boolean isTownySubtract = Main.RPGMobs.getConfigModule().getGlobalConfig()
+											.getisTownySubtract();
+									final boolean isTownyNationSupport = Main.RPGMobs.getConfigModule()
+											.getGlobalConfig().getisTownyNationSupport();
+									Town town = TownyAPI.getInstance().getDataSource()
+											.getTown(resident.getTown().toString());
+
+									if (isTownySubtract)
+										tempMoney -= theMoney * TownyRatio;
+									town.collect(theMoney * TownyRatio);
+									if (isTownyNationSupport && town.hasNation()) {
+										Nation nation = town.getNation();
+										if (isTownySubtract)
+											tempMoney -= theMoney * TownyRatio * TownyRatio;
+										nation.collect(theMoney * TownyRatio * TownyRatio);
+									}
+								}
+							}
+						}
+
+						if (tempMoney > 0) {
+							RPGMobsGainMoney gainMoneyEvent = new RPGMobsGainMoney(tempMoney, thePlayer, economy);
+							Bukkit.getPluginManager().callEvent(gainMoneyEvent);
+							if (!(gainMoneyEvent.isCancelled())) {
+								gainMoneyEvent.transaction();
+								SendMoneyMessageToPlayer(tempMoney, thePlayer);
+							}
+						}
+
 					}
 				} catch (Exception e) {
 				}
 			}
 		}
 	}
-	
+
 	public static void SendMoneyMessageToPlayer(double amount, Player player) {
-		player.sendMessage(ChatColor.DARK_GREEN + "You have found " + ChatColor.GOLD + ChatColor.BOLD + amount + ChatColor.GOLD + ChatColor.BOLD + " coins");
+		player.sendMessage(ChatColor.DARK_GREEN + "You have found " + ChatColor.GOLD + ChatColor.BOLD + amount
+				+ ChatColor.GOLD + ChatColor.BOLD + " coins");
 		player.playSound(player.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.8f, 0.9f);
 	}
-	
+
 	public boolean isMoneyModuleOnline() {
 
 		return this.moneyModuleOnline;
 	}
+
+	public boolean isTownyModuleOnline() {
+		return this.townyModuleOnline;
+	}
+
 }

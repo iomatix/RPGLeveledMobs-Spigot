@@ -53,15 +53,21 @@ public enum ConfigKey {
 	MONEY_MOBS("Economy.MoneyMobs", "A list of mobs with currency values assigned which each drops on death."),
 	MONEY_MOD_ENABLE("Stats.Money.Enabled","Whether or not to increase the money amount a mob will drop by their level."),
 	MONEY_PER_LEVEL("Stats.Money.Multiplier","The percentage of money increase per level. Formula = [BaseMoney + (BaseMoney * level * multiplier)]"),
-	MONEY_RANDOM("Stats.Money.Random","Value by money drop may increase or decrease.");
+	MONEY_RANDOM("Stats.Money.Random","Value by money drop may increase or decrease."),
+	MONEY_TOWNY_RATIO("Economy.Towny.TownyRatio","Percent of the money received by Town - Towny Value."),
+	MONEY_TOWNY_SUBTRACT("Economy.Towny.TownySubtract","Boolean: Subtract the Towny Value from income?"),
+	MONEY_TOWNY_SUPPORTNATION("Economy.Towny.NationSupport","Boolean: Support both Nation and Town or only the Town?");
 	
 	
 	private String path;
 	private String description;
+	public static Double TownyRatio;
+	public static boolean TownySubtract;
+	public static boolean TownySupportNation;
 	public static HashMap<ConfigKey, Object> defaultMap;
 	public static HashMap<EntityType, Double> moneyMap;
 	public static HashMap<EntityType, Double> defaultMoneyAll;
-	public static ArrayList<EntityType> defaultLeveled;
+	public static ArrayList<EntityType> defaultLeveled; 
 	private static final ArrayList<EntityType> defaultBlockedVanilla;
 	private static final ArrayList<EntityType> defaultBlockedNether;
 	private static final ArrayList<EntityType> defaultBlockedEnd;
@@ -202,6 +208,9 @@ public enum ConfigKey {
 		ConfigKey.defaultMap.put(ConfigKey.EXPERIENCE_MODIFIER, 1.0);
 		ConfigKey.defaultMap.put(ConfigKey.ALWAYS_SHOW_MOB_NAME, true);
 		ConfigKey.defaultMap.put(ConfigKey.NAME_LANGUAGE, Language.ENGLISH);
+		ConfigKey.defaultMap.put(ConfigKey.MONEY_TOWNY_RATIO, 0.04);
+		ConfigKey.defaultMap.put(ConfigKey.MONEY_TOWNY_SUBTRACT, true);
+		ConfigKey.defaultMap.put(ConfigKey.MONEY_TOWNY_SUPPORTNATION, true);
 		try {
 			ConfigKey.defaultBlockedEnd.remove(EntityType.ENDERMITE);
 			ConfigKey.defaultLeveled.add(EntityType.GUARDIAN);

@@ -47,12 +47,16 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 	private boolean mobArenaWaveLeveling;
 	private double mobArenaMultiplier;
 	private double wavesPerLevel;
+	private Double TownyRatio;
+	private boolean TownySubtract;
+	private boolean TownyNationSupport;
 	private ArrayList<EntityType> leveledMobs;
 	private ArrayList<EntityType> blockedMobs;
 	private boolean leveledSpawners;
 	private ArrayList<SpawnNode> nodeList;
 	private int spawnNodeCount;
 	private HashMap<EntityType, Double> moneyMobs;
+	
 
 	public WorldConfig(final World world, final GlobalConfig global) {
 		this.nodeList = new ArrayList<SpawnNode>();
@@ -238,6 +242,15 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 			this.language = Language
 					.valueOf(this.config.getConfig().getString(ConfigKey.NAME_LANGUAGE.toString()).toUpperCase());
 			this.inheritedValues.remove(ConfigKey.NAME_LANGUAGE);
+		}
+		if (this.config.getConfig().contains(ConfigKey.MONEY_TOWNY_RATIO.toString())) {
+			this.TownyRatio = this.config.getConfig().getDouble(ConfigKey.MONEY_TOWNY_RATIO.toString());
+		}
+		if (this.config.getConfig().contains(ConfigKey.MONEY_TOWNY_SUBTRACT.toString())) {
+			this.TownySubtract = this.config.getConfig().getBoolean(ConfigKey.MONEY_TOWNY_SUBTRACT.toString());
+		}
+		if (this.config.getConfig().contains(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString())) {
+			this.TownyNationSupport = this.config.getConfig().getBoolean(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString());
 		}
 	}
 
@@ -985,6 +998,28 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 			return (Language) this.inheritedValues.get(ConfigKey.NAME_LANGUAGE);
 		}
 		return this.language;
+	}
+	
+	@Override
+	public Double getTownyRatio() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_RATIO)) {
+			return (Double) this.inheritedValues.get(ConfigKey.MONEY_TOWNY_RATIO);
+		}
+		return this.TownyRatio;
+	}
+	@Override
+	public boolean getisTownySubtract() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_SUBTRACT)) {
+			return (boolean) this.inheritedValues.get(ConfigKey.MONEY_TOWNY_SUBTRACT);
+		}
+		return this.TownySubtract;
+	}
+	@Override
+	public boolean getisTownyNationSupport() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_SUPPORTNATION)) {
+			return (boolean) this.inheritedValues.get(ConfigKey.MONEY_TOWNY_SUPPORTNATION);
+		}
+		return this.TownyNationSupport;
 	}
 
 	public ArrayList<SpawnNode> getNodes() {
