@@ -132,7 +132,7 @@ public abstract class RPGLeveledMobsConfig {
 		}
 		return strList;
 	}
-	
+
 	public HashMap<EntityType, Double> StringHashMapToMoneyList(final HashMap<String, String> entList) {
 		final HashMap<EntityType, Double> strList = new HashMap<EntityType, Double>();
 		for (Map.Entry<String, String> entry : entList.entrySet()) {
@@ -221,13 +221,19 @@ public abstract class RPGLeveledMobsConfig {
 	public abstract void removeMoneyMob(EntityType ent);
 
 	public abstract double getMoneyMob(EntityType ent);
-	
+
 	public abstract HashMap<EntityType, Double> getMoneyMobs();
-	
-	public abstract Double getTownyRatio();
-	
+
+	public abstract void setTownyRatio(final double p0);
+
+	public abstract double getTownyRatio();
+
+	public abstract void setisTownySubtract(final boolean p0);
+
 	public abstract boolean getisTownySubtract();
-	
+
+	public abstract void setisTownyNationSupport(final boolean p0);
+
 	public abstract boolean getisTownyNationSupport();
 
 }

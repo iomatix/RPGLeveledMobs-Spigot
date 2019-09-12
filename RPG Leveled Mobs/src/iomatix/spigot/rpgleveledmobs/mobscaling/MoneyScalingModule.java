@@ -34,6 +34,7 @@ import net.md_5.bungee.api.ChatColor;
 public class MoneyScalingModule {
 	private boolean moneyModuleOnline = false;
 	private boolean townyModuleOnline = false;
+	private Economy economy = null;
 
 	public MoneyScalingModule() {
 		if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
@@ -49,13 +50,12 @@ public class MoneyScalingModule {
 	}
 
 	private class VaultHandler implements Listener {
-		public Economy economy = null;
 
 		public VaultHandler() {
 			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
 			RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager()
 					.getRegistration(net.milkbowl.vault.economy.Economy.class);
-			this.economy = economyProvider.getProvider();
+			MoneyScalingModule.this.economy = economyProvider.getProvider();
 		}
 
 		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -73,11 +73,33 @@ public class MoneyScalingModule {
 				final Double theMoney = (double) Math
 						.round(((moneyValue + theRandomizer + (moneyValue * level * moneyMod))) * 100) / 100;
 				if (theMoney > 0) {
-					final ItemStack moneyItem = new ItemStack(Material.GOLD_NUGGET);
+					final ItemStack moneyItem;
+					if (theMoney > 2750) {
+						moneyItem = new ItemStack(Material.DIAMOND_BLOCK);
+					}
+					else if (theMoney > 1000) {
+						moneyItem = new ItemStack(Material.GOLD_BLOCK);
+					} else if (theMoney > 750) {
+						moneyItem = new ItemStack(Material.EMERALD_BLOCK);
+					} else if (theMoney > 300) {
+						moneyItem = new ItemStack(Material.DIAMOND);
+					} else if (theMoney > 200) {
+						moneyItem = new ItemStack(Material.GOLD_INGOT);
+					} else if (theMoney > 100) {
+						moneyItem = new ItemStack(Material.IRON_INGOT);
+					} else if (theMoney > 50) {
+						moneyItem = new ItemStack(Material.EMERALD);
+					} else if (theMoney > 10) {
+						moneyItem = new ItemStack(Material.GOLD_NUGGET);
+					} else if (theMoney > 1) {
+						moneyItem = new ItemStack(Material.GHAST_TEAR);
+					}else { moneyItem = new ItemStack(Material.IRON_NUGGET);}
+
 					ItemMeta meta = moneyItem.getItemMeta();
-					meta.setDisplayName(ChatColor.GOLD + theMoney.toString() + "G.");
-					meta.setLore(Arrays.asList(ChatColor.GOLD + theMoney.toString() + "G",
-							ChatColor.GOLD + "RPGLeveledMobs Dropped money.", "", theMoney.toString()));
+					meta.setDisplayName(ChatColor.GOLD + theMoney.toString() + " " + getCurrencyName(false));
+					meta.setLore(
+							Arrays.asList("Worth: " + ChatColor.GOLD + theMoney.toString() + " " + getCurrencyName(false),
+									ChatColor.GOLD + "RPGLeveledMobs Dropped money.", "", theMoney.toString()));
 					moneyItem.setItemMeta(meta);
 					event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation().add(0, 0, 1.35),
 							moneyItem);
@@ -91,10 +113,10 @@ public class MoneyScalingModule {
 				try {
 					final Item item = ev.getItem();
 					String iName = ChatColor.stripColor(item.getItemStack().getItemMeta().getDisplayName());
-					if ("G.".equals(iName.substring(iName.length() - 2, iName.length()))) {
+					if ((" " + getCurrencyName(false)).equals(iName.substring(iName.length() - (1+getCurrencyName(false).length()), iName.length()))) {
 						ev.setCancelled(true);
 						item.remove();
-						final double theMoney = Double.parseDouble(iName.replaceAll("G.", ""));
+						final double theMoney = Double.parseDouble(iName.replaceAll(" " + getCurrencyName(false), ""));
 
 						Player thePlayer = Bukkit.getPlayerExact(ev.getEntity().getName());
 
@@ -105,7 +127,6 @@ public class MoneyScalingModule {
 								final Double TownyRatio = Math
 										.abs(Main.RPGMobs.getConfigModule().getGlobalConfig().getTownyRatio());
 								if (TownyRatio != 0) {
-
 									final boolean isTownySubtract = Main.RPGMobs.getConfigModule().getGlobalConfig()
 											.getisTownySubtract();
 									final boolean isTownyNationSupport = Main.RPGMobs.getConfigModule()
@@ -122,7 +143,7 @@ public class MoneyScalingModule {
 											tempMoney -= theMoney * TownyRatio * TownyRatio;
 										nation.collect(theMoney * TownyRatio * TownyRatio);
 									}
-									tempMoney = (double)(Math.round(tempMoney*100))/100;
+									tempMoney = (double) (Math.round(tempMoney * 100)) / 100;
 								}
 							}
 						}
@@ -143,9 +164,10 @@ public class MoneyScalingModule {
 		}
 	}
 
-	public static void SendMoneyMessageToPlayer(double amount, Player player) {
+	public void SendMoneyMessageToPlayer(double amount, Player player) {
+
 		player.sendMessage(ChatColor.DARK_GREEN + "You have found " + ChatColor.GOLD + ChatColor.BOLD + amount
-				+ ChatColor.GOLD + ChatColor.BOLD + " coins");
+				+ ChatColor.GOLD + ChatColor.BOLD + " " + getCurrencyName(false));
 		player.playSound(player.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.8f, 0.9f);
 	}
 
@@ -156,6 +178,13 @@ public class MoneyScalingModule {
 
 	public boolean isTownyModuleOnline() {
 		return this.townyModuleOnline;
+	}
+
+	public String getCurrencyName(boolean isSingular) {
+		if(isSingular) {
+		return economy.currencyNameSingular();
+		}
+		return economy.currencyNamePlural();
 	}
 
 }

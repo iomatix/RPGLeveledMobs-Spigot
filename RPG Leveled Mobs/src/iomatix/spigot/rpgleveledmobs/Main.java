@@ -126,6 +126,9 @@ public class Main extends JavaPlugin {
 	public static boolean isMoneyModuleOnline() {
 		return Bukkit.getPluginManager().isPluginEnabled("Vault");
 	}
+	public static boolean isTownyModuleOnline() {
+		return Bukkit.getPluginManager().isPluginEnabled("Towny");
+	}
 
 	public static boolean isLeveledMob(final Entity ent) {
 		return ent.hasMetadata(MetaTag.RPGmob.toString()) && ent.hasMetadata(MetaTag.Level.toString());

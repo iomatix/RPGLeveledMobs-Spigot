@@ -47,7 +47,7 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 	private boolean mobArenaWaveLeveling;
 	private double mobArenaMultiplier;
 	private double wavesPerLevel;
-	private Double TownyRatio;
+	private double TownyRatio;
 	private boolean TownySubtract;
 	private boolean TownyNationSupport;
 	private ArrayList<EntityType> leveledMobs;
@@ -56,7 +56,6 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 	private ArrayList<SpawnNode> nodeList;
 	private int spawnNodeCount;
 	private HashMap<EntityType, Double> moneyMobs;
-	
 
 	public WorldConfig(final World world, final GlobalConfig global) {
 		this.nodeList = new ArrayList<SpawnNode>();
@@ -250,7 +249,8 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 			this.TownySubtract = this.config.getConfig().getBoolean(ConfigKey.MONEY_TOWNY_SUBTRACT.toString());
 		}
 		if (this.config.getConfig().contains(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString())) {
-			this.TownyNationSupport = this.config.getConfig().getBoolean(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString());
+			this.TownyNationSupport = this.config.getConfig()
+					.getBoolean(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString());
 		}
 	}
 
@@ -797,7 +797,8 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 
 	@Override
 	public double getMoneyMob(EntityType ent) {
-		if(this.getMoneyMobs().get(ent) == null)this.moneyMobs.put(ent,0.0);
+		if (this.getMoneyMobs().get(ent) == null)
+			this.moneyMobs.put(ent, 0.0);
 		return this.getMoneyMobs().get(ent);
 	}
 
@@ -999,14 +1000,32 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		}
 		return this.language;
 	}
-	
+
 	@Override
-	public Double getTownyRatio() {
+	public void setTownyRatio(final double ratio) {
+		this.TownyRatio = ratio;
+		this.config.getConfig().set(ConfigKey.MONEY_TOWNY_RATIO.toString(), (Object) this.TownyRatio);
+		this.config.saveConfig();
+		this.updateChildrenValues();
+	}
+
+	@Override
+	public double getTownyRatio() {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_RATIO)) {
-			return (Double) this.inheritedValues.get(ConfigKey.MONEY_TOWNY_RATIO);
+			return (double) this.inheritedValues.get(ConfigKey.MONEY_TOWNY_RATIO);
 		}
 		return this.TownyRatio;
 	}
+
+	@Override
+	public void setisTownySubtract(final boolean isSubtract) {
+		this.TownySubtract = isSubtract;
+		this.config.getConfig().set(ConfigKey.MONEY_TOWNY_SUBTRACT.toString(), (Object) this.TownySubtract);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+		this.updateChildrenValues();
+	}
+
 	@Override
 	public boolean getisTownySubtract() {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_SUBTRACT)) {
@@ -1014,6 +1033,16 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		}
 		return this.TownySubtract;
 	}
+
+	@Override
+	public void setisTownyNationSupport(final boolean isNationSupport) {
+		this.TownyNationSupport = isNationSupport;
+		this.config.getConfig().set(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString(), (Object) this.TownyNationSupport);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+		this.updateChildrenValues();
+	}
+
 	@Override
 	public boolean getisTownyNationSupport() {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_SUPPORTNATION)) {

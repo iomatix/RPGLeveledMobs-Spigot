@@ -49,6 +49,7 @@ public class SettingsMenu extends Menu {
 	protected NamingMenu namingMenu;
 	protected MobArenaMenu mobArenaMenu;
 	protected MoneyMenu moneyMenu;
+	protected MoneyTownyMenu moneyTownyMenu;
 	public RPGLeveledMobsConfig config;
 	protected ChatColor main = ChatColor.DARK_GREEN;
 	protected ChatColor sub = ChatColor.GOLD;
@@ -1508,11 +1509,12 @@ public class SettingsMenu extends Menu {
 	protected class MoneyMenu extends Menu {
 		private final Menu prev;
 		protected MoneyMobsMenu moneyMobsMenu;
-
+		protected MoneyTownyMenu moneyTownyMenu;
 		public MoneyMenu(final SettingsMenu prev) {
 			this.name = main + "Money" + sub + " Settings";
 			this.prev = prev;
 			this.moneyMobsMenu = new MoneyMobsMenu(this);
+			this.moneyTownyMenu = new MoneyTownyMenu(this);
 		}
 
 		@Override
@@ -1551,6 +1553,19 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(1, mobSetup);
+			
+			final Button townySetup = new Button();
+			townySetup.setIcon(Material.EMERALD);
+			townySetup.setName(ChatColor.GREEN + "Towny Settings");
+			townySetup.addLoreLine(" ");
+			townySetup.addLoreLine(ChatColor.YELLOW + "Adjust Towny settings.");
+			townySetup.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					MoneyMenu.this.moneyTownyMenu.ShowMenu(event.getInteractor());
+				}
+			});
+			this.menuMap.put(2, townySetup);
 
 			final Button previous = new Button();
 			previous.setIcon(Material.NETHER_STAR);
@@ -1956,7 +1971,144 @@ public class SettingsMenu extends Menu {
 			}
 		}
 	}
-
+	
+	protected class MoneyTownyMenu extends Menu {
+		private final Menu prev;
+		public MoneyTownyMenu(final MoneyMenu prev) {
+			this.name = sub + "Towny" + special_2 + " Settings";
+			this.prev = prev;
+			this.generateMenu();
+		}
+		
+		public MoneyTownyMenu(final SettingsMenu prev) {
+			this.name = sub + "Towny" + special_2 + " Settings";
+			this.prev = prev;
+			this.generateMenu();
+		}
+		
+		@Override
+		public void ShowMenu(final Player player) {
+			this.generateMenu();
+			super.ShowMenu(player);
+		}
+		
+		public void generateMenu() {
+			this.menuMap.clear();
+			final Button Townyenabled = new Button();
+			Townyenabled.setIcon(Material.WRITABLE_BOOK);
+			Townyenabled.setName(ChatColor.GREEN + "Towny");
+			Townyenabled.addLoreLine(" ");
+			if (Main.isTownyModuleOnline()) {
+				Townyenabled.setIcon(Material.GREEN_WOOL);
+				Townyenabled.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
+				Townyenabled.addLoreLine(ChatColor.DARK_GREEN + "Towny hook is enabled. Connected to Towny.");
+				
+				
+				
+			} else {
+				Townyenabled.setIcon(Material.RED_WOOL);
+				Townyenabled.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
+				Townyenabled.addLoreLine(" ");
+				Townyenabled.addLoreLine(ChatColor.GRAY + "Towny hook is disabled. Towny not found.");
+			}
+			this.menuMap.put(0, Townyenabled);
+			//TODO
+			final Button TownyRatio = new Button();
+			TownyRatio.setIcon(Material.WRITABLE_BOOK);
+			TownyRatio.setName(ChatColor.GREEN + "Ratio");
+			TownyRatio.addLoreLine(" ");
+			final double mult = SettingsMenu.this.config.getTownyRatio();
+			TownyRatio.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + mult);
+			TownyRatio.addLoreLine(special_2+"The ratio controls amount of money got by town from mobs.");
+			TownyRatio.addLoreLine(special_2 + "Formula: (ratio * money)");
+			TownyRatio.addLoreLine(" ");
+			TownyRatio.addLoreLine(ChatColor.GRAY + "Click to Change Value.");
+			TownyRatio.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					if (SettingsMenu.listeners.contains(event.getInteractor())) {
+						MoneyTownyMenu.menuHandler.closeMenu(event.getInteractor());
+					}
+					try {
+						MoneyTownyMenu.menuHandler.closeMenu(event.getInteractor());
+						final DoubleChangeListener doubleChangeListener = new DoubleChangeListener(
+								event.getInteractor(), event.getMenu(),
+								SettingsMenu.this.config.getClass().getMethod("setTownyRatio", Double.TYPE));
+						event.getInteractor().sendMessage(special_2 + "Please enter a new value: ");
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			this.menuMap.put(1, TownyRatio);
+			
+			final Button TownySubtract = new Button();
+			TownySubtract.setName(ChatColor.GREEN + "Treat as a tax");
+			TownySubtract.addLoreLine(" ");
+			final boolean isTownySubtract = SettingsMenu.this.config.getisTownySubtract();
+			if (isTownySubtract) {
+				TownySubtract.setIcon(Material.GREEN_WOOL);
+				TownySubtract.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
+				TownySubtract.addLoreLine(special_2 + "Subtracts the value given to the Town or Nation from dropped money.");
+			} else {
+				TownySubtract.setIcon(Material.RED_WOOL);
+				TownySubtract.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
+				TownySubtract.addLoreLine(ChatColor.GRAY + "Subtracts the value given to the Town or Nation from dropped money.");
+			}
+			TownySubtract.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					SettingsMenu.this.config.setisTownySubtract(!isTownySubtract);
+					MoneyTownyMenu.this.ShowMenu(event.getInteractor());
+				}
+			});
+			TownySubtract.addLoreLine(" ");
+			TownySubtract.addLoreLine(ChatColor.GRAY + "Click to Toggle");
+			this.menuMap.put(2, TownySubtract);
+			
+			
+			
+			final Button TownyNationSupport = new Button();
+			TownyNationSupport.setName(ChatColor.GREEN + "Support Nations");
+			TownyNationSupport.addLoreLine(" ");
+			final boolean isTownyNationSupport = SettingsMenu.this.config.getisTownyNationSupport();
+			if (isTownyNationSupport) {
+				TownyNationSupport.setIcon(Material.GREEN_WOOL);
+				TownyNationSupport.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
+				TownyNationSupport.addLoreLine(special_2 + "Supports Nations.");
+			} else {
+				TownyNationSupport.setIcon(Material.RED_WOOL);
+				TownyNationSupport.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
+				TownyNationSupport.addLoreLine(ChatColor.GRAY + "Supports Nations.");
+			}
+			TownyNationSupport.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					SettingsMenu.this.config.setisTownyNationSupport(!isTownyNationSupport);
+					MoneyTownyMenu.this.ShowMenu(event.getInteractor());
+				}
+			});
+			TownyNationSupport.addLoreLine(special_2 + "Formula: (ratio * ratio * money)");
+			TownyNationSupport.addLoreLine(" ");
+			TownyNationSupport.addLoreLine(ChatColor.GRAY + "Click to Toggle");
+			this.menuMap.put(3, TownyNationSupport);
+			
+						
+			final Button previous = new Button();
+			previous.setIcon(Material.NETHER_STAR);
+			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
+			previous.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					MoneyTownyMenu.this.prev.ShowMenu(event.getInteractor());
+				}
+			});
+			this.menuMap.put(8, previous);
+			
+		}
+		
+	}
+	
 	protected class MobArenaMenu extends Menu {
 		private final Menu prev;
 
