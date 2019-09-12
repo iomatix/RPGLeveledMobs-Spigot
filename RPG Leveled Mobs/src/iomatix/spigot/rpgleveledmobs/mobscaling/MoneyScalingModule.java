@@ -122,6 +122,7 @@ public class MoneyScalingModule {
 											tempMoney -= theMoney * TownyRatio * TownyRatio;
 										nation.collect(theMoney * TownyRatio * TownyRatio);
 									}
+									tempMoney = (double)(Math.round(tempMoney*100))/100;
 								}
 							}
 						}
