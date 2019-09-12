@@ -237,6 +237,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 			super.generateMenu();
 			final Button moneyMob = this.menuMap.get(1);
 			WorldSettingsMenu.this.ButtonInheritMod(this, moneyMob, ConfigKey.MONEY_MOBS, 1);
+			
 		}
 		
 

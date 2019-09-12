@@ -39,6 +39,7 @@ import iomatix.spigot.rpgleveledmobs.userInterface.Menu;
 import iomatix.spigot.rpgleveledmobs.config.cfgModule;
 import iomatix.spigot.rpgleveledmobs.config.WorldConfig;
 import iomatix.spigot.rpgleveledmobs.config.ConfigKey;
+import iomatix.spigot.rpgleveledmobs.config.GlobalConfig;
 import iomatix.spigot.rpgleveledmobs.config.RPGLeveledMobsConfig;
 import iomatix.spigot.rpgleveledmobs.Main;
 
@@ -1554,6 +1555,7 @@ public class SettingsMenu extends Menu {
 			});
 			this.menuMap.put(1, mobSetup);
 			
+			if(!(this instanceof WorldSettingsMenu.WorldMoneyMenu)) {
 			final Button townySetup = new Button();
 			townySetup.setIcon(Material.EMERALD);
 			townySetup.setName(ChatColor.GREEN + "Towny Settings");
@@ -1566,7 +1568,8 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(2, townySetup);
-
+			}
+			
 			final Button previous = new Button();
 			previous.setIcon(Material.NETHER_STAR);
 			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
@@ -2012,7 +2015,8 @@ public class SettingsMenu extends Menu {
 				Townyenabled.addLoreLine(ChatColor.GRAY + "Towny hook is disabled. Towny not found.");
 			}
 			this.menuMap.put(0, Townyenabled);
-			//TODO
+			
+			
 			final Button TownyRatio = new Button();
 			TownyRatio.setIcon(Material.WRITABLE_BOOK);
 			TownyRatio.setName(ChatColor.GREEN + "Ratio");
