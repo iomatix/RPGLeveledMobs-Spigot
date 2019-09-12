@@ -136,12 +136,12 @@ public class MoneyScalingModule {
 
 									if (isTownySubtract)
 										tempMoney -= theMoney * TownyRatio;
-									town.collect(theMoney * TownyRatio);
+									town.pay(theMoney * TownyRatio, "[RPGLeveledMobs] "+resident.getName()+ " got "+ theMoney+". Town got " +TownyRatio*100+"%");
 									if (isTownyNationSupport && town.hasNation()) {
 										Nation nation = town.getNation();
 										if (isTownySubtract)
-											tempMoney -= theMoney * TownyRatio * TownyRatio;
-										nation.collect(theMoney * TownyRatio * TownyRatio);
+											tempMoney -= theMoney * TownyRatio * TownyRatio;					
+										nation.pay(theMoney * TownyRatio * TownyRatio, "[RPGLeveledMobs] "+resident.getName()+ " got "+ theMoney+". Nation got " +TownyRatio*TownyRatio*100+"%");
 									}
 									tempMoney = (double) (Math.round(tempMoney * 100)) / 100;
 								}
