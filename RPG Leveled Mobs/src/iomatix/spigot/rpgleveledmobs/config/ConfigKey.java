@@ -189,7 +189,7 @@ public enum ConfigKey {
 		ConfigKey.defaultMap.put(ConfigKey.DAMAGE_MOD_ENABLE, true);
 		ConfigKey.defaultMap.put(ConfigKey.DAMAGE_PER_LEVEL, 1.0);
 		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_MOD_ENABLE, true);
-		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_PER_LEVEL, 3);
+		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_PER_LEVEL, 3.0);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_MOD_ENABLE, true);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_PER_LEVEL, 0.35);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_RANDOM, 1.5);
