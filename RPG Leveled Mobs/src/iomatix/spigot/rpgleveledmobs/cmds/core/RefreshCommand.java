@@ -296,10 +296,9 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 				++refreshed;
 			}
 		}
-		Bukkit.getConsoleSender()
-				.sendMessage(ChatColor.GOLD + LogsModule.PLUGIN_TITLE + ChatColor.GRAY + " refreshed " + ChatColor.GOLD
-						+ refreshed + ChatColor.GRAY + " mobs in " + ChatColor.AQUA + worlds + ChatColor.GRAY
-						+ " worlds.");
+		LogsModule.info("refreshed " + ChatColor.GOLD
+				+ refreshed + ChatColor.GRAY + " mobs in " + ChatColor.AQUA + worlds + ChatColor.GRAY
+				+ " worlds.");
 		return true;
 
 	}
@@ -320,8 +319,9 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 				++refreshed;
 			}
 		}
-		sender.sendMessage(ChatColor.GOLD + LogsModule.PLUGIN_TITLE + ChatColor.GRAY + " refreshed " + ChatColor.GOLD
-				+ refreshed + ChatColor.GRAY + " mobs in " + ChatColor.AQUA + worlds + ChatColor.GRAY + " worlds.");
+		LogsModule.info("refreshed " + ChatColor.GOLD
+				+ refreshed + ChatColor.GRAY + " mobs in " + ChatColor.AQUA + worlds + ChatColor.GRAY
+				+ " worlds.");
 		return true;
 
 	}

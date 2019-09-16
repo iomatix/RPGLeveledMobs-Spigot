@@ -41,9 +41,10 @@ public class MoneyScalingModule {
 			LogsModule.info("Found Vault, Enabling Vault Money Module.");
 			new VaultHandler();
 			this.moneyModuleOnline = true;
+			LogsModule.info("Economy connected to: " + ChatColor.GREEN + this.economy.getName());
+			LogsModule.info("Found Vault, Enabling Vault Money Module.");
 			if (Bukkit.getPluginManager().isPluginEnabled("Towny") && MoneyScalingModule.this.economy != null) {
 				LogsModule.info("Found Towny, Enabling Towny Economy Module.");
-
 				this.townyModuleOnline = true;
 			}
 		}

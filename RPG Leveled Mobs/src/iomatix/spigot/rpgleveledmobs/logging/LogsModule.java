@@ -54,7 +54,7 @@ public class LogsModule {
 
 	public static void info(final String logMsg) {
 		if (Bukkit.getConsoleSender() != null) {
-			Bukkit.getConsoleSender().sendMessage(LogsModule.PLUGIN_TITLE + LogsModule.INFO + logMsg);
+			Bukkit.getConsoleSender().sendMessage(LogsModule.PLUGIN_TITLE+ " "  + LogsModule.INFO+ " " + logMsg);
 		} else {
 			LogsModule.log.info(logMsg);
 		}
@@ -63,14 +63,14 @@ public class LogsModule {
 
 	public static void debug(final String logMessage) {
 		if (Bukkit.getConsoleSender() != null && LogsModule.debugEnabled) {
-			Bukkit.getConsoleSender().sendMessage(LogsModule.PLUGIN_TITLE + LogsModule.DEBUG + logMessage);
+			Bukkit.getConsoleSender().sendMessage(LogsModule.PLUGIN_TITLE+ " " + LogsModule.DEBUG+ " " + logMessage);
 		}
 		physicalLog("[Debug]" + logMessage);
 	}
 
 	public static void error(final String logMessage) {
 		if (Bukkit.getConsoleSender() != null) {
-			Bukkit.getConsoleSender().sendMessage(LogsModule.PLUGIN_TITLE + LogsModule.SEVERE + logMessage);
+			Bukkit.getConsoleSender().sendMessage(LogsModule.PLUGIN_TITLE+ " "  + LogsModule.SEVERE+ " " + logMessage);
 		} else {
 			LogsModule.log.severe(logMessage);
 		}
@@ -79,7 +79,7 @@ public class LogsModule {
 
 	public static void warning(final String logMessage) {
 		if (Bukkit.getConsoleSender() != null) {
-			Bukkit.getConsoleSender().sendMessage(LogsModule.PLUGIN_TITLE + LogsModule.WARNING + logMessage);
+			Bukkit.getConsoleSender().sendMessage(LogsModule.PLUGIN_TITLE+ " "  + LogsModule.WARNING+ " " + logMessage);
 		} else {
 			LogsModule.log.warning(logMessage);
 		}
