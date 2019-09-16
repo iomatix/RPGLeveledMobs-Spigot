@@ -41,7 +41,7 @@ public class MoneyScalingModule {
 			LogsModule.info("Found Vault, Enabling Vault Money Module.");
 			new VaultHandler();
 			this.moneyModuleOnline = true;
-			if (Bukkit.getPluginManager().isPluginEnabled("Towny")) {
+			if (Bukkit.getPluginManager().isPluginEnabled("Towny") && MoneyScalingModule.this.economy != null) {
 				LogsModule.info("Found Towny, Enabling Towny Economy Module.");
 
 				this.townyModuleOnline = true;
@@ -55,7 +55,12 @@ public class MoneyScalingModule {
 			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
 			RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager()
 					.getRegistration(net.milkbowl.vault.economy.Economy.class);
+			try {
 			MoneyScalingModule.this.economy = economyProvider.getProvider();
+			}catch (NullPointerException e) {
+				LogsModule.warning("No Vault supported economy plugin found. Vault hook disabled!");
+				MoneyScalingModule.this.moneyModuleOnline = false;
+			}
 		}
 
 		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
