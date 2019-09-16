@@ -41,8 +41,6 @@ public class MoneyScalingModule {
 			LogsModule.info("Found Vault, Enabling Vault Money Module.");
 			new VaultHandler();
 			this.moneyModuleOnline = true;
-			LogsModule.info("Economy connected to: " + ChatColor.GREEN + this.economy.getName());
-			LogsModule.info("Found Vault, Enabling Vault Money Module.");
 			if (Bukkit.getPluginManager().isPluginEnabled("Towny") && MoneyScalingModule.this.economy != null) {
 				LogsModule.info("Found Towny, Enabling Towny Economy Module.");
 				this.townyModuleOnline = true;
@@ -58,8 +56,10 @@ public class MoneyScalingModule {
 					.getRegistration(net.milkbowl.vault.economy.Economy.class);
 			try {
 			MoneyScalingModule.this.economy = economyProvider.getProvider();
+			LogsModule.info("Vault Money Module is enabled.");
+			LogsModule.info("Economy connected to: " + ChatColor.GREEN + MoneyScalingModule.this.economy.getName());
 			}catch (NullPointerException e) {
-				LogsModule.warning("No Vault supported economy plugin found. Vault hook disabled!");
+				LogsModule.warning("No Vault supported economy plugin found. Vault Money Modules isn't enabled.");
 				MoneyScalingModule.this.moneyModuleOnline = false;
 			}
 		}
