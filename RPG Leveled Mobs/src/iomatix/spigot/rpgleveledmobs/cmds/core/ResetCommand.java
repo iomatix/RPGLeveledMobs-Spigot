@@ -84,13 +84,14 @@ public class ResetCommand implements RPGlvlmobsCommand {
 		int level = node.getLevel(location);
 		if (Main.RPGMobs.getExperienceScalingModuleInstance().isSkillApiHandled()) {
 			if (livingEntity instanceof Tameable) {
-				if (((Tameable) livingEntity).getOwner() != null 
-						&& ((Player) ((Tameable) livingEntity).getOwner()).hasPermission("skillapi.exp")) {
-					PlayerData playerData = SkillAPI
-							.getPlayerData((OfflinePlayer) ((Tameable) livingEntity).getOwner());
+				if (((Tameable) livingEntity).getOwner() != null) {
+					if(SkillAPI.getPlayerData((OfflinePlayer) ((Tameable) livingEntity).getOwner())!= null) {
+					PlayerData playerData = SkillAPI.getPlayerData((OfflinePlayer) ((Tameable) livingEntity).getOwner());
+					
 					int levelSKILLAPI = playerData.hasClass() ? playerData.getMainClass().getLevel() : 0;
 					if (levelSKILLAPI > 0) {
 						level = levelSKILLAPI;
+					}
 					}
 				}
 			}

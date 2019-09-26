@@ -254,8 +254,7 @@ public class SpawnModule implements Listener {
 					@Override
 					public void run() {
 						if (Main.RPGMobs.getExperienceScalingModuleInstance().isSkillApiHandled()
-								&& (event.getOwner() != null)
-								&& (((Player) event.getOwner()).hasPermission("skillapi.exp"))) {
+								&& (event.getOwner() != null) && SkillAPI.getPlayerData((OfflinePlayer) event.getOwner()) != null) {
 							PlayerData playerData = SkillAPI.getPlayerData((OfflinePlayer) event.getOwner());
 							int level = playerData.hasClass() ? playerData.getMainClass().getLevel() : 0;
 							if (level > 0) {
