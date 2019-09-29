@@ -71,7 +71,7 @@ public class MoneyScalingModule {
 			if (economy != null && event.getEntity().hasMetadata(MetaTag.RPGmob.toString())
 					&& event.getEntity().hasMetadata(MetaTag.MoneyDrop.toString())) {
 				final int level = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
-				final int moneyMod = event.getEntity().getMetadata(MetaTag.MoneyMod.toString()).get(0).asInt();
+				final double moneyMod = event.getEntity().getMetadata(MetaTag.MoneyMod.toString()).get(0).asDouble();
 				final double moneyValue = event.getEntity().getMetadata(MetaTag.MoneyDrop.toString()).get(0).asDouble();
 				double moneyRandomizer = Math
 						.abs(event.getEntity().getMetadata(MetaTag.MoneyRandomizer.toString()).get(0).asDouble());
