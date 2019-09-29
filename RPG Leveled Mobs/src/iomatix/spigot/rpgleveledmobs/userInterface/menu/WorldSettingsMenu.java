@@ -172,7 +172,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 			WorldSettingsMenu.this.ButtonInheritMod(this, damageMod, ConfigKey.DAMAGE_MOD_ENABLE, 16);
 			final Button damageMult = this.menuMap.get(25);
 			WorldSettingsMenu.this.ButtonInheritMod(this, damageMult, ConfigKey.DAMAGE_PER_LEVEL, 25);
-			final Button damageAddon = this.menuMap.get(32);
+			final Button damageAddon = this.menuMap.get(34);
 			WorldSettingsMenu.this.ButtonInheritMod(this, damageAddon, ConfigKey.DAMAGE_ADDON, 34);
 		}
 	}
