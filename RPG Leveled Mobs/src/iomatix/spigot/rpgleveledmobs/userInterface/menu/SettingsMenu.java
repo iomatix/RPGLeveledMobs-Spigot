@@ -180,7 +180,7 @@ public class SettingsMenu extends Menu {
 			this.menuMap.clear();
 			final Button exp = new Button();
 			exp.setName(special + "Experience Settings");
-			exp.addLoreLine(special_2 + "Formula: base + (base * level * multiplier)");
+			exp.addLoreLine(special_2 + "Formula: base + (addon*level + base*level*multiplier)");
 			exp.setIcon(Material.EXPERIENCE_BOTTLE);
 			this.menuMap.put(1, exp);
 			final Button expToggle = new Button();
@@ -229,9 +229,36 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(19, expMod);
+			final Button expAddon = new Button();
+			expAddon.setIcon(Material.WRITABLE_BOOK);
+			expAddon.setName(ChatColor.GREEN + "Experience Addon");
+			expAddon.addLoreLine(" ");
+			final double expAdd = SettingsMenu.this.config.getExperienceAddon();
+			expAddon.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + expAdd);
+			expAddon.addLoreLine(" ");
+			expAddon.addLoreLine(ChatColor.GRAY + "Click to Change Value.");
+			expAddon.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					if (SettingsMenu.listeners.contains(event.getInteractor())) {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+					}
+					try {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+						final DoubleChangeListener doubleChangeListener = new DoubleChangeListener(
+								event.getInteractor(), event.getMenu(),
+								SettingsMenu.this.config.getClass().getMethod("setExperienceAddon", Double.TYPE));
+						event.getInteractor().sendMessage(special_2 + "Please enter a new value: ");
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			this.menuMap.put(28, expAddon);
+			
 			final Button health = new Button();
 			health.setName(special + "Health Settings");
-			health.addLoreLine(special_2 + "Formula: base + (base * level * multiplier)");
+			health.addLoreLine(special_2 + "Formula: base + (addon*level + base*level*multiplier)");
 			health.setIcon(Material.NETHER_WART);
 			this.menuMap.put(3, health);
 			final Button healthToggle = new Button();
@@ -280,6 +307,33 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(21, healthMod);
+			final Button healthAddon = new Button();
+			healthAddon.setIcon(Material.WRITABLE_BOOK);
+			healthAddon.setName(ChatColor.GREEN + "Health Addon");
+			healthAddon.addLoreLine(" ");
+			final double healthAdd = SettingsMenu.this.config.getHealthAddon();
+			healthAddon.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + healthAdd);
+			healthAddon.addLoreLine(" ");
+			healthAddon.addLoreLine(ChatColor.GRAY + "Click to Change Value.");
+			healthAddon.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					if (SettingsMenu.listeners.contains(event.getInteractor())) {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+					}
+					try {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+						final DoubleChangeListener doubleChangeListener = new DoubleChangeListener(
+								event.getInteractor(), event.getMenu(),
+								SettingsMenu.this.config.getClass().getMethod("setHealthAddon", Double.TYPE));
+						event.getInteractor().sendMessage(special_2 + "Please enter a new value: ");
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			this.menuMap.put(30, healthAddon);
+			
 			final Button money = new Button();
 			money.setName(special + "Money Settings");
 			money.addLoreLine(special_2 + "Formula: baseMoney + (baseMoney * level * multiplier)");
@@ -360,7 +414,9 @@ public class SettingsMenu extends Menu {
 			this.menuMap.put(31, moneyRandomizer);
 			final Button defense = new Button();
 			defense.setName(special + "Defense Settings");
-			defense.addLoreLine(special_2 + "Formula: damageTaken * (1 - min(20,max(multiplier * level/5,level*multiplier-damageTaken/2))/25)");
+			defense.addLoreLine(special_2 + "Formula: damageTaken * ");
+			defense.addLoreLine(special_2 + "(1 - min(20,max((addon*level + addon*multiplier*level)/5,");
+			defense.addLoreLine(special_2 + "(addon*level + addon*multiplier*level)-damageTaken/2))/25)");
 			defense.setIcon(Material.IRON_CHESTPLATE);
 			this.menuMap.put(5, defense);
 			final Button defenseToggle = new Button();
@@ -409,9 +465,35 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(23, defenseMod);
+			final Button defenseAddon = new Button();
+			defenseAddon.setIcon(Material.WRITABLE_BOOK);
+			defenseAddon.setName(ChatColor.GREEN + "Defense Addon");
+			defenseAddon.addLoreLine(" ");
+			final double defenseAdd = SettingsMenu.this.config.getDefenseAddon();
+			defenseAddon.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + defenseAdd);
+			defenseAddon.addLoreLine(" ");
+			defenseAddon.addLoreLine(ChatColor.GRAY + "Click to Change Value.");
+			defenseAddon.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					if (SettingsMenu.listeners.contains(event.getInteractor())) {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+					}
+					try {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+						final DoubleChangeListener doubleChangeListener = new DoubleChangeListener(
+								event.getInteractor(), event.getMenu(),
+								SettingsMenu.this.config.getClass().getMethod("setDefenseAddon", Double.TYPE));
+						event.getInteractor().sendMessage(special_2 + "Please enter a new value: ");
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			this.menuMap.put(32, defenseAddon);
 			final Button damage = new Button();
 			damage.setName(special + "Damage Settings");
-			damage.addLoreLine(special_2 + "Formula: base + (base * level * multiplier)");
+			damage.addLoreLine(special_2 + "Formula: base + (level*addon) + (base*level*multiplier)");
 			damage.setIcon(Material.IRON_SWORD);
 			this.menuMap.put(7, damage);
 			final Button damageToggle = new Button();
@@ -460,6 +542,33 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(25, damageMod);
+			final Button damageAddon = new Button();
+			damageAddon.setIcon(Material.WRITABLE_BOOK);
+			damageAddon.setName(ChatColor.GREEN + "Damage Addon");
+			damageAddon.addLoreLine(" ");
+			final double damageAdd = SettingsMenu.this.config.getDamageAddon();
+			damageAddon.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + damageAdd);
+			damageAddon.addLoreLine(" ");
+			damageAddon.addLoreLine(ChatColor.GRAY + "Click to Change Value.");
+			damageAddon.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					if (SettingsMenu.listeners.contains(event.getInteractor())) {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+					}
+					try {
+						StatsMenu.menuHandler.closeMenu(event.getInteractor());
+						final DoubleChangeListener doubleChangeListener = new DoubleChangeListener(
+								event.getInteractor(), event.getMenu(),
+								SettingsMenu.this.config.getClass().getMethod("setDamageAddon", Double.TYPE));
+						event.getInteractor().sendMessage(special_2 + "Please enter a new value: ");
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			this.menuMap.put(34, damageAddon);
+			
 			final Button previous = new Button();
 			previous.setIcon(Material.NETHER_STAR);
 			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
@@ -470,6 +579,7 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(35, previous);
+			
 		}
 	}
 

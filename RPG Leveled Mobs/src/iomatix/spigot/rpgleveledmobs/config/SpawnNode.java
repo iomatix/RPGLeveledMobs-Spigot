@@ -46,6 +46,10 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	private double expMult;
 	private boolean healthModified;
 	private double healthMult;
+	private double healthAddon;
+	private double defenseAddon;
+	private double damageAddon;
+	private double experienceAddon;
 	private boolean mobArenaLevelingEnabled;
 	private boolean mobArenaWaveLevelingEnabled;
 	private double mobArenaMultiplier;
@@ -807,6 +811,64 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 		this.nodeConfig.set(ConfigKey.MONEY_TAKE_MONEY_ON_KILL.toString(), (Object) noMoneyDrop);
 		this.worldConfig.saveNodeConfig();
 	}
+	
+	@Override
+	public double getHealthAddon() {
+		if (this.inheritedValues.containsKey(ConfigKey.HEALTH_ADDON)) {
+			return (double) this.inheritedValues.get(ConfigKey.HEALTH_ADDON);
+		}
+		return this.healthAddon;
+	}
+	@Override
+	public void setHealthAddon(double healthAdd) {
+		this.inheritedValues.remove(ConfigKey.HEALTH_ADDON);
+		this.healthAddon = healthAdd;
+		this.nodeConfig.set(ConfigKey.HEALTH_ADDON.toString(), (Object) healthAdd);
+		this.worldConfig.saveNodeConfig();
+	}
+	@Override
+	public double getDefenseAddon() {
+		if (this.inheritedValues.containsKey(ConfigKey.DEFENSE_ADDON)) {
+			return (double) this.inheritedValues.get(ConfigKey.DEFENSE_ADDON);
+		}
+		return this.defenseAddon;
+	}
+	@Override
+	public void setDefenseAddon(double defenseAdd) {
+		this.inheritedValues.remove(ConfigKey.DEFENSE_ADDON);
+		this.defenseAddon = defenseAdd;
+		this.nodeConfig.set(ConfigKey.DEFENSE_ADDON.toString(), (Object) defenseAdd);
+		this.worldConfig.saveNodeConfig();
+	}
+	@Override
+	public double getDamageAddon() {
+		if (this.inheritedValues.containsKey(ConfigKey.DAMAGE_ADDON)) {
+			return (double) this.inheritedValues.get(ConfigKey.DAMAGE_ADDON);
+		}
+		return this.damageAddon;
+	}
+	@Override
+	public void setDamageAddon(double damageAdd) {
+		this.inheritedValues.remove(ConfigKey.DAMAGE_ADDON);
+		this.damageAddon = damageAdd;
+		this.nodeConfig.set(ConfigKey.DAMAGE_ADDON.toString(), (Object) damageAdd);
+		this.worldConfig.saveNodeConfig();
+	}
+	@Override
+	public double getExperienceAddon() {
+		if (this.inheritedValues.containsKey(ConfigKey.EXPERIENCE_ADDON)) {
+			return (double) this.inheritedValues.get(ConfigKey.EXPERIENCE_ADDON);
+		}
+		return this.experienceAddon;
+	}
+	@Override
+	public void setExperienceAddon(double experienceAdd) {
+		this.inheritedValues.remove(ConfigKey.EXPERIENCE_ADDON);
+		this.experienceAddon = experienceAdd;
+		this.nodeConfig.set(ConfigKey.EXPERIENCE_ADDON.toString(), (Object) experienceAdd);
+		this.worldConfig.saveNodeConfig();
+	}
+	
 	public void updateInheritedValues() {
 		for (final ConfigKey key : this.inheritedValues.keySet()) {
 			this.inheritedValues.put(key, this.worldConfig.getValue(key));

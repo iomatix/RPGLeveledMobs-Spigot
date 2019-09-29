@@ -35,6 +35,7 @@ import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 
 public class ExperienceScalingModule {
 	private boolean SkillAPIHandled;
+
 	public ExperienceScalingModule() {
 		boolean experienceHandled = false;
 		SkillAPIHandled = false;
@@ -54,17 +55,17 @@ public class ExperienceScalingModule {
 			new VanillaHandler();
 		}
 	}
-	
-	public boolean isSkillApiHandled()
-	{
+
+	public boolean isSkillApiHandled() {
 		return SkillAPIHandled;
 	}
 
 	private int handleOrbExp(final Entity ent, final int droppedXp) {
 		if (this.isMobExperienceModified(ent)) {
 			final double expMod = ent.getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble();
+			final double expAddon = ent.getMetadata(MetaTag.ExpAddon.toString()).get(0).asDouble();
 			final int level = ent.getMetadata(MetaTag.Level.toString()).get(0).asInt();
-			final int moddedExp = (int) Math.floor(droppedXp + droppedXp * level * expMod);
+			final int moddedExp = (int) Math.floor(droppedXp + expAddon * level + droppedXp * level * expMod);
 			return moddedExp;
 		}
 		return droppedXp;
@@ -85,8 +86,9 @@ public class ExperienceScalingModule {
 			if (ExperienceScalingModule.this.isMobExperienceModified((Entity) event.getEntity())) {
 				final int defDropped = event.getDroppedExp();
 				final double expMod = event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble();
+				final double expAddon = event.getEntity().getMetadata(MetaTag.ExpAddon.toString()).get(0).asDouble();
 				final int level = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
-				final int moddedExp = (int) Math.floor(defDropped + defDropped * level * expMod);
+				final int moddedExp = (int) Math.floor(defDropped + expAddon * level + defDropped * level * expMod);
 				event.setDroppedExp(moddedExp);
 			}
 		}
@@ -100,8 +102,8 @@ public class ExperienceScalingModule {
 
 	private class SkillAPIHandler implements Listener {
 		public SkillAPIHandler() {
-			Bukkit.getPluginManager().registerEvents((Listener) this,(Plugin) Main.RPGMobs );
-			
+			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
+
 		}
 
 		@EventHandler(priority = EventPriority.HIGHEST)
@@ -110,7 +112,7 @@ public class ExperienceScalingModule {
 				event.setDroppedExp(ExperienceScalingModule.this.handleOrbExp((Entity) event.getEntity(), event.getDroppedExp()));
 			} else if (event.getEntity().hasMetadata(MetaTag.RPGmob.toString())
 					&& event.getEntity().hasMetadata(MetaTag.Level.toString())
-					&& event.getEntity().hasMetadata(MetaTag.ExpMod.toString())) {
+					&& (event.getEntity().hasMetadata(MetaTag.ExpMod.toString()) && event.getEntity().hasMetadata(MetaTag.ExpAddon.toString()))) {
 				Player tempKiller = null;
 				if (event.getEntity().getKiller() == null && event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
 					final EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
@@ -133,14 +135,16 @@ public class ExperienceScalingModule {
 					if (killer.getGameMode() == GameMode.CREATIVE && SkillAPI.getSettings().isBlockCreative()) {
 						return;
 					}
+					
+					final int mobLevel = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
+					final double expFinal = mobLevel *
+							event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble() 
+							+ mobLevel * event.getEntity().getMetadata(MetaTag.ExpAddon.toString()).get(0).asDouble();
 					if (killer.hasMetadata(MetaTag.RecentKill.toString())) {
-						((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value())
-								.addLast(event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt()
-										* event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble());
+						((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).addLast(expFinal);
 					} else {
 						final LinkedList<Double> q = new LinkedList<Double>();
-						q.addLast(event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble()
-								* event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt());
+						q.addLast(expFinal);
 						killer.setMetadata(MetaTag.RecentKill.toString(),
 								(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) q));
 					}
@@ -155,44 +159,46 @@ public class ExperienceScalingModule {
 				return;
 			}
 			try {
-			final double expModifier = (double) ((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).removeFirst();
-			if (expModifier != 0) {
-	
-				final double theExp = event.getExp() + event.getExp() * expModifier;
-				RPGMobsGainExperience gainExperienceEvent = new RPGMobsGainExperience(theExp,killer);
-				Bukkit.getPluginManager().callEvent(gainExperienceEvent);
-				if (!(gainExperienceEvent.isCancelled())) {
-					event.setExp((int) Math.floor(theExp));
-				}else { 
-					event.setCancelled(true);
+				final double expModifier = (double) ((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString())
+						.get(0).value()).removeFirst();
+				if (expModifier != 0) {
+
+					final double theExp = event.getExp() + event.getExp() * expModifier;
+					RPGMobsGainExperience gainExperienceEvent = new RPGMobsGainExperience(theExp, killer);
+					Bukkit.getPluginManager().callEvent(gainExperienceEvent);
+					if (!(gainExperienceEvent.isCancelled())) {
+						event.setExp((int) Math.floor(theExp));
+					} else {
+						event.setCancelled(true);
+					}
+
 				}
-				
+			} catch (Exception e) {
+				return;
 			}
-			}catch(Exception e) { return;}
 		}
-		
+
 		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 		public void onPlayerGainLevel(final PlayerLevelUpEvent event) {
 			final int newLevel = event.getLevel();
 			final Player who = event.getPlayerData().getPlayer();
 			for (final World world : Bukkit.getWorlds()) {
 				for (final Entity ent : world.getEntities()) {
-					if(ent instanceof Tameable) {
+					if (ent instanceof Tameable) {
 						Tameable thePet = (Tameable) ent;
-						if((thePet.isTamed() && thePet.getOwner().getName().equals(who.getName()))) {
-							
+						if ((thePet.isTamed() && thePet.getOwner().getName().equals(who.getName()))) {
+
 							if (thePet.hasMetadata(MetaTag.Level.toString())) {
 								thePet.removeMetadata(MetaTag.Level.toString(), (Plugin) Main.RPGMobs);
 							}
 							thePet.setMetadata(MetaTag.Level.toString(),
 									(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) newLevel));
-							RefreshCommand.RefreshMetaToLevel((LivingEntity)thePet);
+							RefreshCommand.RefreshMetaToLevel((LivingEntity) thePet);
 						}
 					}
 				}
 			}
-			
-		
+
 		}
 	}
 }

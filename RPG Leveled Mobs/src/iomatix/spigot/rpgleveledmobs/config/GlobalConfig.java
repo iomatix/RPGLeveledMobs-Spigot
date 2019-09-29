@@ -37,6 +37,10 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	private double moneyMultiplier;
 	private double moneyRandomizer;
 	private double experienceModifier;
+	private double healthAddon;
+	private double defenseAddon;
+	private double damageAddon;
+	private double experienceAddon;
 	private boolean leveledMobArea;
 	private boolean mobArenaWaveLeveling;
 	private double mobArenaMultiplier;
@@ -160,6 +164,18 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 		}
 		if (this.config.getConfig().contains(ConfigKey.EXPERIENCE_MODIFIER.toString())) {
 			this.experienceModifier = this.config.getConfig().getDouble(ConfigKey.EXPERIENCE_MODIFIER.toString());
+		}
+		if (this.config.getConfig().contains(ConfigKey.HEALTH_ADDON.toString())) {
+			this.healthAddon = this.config.getConfig().getDouble(ConfigKey.HEALTH_ADDON.toString());
+		}
+		if (this.config.getConfig().contains(ConfigKey.DEFENSE_ADDON.toString())) {
+			this.defenseAddon = this.config.getConfig().getDouble(ConfigKey.DEFENSE_ADDON.toString());
+		}
+		if (this.config.getConfig().contains(ConfigKey.DAMAGE_ADDON.toString())) {
+			this.damageAddon = this.config.getConfig().getDouble(ConfigKey.DAMAGE_ADDON.toString());
+		}
+		if (this.config.getConfig().contains(ConfigKey.EXPERIENCE_ADDON.toString())) {
+			this.experienceAddon = this.config.getConfig().getDouble(ConfigKey.EXPERIENCE_ADDON.toString());
 		}
 		if (this.config.getConfig().contains(ConfigKey.USE_SUFFIX.toString())) {
 			this.useSuffix = this.config.getConfig().getBoolean(ConfigKey.USE_SUFFIX.toString());
@@ -759,6 +775,50 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	public void setNoMoneyDrop(boolean noMoneyDrop) {
 		this.NoMoneyDrop = noMoneyDrop;
 		this.config.getConfig().set(ConfigKey.MONEY_TAKE_MONEY_ON_KILL.toString(), (Object) this.NoMoneyDrop);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+	@Override
+	public double getHealthAddon() {
+		return this.healthAddon;
+	}
+	@Override
+	public void setHealthAddon(double healthAdd) {
+		this.healthAddon = healthAdd;
+		this.config.getConfig().set(ConfigKey.HEALTH_ADDON.toString(), (Object) healthAdd);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+	@Override
+	public double getDefenseAddon() {
+		return this.defenseAddon;
+	}
+	@Override
+	public void setDefenseAddon(double defenseAdd) {
+		this.defenseAddon = defenseAdd;
+		this.config.getConfig().set(ConfigKey.DEFENSE_ADDON.toString(), (Object) defenseAdd);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+	@Override
+	public double getDamageAddon() {
+		return this.damageAddon;
+	}
+	@Override
+	public void setDamageAddon(double damageAdd) {
+		this.damageAddon = damageAdd;
+		this.config.getConfig().set(ConfigKey.DAMAGE_ADDON.toString(), (Object) damageAdd);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+	@Override
+	public double getExperienceAddon() {
+		return this.experienceAddon;
+	}
+	@Override
+	public void setExperienceAddon(double experienceAdd) {
+		this.experienceAddon = experienceAdd;
+		this.config.getConfig().set(ConfigKey.EXPERIENCE_ADDON.toString(), (Object) experienceAdd);
 		this.config.saveConfig();
 		Main.RPGMobs.getConfigModule().globalUpdate();
 	}

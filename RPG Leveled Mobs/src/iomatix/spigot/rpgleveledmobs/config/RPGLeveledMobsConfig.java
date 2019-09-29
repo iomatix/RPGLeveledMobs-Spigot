@@ -240,4 +240,13 @@ public abstract class RPGLeveledMobsConfig {
 
 	public abstract void setNoMoneyDrop(boolean noMoneyDrop);
 
+	public abstract double getHealthAddon();
+	public abstract void setHealthAddon(double p0);
+	public abstract double getDefenseAddon();
+	public abstract void setDefenseAddon(double p0);
+	public abstract double getDamageAddon();
+	public abstract void setDamageAddon(double p0);
+	public abstract double getExperienceAddon();
+	public abstract void setExperienceAddon(double p0);
+
 }

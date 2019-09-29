@@ -148,10 +148,14 @@ public class WorldSettingsMenu extends SettingsMenu {
 			WorldSettingsMenu.this.ButtonInheritMod(this, expMod, ConfigKey.EXPERIENCE_MOD_ENABLED, 10);
 			final Button expMult = this.menuMap.get(19);
 			WorldSettingsMenu.this.ButtonInheritMod(this, expMult, ConfigKey.EXPERIENCE_MODIFIER, 19);
+			final Button expAddon = this.menuMap.get(28);
+			WorldSettingsMenu.this.ButtonInheritMod(this, expAddon, ConfigKey.EXPERIENCE_ADDON, 28);
 			final Button healthMod = this.menuMap.get(12);
 			WorldSettingsMenu.this.ButtonInheritMod(this, healthMod, ConfigKey.HEALTH_MOD_ENABLED, 12);
 			final Button healthMult = this.menuMap.get(21);
 			WorldSettingsMenu.this.ButtonInheritMod(this, healthMult, ConfigKey.HEALTH_PER_LEVEL, 21);
+			final Button healthAddon = this.menuMap.get(30);
+			WorldSettingsMenu.this.ButtonInheritMod(this, healthAddon, ConfigKey.HEALTH_ADDON, 30);
 			final Button moneyMod = this.menuMap.get(13);
 			WorldSettingsMenu.this.ButtonInheritMod(this, moneyMod, ConfigKey.MONEY_MOD_ENABLE, 13);
 			final Button moneyMult = this.menuMap.get(22);
@@ -162,10 +166,14 @@ public class WorldSettingsMenu extends SettingsMenu {
 			WorldSettingsMenu.this.ButtonInheritMod(this, defenseMod, ConfigKey.DEFENSE_MOD_ENABLE, 14);
 			final Button defenseMult = this.menuMap.get(23);
 			WorldSettingsMenu.this.ButtonInheritMod(this, defenseMult, ConfigKey.DEFENSE_PER_LEVEL, 23);
+			final Button defenseAddon = this.menuMap.get(32);
+			WorldSettingsMenu.this.ButtonInheritMod(this, defenseAddon, ConfigKey.DEFENSE_ADDON, 32);
 			final Button damageMod = this.menuMap.get(16);
 			WorldSettingsMenu.this.ButtonInheritMod(this, damageMod, ConfigKey.DAMAGE_MOD_ENABLE, 16);
 			final Button damageMult = this.menuMap.get(25);
 			WorldSettingsMenu.this.ButtonInheritMod(this, damageMult, ConfigKey.DAMAGE_PER_LEVEL, 25);
+			final Button damageAddon = this.menuMap.get(32);
+			WorldSettingsMenu.this.ButtonInheritMod(this, damageAddon, ConfigKey.DAMAGE_ADDON, 34);
 		}
 	}
 

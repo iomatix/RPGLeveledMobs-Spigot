@@ -77,7 +77,7 @@ public class MoneyScalingModule {
 						.abs(event.getEntity().getMetadata(MetaTag.MoneyRandomizer.toString()).get(0).asDouble());
 				if (moneyRandomizer != 0)
 					moneyRandomizer = Math.random() * (moneyRandomizer - (-moneyRandomizer)) + (-moneyRandomizer);
-				final double theRandomizer = moneyRandomizer + moneyRandomizer * ((level * moneyMod) / 2);
+				final double theRandomizer = moneyRandomizer + (moneyRandomizer * level * moneyMod / 50);
 				final Double theMoney = (double) Math
 						.round(((moneyValue + theRandomizer + (moneyValue * level * moneyMod))) * 100) / 100;
 				if (theMoney > 0) {

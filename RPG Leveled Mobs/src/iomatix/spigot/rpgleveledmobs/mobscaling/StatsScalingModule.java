@@ -46,17 +46,19 @@ public class StatsScalingModule {
 					(MetadataValue) ent.getMetadata(MetaTag.Level.toString()).get(0));
 			proj.setMetadata(MetaTag.DamageMod.toString(),
 					(MetadataValue) ent.getMetadata(MetaTag.DamageMod.toString()).get(0));
+			proj.setMetadata(MetaTag.DamageAddon.toString(),
+					(MetadataValue) ent.getMetadata(MetaTag.DamageAddon.toString()).get(0));
 		}
 	}
 
 	public boolean isDamageModded(final Entity ent) {
 		return ent != null && ent.hasMetadata(MetaTag.RPGmob.toString()) && ent.hasMetadata(MetaTag.Level.toString())
-				&& ent.hasMetadata(MetaTag.DamageMod.toString());
+				&& (ent.hasMetadata(MetaTag.DamageMod.toString()) && ent.hasMetadata((MetaTag.DamageAddon.toString())));
 	}
 
 	public boolean isDefenseModded(final Entity ent) {
 		return ent != null && ent.hasMetadata(MetaTag.RPGmob.toString()) && ent.hasMetadata(MetaTag.Level.toString())
-				&& ent.hasMetadata(MetaTag.DefenseMod.toString());
+				&& ent.hasMetadata(MetaTag.DefenseMod.toString()) && ent.hasMetadata((MetaTag.DefenseAddon.toString()));
 	}
 
 	public int getLevel(final Entity ent) {
@@ -71,6 +73,14 @@ public class StatsScalingModule {
 		return ent.getMetadata(MetaTag.DefenseMod.toString()).get(0).asDouble();
 	}
 
+	public double getDamageAddon(final Entity ent) {
+		return ent.getMetadata(MetaTag.DamageAddon.toString()).get(0).asDouble();
+	}
+
+	public double getDefenseAddon(final Entity ent) {
+		return ent.getMetadata(MetaTag.DefenseAddon.toString()).get(0).asDouble();
+	}
+
 	private class VanillaHandler implements Listener {
 		public VanillaHandler() {
 			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
@@ -83,19 +93,23 @@ public class StatsScalingModule {
 				StatsScalingModule.this.onLeveledMobShoot((Entity) ((Projectile) event.getDamager()).getShooter(),
 						event.getDamager());
 			}
-			if (event.getDamager().hasMetadata(MetaTag.RPGmob.toString())
-					&& event.getDamager().hasMetadata(MetaTag.DamageMod.toString())) {
+			if (isDamageModded(event.getDamager())) {
 				final double damageMod = StatsScalingModule.this.getDamageMod(event.getDamager());
+				final double damageAddon = StatsScalingModule.this.getDamageAddon(event.getDamager());
 				final int level = StatsScalingModule.this.getLevel(event.getDamager());
-				event.setDamage(event.getDamage() + event.getDamage() * damageMod * level);
+				event.setDamage(event.getDamage() + event.getDamage() * damageMod * level + damageAddon * level);
 			}
 
-			if (event.getEntity().hasMetadata(MetaTag.RPGmob.toString())
-					&& event.getEntity().hasMetadata(MetaTag.DefenseMod.toString())) {
+			if (isDefenseModded(event.getDamager())) {
 				final double defenseMod = StatsScalingModule.this.getDefenseMod(event.getEntity());
+				final double defenseAddon = StatsScalingModule.this.getDefenseAddon(event.getEntity());
 				final int level = StatsScalingModule.this.getLevel(event.getEntity());
-				final double output = event.getDamage() * (1 - (Math.min(20.0,
-						Math.max(level * defenseMod / 5, (level * defenseMod) - (event.getDamage() / 2)))) / 25);
+				final double output = event.getDamage()
+						* (1 - (Math
+								.min(20.0,
+										Math.max((level * defenseMod + defenseAddon * level * defenseMod) / 5,
+												(level * defenseAddon + defenseAddon * level * defenseMod) - (event.getDamage() / 2))))
+								/ 25);
 				event.setDamage(output);
 			}
 		}
@@ -116,15 +130,17 @@ public class StatsScalingModule {
 			if (StatsScalingModule.this.isDamageModded(event.getDamager())) {
 				final int level = StatsScalingModule.this.getLevel(event.getDamager());
 				final double damageMod = StatsScalingModule.this.getDamageMod(event.getDamager());
+				final double damageAddon = StatsScalingModule.this.getDamageAddon(event.getDamager());
 				final double damage = event.getDamage();
-				event.setDamage(damage + damage * level * damageMod);
+				event.setDamage(damage + damage * level * damageMod + damageAddon * level);
 			}
 			if (StatsScalingModule.this.isDefenseModded(event.getEntity())) {
 				final int level = StatsScalingModule.this.getLevel(event.getEntity());
 				final double defenseMod = StatsScalingModule.this.getDefenseMod(event.getEntity());
+				final double defenseAddon = StatsScalingModule.this.getDefenseAddon(event.getEntity());
 				final double damage = event.getDamage();
-				final double output = event.getDamage() * (1 - (Math.min(20.0,
-						Math.max(level * defenseMod / 5, (level * defenseMod) - (event.getDamage() / 2)))) / 25);
+				final double output = damage * (1 - (Math.min(20.0,
+						Math.max( defenseAddon*level+defenseAddon*level * defenseMod / 5, (defenseAddon * level + defenseMod * defenseAddon * level) - (event.getDamage() / 2)))) / 25);
 
 				event.setDamage(output);
 
@@ -142,14 +158,16 @@ public class StatsScalingModule {
 			if (StatsScalingModule.this.isDamageModded((Entity) event.getDamager())) {
 				final int level = StatsScalingModule.this.getLevel((Entity) event.getDamager());
 				final double damageMod = StatsScalingModule.this.getDamageMod((Entity) event.getDamager());
-				event.setDamage(event.getDamage() + level * damageMod * event.getDamage());
+				final double damageAddon = StatsScalingModule.this.getDamageAddon((Entity) event.getDamager());
+				event.setDamage(event.getDamage() + level*damageAddon+level * damageMod * event.getDamage());
 			}
 
 			if (StatsScalingModule.this.isDefenseModded((Entity) event.getTarget())) {
 				final int level = StatsScalingModule.this.getLevel((Entity) event.getTarget());
 				final double defenseMod = StatsScalingModule.this.getDefenseMod((Entity) event.getTarget());
+				final double defenseAddon = StatsScalingModule.this.getDefenseAddon((Entity) event.getTarget());
 				final double output = event.getDamage() * (1 - (Math.min(20.0,
-						Math.max(level * defenseMod / 5, (level * defenseMod) - (event.getDamage() / 2)))) / 25);
+						Math.max(defenseAddon*level+defenseAddon*level * defenseMod / 5, (defenseAddon*level+defenseAddon*level * defenseMod) - (event.getDamage() / 2)))) / 25);
 
 				event.setDamage(output);
 
@@ -162,8 +180,9 @@ public class StatsScalingModule {
 			if (StatsScalingModule.this.isDefenseModded((Entity) event.getTarget())) {
 				final int level = StatsScalingModule.this.getLevel((Entity) event.getTarget());
 				final double defenseMod = StatsScalingModule.this.getDefenseMod((Entity) event.getTarget());
+				final double defenseAddon = StatsScalingModule.this.getDefenseAddon((Entity) event.getTarget());
 				final double output = event.getDamage() * (1 - (Math.min(20.0,
-						Math.max(level * defenseMod / 5, (level * defenseMod) - (event.getDamage() / 2)))) / 25);
+						Math.max(defenseAddon*level+defenseAddon*level * defenseMod / 5, (defenseAddon*level+defenseAddon*level * defenseMod) - (event.getDamage() / 2)))) / 25);
 
 				event.setDamage(output);
 

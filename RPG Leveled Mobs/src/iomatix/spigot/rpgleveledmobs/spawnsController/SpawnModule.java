@@ -62,7 +62,7 @@ public class SpawnModule implements Listener {
 			LoadMobMetaData(livingEntity, CreatureSpawnEvent.SpawnReason.DEFAULT);
 		}
 	}
-
+	
 	public void LoadMobMetaData(LivingEntity livingEntity, CreatureSpawnEvent.SpawnReason SpawnReason) {
 		final EntityType entityType = livingEntity.getType();
 		final Location location = livingEntity.getLocation();
@@ -105,6 +105,13 @@ public class SpawnModule implements Listener {
 				livingEntity.setMetadata(MetaTag.ExpMod.toString(),
 						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
 								(Object) node.getExperienceMultiplier()));
+				
+				if (livingEntity.hasMetadata(MetaTag.ExpAddon.toString())) {
+					livingEntity.removeMetadata(MetaTag.ExpAddon.toString(), (Plugin) Main.RPGMobs);
+				}
+				livingEntity.setMetadata(MetaTag.ExpAddon.toString(),
+						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+								(Object) node.getExperienceAddon()));
 			}
 		}
 		int level = node.getLevel(location);
@@ -137,6 +144,14 @@ public class SpawnModule implements Listener {
 			}
 			livingEntity.setMetadata(MetaTag.DamageMod.toString(),
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getDamageMultiplier()));
+		
+			if (livingEntity.hasMetadata(MetaTag.DamageAddon.toString())) {
+				livingEntity.removeMetadata(MetaTag.DamageAddon.toString(), (Plugin) Main.RPGMobs);
+			}
+			livingEntity.setMetadata(MetaTag.DamageAddon.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+							(Object) node.getDamageAddon()));
+		
 		}
 		if (node.isDefenseModified()) {
 			if (livingEntity.hasMetadata(MetaTag.DefenseMod.toString())) {
@@ -145,6 +160,13 @@ public class SpawnModule implements Listener {
 			livingEntity.setMetadata(MetaTag.DefenseMod.toString(),
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
 							(Object) node.getDefenseMultiplier()));
+			
+			if (livingEntity.hasMetadata(MetaTag.DefenseAddon.toString())) {
+				livingEntity.removeMetadata(MetaTag.DefenseAddon.toString(), (Plugin) Main.RPGMobs);
+			}
+			livingEntity.setMetadata(MetaTag.DefenseAddon.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getDefenseAddon()));
+		
 		}
 		if (node.isMoneyModified()) {
 			if (livingEntity.hasMetadata(MetaTag.MoneyRandomizer.toString())) {
@@ -167,15 +189,23 @@ public class SpawnModule implements Listener {
 		if (node.isHealthModified()) {
 			final double startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
 			final double healthMultiplier = node.getHealthMultiplier();
+			final double healthAddon = node.getHealthAddon();
 			if (livingEntity.hasMetadata(MetaTag.HealthMod.toString()))
 				livingEntity.removeMetadata(MetaTag.HealthMod.toString(), (Plugin) Main.RPGMobs);
 			livingEntity.setMetadata(MetaTag.HealthMod.toString(),
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) healthMultiplier));
-			final double NewHealthMod = startMaxHealth * level * healthMultiplier;
+			if (livingEntity.hasMetadata(MetaTag.HealthAddon.toString())) {
+				livingEntity.removeMetadata(MetaTag.HealthAddon.toString(), (Plugin) Main.RPGMobs);
+			}
+			livingEntity.setMetadata(MetaTag.HealthAddon.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+							(Object) node.getHealthAddon()));
+			final double NewHealthMod = healthAddon*level + startMaxHealth*level*healthMultiplier;
 			if (livingEntity.hasMetadata(MetaTag.BaseAdditionalHealth.toString()))
 				livingEntity.removeMetadata(MetaTag.BaseAdditionalHealth.toString(), (Plugin) Main.RPGMobs);
 			livingEntity.setMetadata(MetaTag.BaseAdditionalHealth.toString(),
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) NewHealthMod));
+			
 			final AttributeModifier HealthMod = new AttributeModifier("RPGMobsHealthMod", NewHealthMod,
 					AttributeModifier.Operation.ADD_NUMBER);
 			if (livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers() != null) {

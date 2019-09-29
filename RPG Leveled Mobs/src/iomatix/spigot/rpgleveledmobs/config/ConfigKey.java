@@ -24,16 +24,20 @@ public enum ConfigKey {
 	HEALTH_MOD_ENABLED("Stats.Health.Enabled", "Whether or not to increase a mobs health with their level."),
 	HEALTH_PER_LEVEL("Stats.Health.Multiplier",
 			"The percentage of health increase per level. Formula = [BaseHealth + (BaseHealth * level * multiplier)]"),
+	HEALTH_ADDON("Stats.Health.Addon", "Flat health increase per level."),
 	DAMAGE_MOD_ENABLE("Stats.Damage.Enabled", "Whether or not to increase the damage a mob will do by their level."),
 	DAMAGE_PER_LEVEL("Stats.Damage.Multiplier",
 			"The percentage of damage increase per level. Formula = [BaseDamage + (BaseDamage * level * mulitplier)]"),
+	DAMAGE_ADDON("Stats.Damage.Addon", "Flat damage increase per level."),
 	DEFENSE_MOD_ENABLE("Stats.Defense.Enabled",
 			"Wheter or not to increase the total mob defense by their level. Formula = [damageTaken * (1 - min(20,max(multiplier * level/5,level*multiplier-damageTaken/2))/25)]"),
-	DEFENSE_PER_LEVEL("Stats.Defense.Multiplier", "The defense points per level."),
+	DEFENSE_PER_LEVEL("Stats.Defense.Multiplier", "The defense points multiplier."),
+	DEFENSE_ADDON("Stats.Defense.Addon","Flat defense increase per level."),
 	EXPERIENCE_MOD_ENABLED("Stats.Experience.Enabled",
 			"Whether or not to increase the amount of experience dropped by a monster"),
 	EXPERIENCE_MODIFIER("Stats.Experience.Multiplier",
 			"The percentage of experience increase per level. Formula = [BaseExp + (BaseExp * level * multiplier)]"),
+	EXPERIENCE_ADDON("Stats.Experience.Addon","Flat experience increase per level."),
 	LEVELED_MOBS("Spawning.LeveledMobs", "A list of mobs that are assigned levels when spawned."),
 	BLOCKED_MOBS("Spawning.BlockedMobs", "A list of mobs that are prevented from spawning."),
 	LEVELED_SPAWNERS("Spawning.LeveledSpawners", "Should mobs from spawners be leveled?"),
@@ -188,10 +192,16 @@ public enum ConfigKey {
 		ConfigKey.defaultMap.put(ConfigKey.HEALTH_MOD_ENABLED, true);
 		ConfigKey.defaultMap.put(ConfigKey.HEALTH_PER_LEVEL, 0.2);
 		ConfigKey.defaultMap.put(ConfigKey.DAMAGE_MOD_ENABLE, true);
-		ConfigKey.defaultMap.put(ConfigKey.DAMAGE_PER_LEVEL, 1.0);
+		ConfigKey.defaultMap.put(ConfigKey.DAMAGE_PER_LEVEL, 0.35);
 		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_MOD_ENABLE, true);
-		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_PER_LEVEL, 3.0);
+		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_PER_LEVEL, 0.35);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_MOD_ENABLE, true);
+		ConfigKey.defaultMap.put(ConfigKey.EXPERIENCE_MOD_ENABLED, true);
+		ConfigKey.defaultMap.put(ConfigKey.EXPERIENCE_MODIFIER, 0.35);
+		ConfigKey.defaultMap.put(ConfigKey.HEALTH_ADDON, 3.0);
+		ConfigKey.defaultMap.put(ConfigKey.DEFENSE_ADDON, 3.0);
+		ConfigKey.defaultMap.put(ConfigKey.EXPERIENCE_ADDON, 2.5);
+		ConfigKey.defaultMap.put(ConfigKey.DAMAGE_ADDON, 2.5);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_PER_LEVEL, 0.35);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_RANDOM, 1.5);
 		ConfigKey.defaultMap.put(ConfigKey.LEVELED_MOBS, ConfigKey.defaultLeveled);
@@ -205,8 +215,6 @@ public enum ConfigKey {
 		ConfigKey.defaultMap.put(ConfigKey.USE_SUFFIX, false);
 		ConfigKey.defaultMap.put(ConfigKey.PREFIX_FORMAT, "[level #]");
 		ConfigKey.defaultMap.put(ConfigKey.SUFFIX_FORMAT, "#");
-		ConfigKey.defaultMap.put(ConfigKey.EXPERIENCE_MOD_ENABLED, true);
-		ConfigKey.defaultMap.put(ConfigKey.EXPERIENCE_MODIFIER, 1.0);
 		ConfigKey.defaultMap.put(ConfigKey.ALWAYS_SHOW_MOB_NAME, true);
 		ConfigKey.defaultMap.put(ConfigKey.NAME_LANGUAGE, Language.ENGLISH);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_TOWNY_RATIO, 0.04);

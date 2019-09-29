@@ -43,6 +43,10 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 	private double moneyMultiplier;
 	private double moneyRandomizer;
 	private double experienceModifier;
+	private double healthAddon;
+	private double defenseAddon;
+	private double damageAddon;
+	private double experienceAddon;
 	private boolean leveledMobArea;
 	private boolean mobArenaWaveLeveling;
 	private double mobArenaMultiplier;
@@ -204,6 +208,22 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		if (this.config.getConfig().contains(ConfigKey.EXPERIENCE_MODIFIER.toString())) {
 			this.experienceModifier = this.config.getConfig().getDouble(ConfigKey.EXPERIENCE_MODIFIER.toString());
 			this.inheritedValues.remove(ConfigKey.EXPERIENCE_MODIFIER);
+		}
+		if (this.config.getConfig().contains(ConfigKey.HEALTH_ADDON.toString())) {
+			this.healthAddon = this.config.getConfig().getDouble(ConfigKey.HEALTH_ADDON.toString());
+			this.inheritedValues.remove(ConfigKey.HEALTH_ADDON);
+		}
+		if (this.config.getConfig().contains(ConfigKey.DEFENSE_ADDON.toString())) {
+			this.defenseAddon = this.config.getConfig().getDouble(ConfigKey.DEFENSE_ADDON.toString());
+			this.inheritedValues.remove(ConfigKey.DEFENSE_ADDON);
+		}
+		if (this.config.getConfig().contains(ConfigKey.DAMAGE_ADDON.toString())) {
+			this.damageAddon = this.config.getConfig().getDouble(ConfigKey.DAMAGE_ADDON.toString());
+			this.inheritedValues.remove(ConfigKey.DAMAGE_ADDON);
+		}
+		if (this.config.getConfig().contains(ConfigKey.EXPERIENCE_ADDON.toString())) {
+			this.experienceAddon = this.config.getConfig().getDouble(ConfigKey.EXPERIENCE_ADDON.toString());
+			this.inheritedValues.remove(ConfigKey.EXPERIENCE_ADDON);
 		}
 		if (this.config.getConfig().contains(ConfigKey.USE_SUFFIX.toString())) {
 			this.useSuffix = this.config.getConfig().getBoolean(ConfigKey.USE_SUFFIX.toString());
@@ -1004,12 +1024,12 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 
 	@Override
 	public void setTownyRatio(final double ratio) {
+		this.inheritedValues.remove(ConfigKey.MONEY_TOWNY_RATIO);
 		this.TownyRatio = ratio;
 		this.config.getConfig().set(ConfigKey.MONEY_TOWNY_RATIO.toString(), (Object) this.TownyRatio);
 		this.config.saveConfig();
 		this.updateChildrenValues();
 	}
-
 	@Override
 	public double getTownyRatio() {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_RATIO)) {
@@ -1017,16 +1037,15 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		}
 		return this.TownyRatio;
 	}
-
 	@Override
 	public void setisTownySubtract(final boolean isSubtract) {
+		this.inheritedValues.remove(ConfigKey.MONEY_TOWNY_SUBTRACT);
 		this.TownySubtract = isSubtract;
 		this.config.getConfig().set(ConfigKey.MONEY_TOWNY_SUBTRACT.toString(), (Object) this.TownySubtract);
 		this.config.saveConfig();
 		Main.RPGMobs.getConfigModule().globalUpdate();
 		this.updateChildrenValues();
 	}
-
 	@Override
 	public boolean getisTownySubtract() {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_SUBTRACT)) {
@@ -1034,16 +1053,15 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		}
 		return this.TownySubtract;
 	}
-
 	@Override
 	public void setisTownyNationSupport(final boolean isNationSupport) {
+		this.inheritedValues.remove(ConfigKey.MONEY_TOWNY_SUPPORTNATION);
 		this.TownyNationSupport = isNationSupport;
 		this.config.getConfig().set(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString(), (Object) this.TownyNationSupport);
 		this.config.saveConfig();
 		Main.RPGMobs.getConfigModule().globalUpdate();
 		this.updateChildrenValues();
 	}
-
 	@Override
 	public boolean getisTownyNationSupport() {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TOWNY_SUPPORTNATION)) {
@@ -1060,10 +1078,72 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 	}
 	@Override
 	public void setNoMoneyDrop(boolean noMoneyDrop) {
+		this.inheritedValues.remove(ConfigKey.MONEY_TAKE_MONEY_ON_KILL);
 		this.NoMoneyDrop = noMoneyDrop;
 		this.config.getConfig().set(ConfigKey.MONEY_TAKE_MONEY_ON_KILL.toString(), (Object) noMoneyDrop);
 		this.config.saveConfig();
 		Main.RPGMobs.getConfigModule().globalUpdate();
+		this.updateChildrenValues();
+	}
+	
+	@Override
+	public double getHealthAddon() {
+		if (this.inheritedValues.containsKey(ConfigKey.HEALTH_ADDON)) {
+			return (double) this.inheritedValues.get(ConfigKey.HEALTH_ADDON);
+		}
+		return this.healthAddon;
+	}
+	@Override
+	public void setHealthAddon(double healthAdd) {
+		this.inheritedValues.remove(ConfigKey.HEALTH_ADDON);
+		this.healthAddon = healthAdd;
+		this.config.getConfig().set(ConfigKey.HEALTH_ADDON.toString(), (Object) healthAdd);
+		this.config.saveConfig();
+		this.updateChildrenValues();
+	}
+	@Override
+	public double getDefenseAddon() {
+		if (this.inheritedValues.containsKey(ConfigKey.DEFENSE_ADDON)) {
+			return (double) this.inheritedValues.get(ConfigKey.DEFENSE_ADDON);
+		}
+		return this.defenseAddon;
+	}
+	@Override
+	public void setDefenseAddon(double defenseAdd) {
+		this.inheritedValues.remove(ConfigKey.DEFENSE_ADDON);
+		this.defenseAddon = defenseAdd;
+		this.config.getConfig().set(ConfigKey.DEFENSE_ADDON.toString(), (Object) defenseAdd);
+		this.config.saveConfig();
+		this.updateChildrenValues();
+	}
+	@Override
+	public double getDamageAddon() {
+		if (this.inheritedValues.containsKey(ConfigKey.DAMAGE_ADDON)) {
+			return (double) this.inheritedValues.get(ConfigKey.DAMAGE_ADDON);
+		}
+		return this.damageAddon;
+	}
+	@Override
+	public void setDamageAddon(double damageAdd) {
+		this.inheritedValues.remove(ConfigKey.DAMAGE_ADDON);
+		this.damageAddon = damageAdd;
+		this.config.getConfig().set(ConfigKey.DAMAGE_ADDON.toString(), (Object) damageAdd);
+		this.config.saveConfig();
+		this.updateChildrenValues();
+	}
+	@Override
+	public double getExperienceAddon() {
+		if (this.inheritedValues.containsKey(ConfigKey.EXPERIENCE_ADDON)) {
+			return (double) this.inheritedValues.get(ConfigKey.EXPERIENCE_ADDON);
+		}
+		return this.experienceAddon;
+	}
+	@Override
+	public void setExperienceAddon(double experienceAdd) {
+		this.inheritedValues.remove(ConfigKey.EXPERIENCE_ADDON);
+		this.experienceAddon = experienceAdd;
+		this.config.getConfig().set(ConfigKey.EXPERIENCE_ADDON.toString(), (Object) experienceAdd);
+		this.config.saveConfig();
 		this.updateChildrenValues();
 	}
 

@@ -79,19 +79,26 @@ public class ResetCommand implements RPGlvlmobsCommand {
 				livingEntity.setMetadata(MetaTag.ExpMod.toString(),
 						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
 								(Object) node.getExperienceMultiplier()));
+				if (livingEntity.hasMetadata(MetaTag.ExpAddon.toString())) {
+					livingEntity.removeMetadata(MetaTag.ExpAddon.toString(), (Plugin) Main.RPGMobs);
+				}
+				livingEntity.setMetadata(MetaTag.ExpAddon.toString(),
+						(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+								(Object) node.getExperienceAddon()));
 			}
 		}
 		int level = node.getLevel(location);
 		if (Main.RPGMobs.getExperienceScalingModuleInstance().isSkillApiHandled()) {
 			if (livingEntity instanceof Tameable) {
 				if (((Tameable) livingEntity).getOwner() != null) {
-					if(SkillAPI.getPlayerData((OfflinePlayer) ((Tameable) livingEntity).getOwner())!= null) {
-					PlayerData playerData = SkillAPI.getPlayerData((OfflinePlayer) ((Tameable) livingEntity).getOwner());
-					
-					int levelSKILLAPI = playerData.hasClass() ? playerData.getMainClass().getLevel() : 0;
-					if (levelSKILLAPI > 0) {
-						level = levelSKILLAPI;
-					}
+					if (SkillAPI.getPlayerData((OfflinePlayer) ((Tameable) livingEntity).getOwner()) != null) {
+						PlayerData playerData = SkillAPI
+								.getPlayerData((OfflinePlayer) ((Tameable) livingEntity).getOwner());
+
+						int levelSKILLAPI = playerData.hasClass() ? playerData.getMainClass().getLevel() : 0;
+						if (levelSKILLAPI > 0) {
+							level = levelSKILLAPI;
+						}
 					}
 				}
 			}
@@ -112,6 +119,11 @@ public class ResetCommand implements RPGlvlmobsCommand {
 			}
 			livingEntity.setMetadata(MetaTag.DamageMod.toString(),
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getDamageMultiplier()));
+			if (livingEntity.hasMetadata(MetaTag.DamageAddon.toString())) {
+				livingEntity.removeMetadata(MetaTag.DamageAddon.toString(), (Plugin) Main.RPGMobs);
+			}
+			livingEntity.setMetadata(MetaTag.DamageAddon.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getDamageAddon()));
 		}
 		if (node.isDefenseModified()) {
 			if (livingEntity.hasMetadata(MetaTag.DefenseMod.toString())) {
@@ -120,6 +132,11 @@ public class ResetCommand implements RPGlvlmobsCommand {
 			livingEntity.setMetadata(MetaTag.DefenseMod.toString(),
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
 							(Object) node.getDefenseMultiplier()));
+			if (livingEntity.hasMetadata(MetaTag.DefenseAddon.toString())) {
+				livingEntity.removeMetadata(MetaTag.DefenseAddon.toString(), (Plugin) Main.RPGMobs);
+			}
+			livingEntity.setMetadata(MetaTag.DefenseAddon.toString(),
+					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) node.getDefenseAddon()));
 		}
 		if (node.isMoneyModified()) {
 			if (livingEntity.hasMetadata(MetaTag.MoneyRandomizer.toString())) {
@@ -142,12 +159,13 @@ public class ResetCommand implements RPGlvlmobsCommand {
 		if (node.isHealthModified()) {
 			final double startMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
 			final double healthMultiplier = node.getHealthMultiplier();
+			final double healthAddon = node.getHealthAddon();
 			if (livingEntity.hasMetadata(MetaTag.HealthMod.toString()))
 				livingEntity.removeMetadata(MetaTag.HealthMod.toString(), (Plugin) Main.RPGMobs);
 			livingEntity.setMetadata(MetaTag.HealthMod.toString(),
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) healthMultiplier));
 
-			final double NewHealthMod = startMaxHealth * level * healthMultiplier;
+			final double NewHealthMod = healthAddon*level + startMaxHealth*level*healthMultiplier;
 			if (livingEntity.hasMetadata(MetaTag.BaseAdditionalHealth.toString()))
 				livingEntity.removeMetadata(MetaTag.BaseAdditionalHealth.toString(), (Plugin) Main.RPGMobs);
 
@@ -165,7 +183,7 @@ public class ResetCommand implements RPGlvlmobsCommand {
 			livingEntity.setHealth(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 		}
 
-		String startName=livingEntity.getCustomName();
+		String startName = livingEntity.getCustomName();
 
 		if (livingEntity.hasMetadata(MetaTag.CustomName.toString()))
 			startName = livingEntity.getMetadata(MetaTag.CustomName.toString()).get(0).asString();
@@ -184,7 +202,7 @@ public class ResetCommand implements RPGlvlmobsCommand {
 		if (!livingEntity.hasMetadata(MetaTag.CustomName.toString()))
 			livingEntity.setMetadata(MetaTag.CustomName.toString(),
 					(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) startName));
-		
+
 		if (!slime && node.isPrefixEnabled()) {
 			startName = ChatColor.translateAlternateColorCodes('&',
 					node.getPrefixFormat().replace("#", level + "") + " " + ChatColor.WHITE + startName);
