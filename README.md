@@ -4,11 +4,9 @@ Leveled mobs with scaling attributes compatible with many RPG plugins.
 [Release](https://www.spigotmc.org/resources/rpg-leveled-mobs.71301/)
 
 
-<<<<<<< Upstream, based on branch 'master' of https://github.com/iomatix/RPGLeveledMobs-Spigot
-[I really appreciate your work and want to help you keep going](https://www.paypal.me/iomatix)
-=======
+
 [I really appreciate your work and want to help you keep going!](https://www.paypal.me/iomatix)
->>>>>>> af007a9 Update
+
 
 
 ## API for Developers:
