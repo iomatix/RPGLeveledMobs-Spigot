@@ -54,6 +54,7 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	private boolean TownySubtract;
 	private boolean TownyNationSupport;
 	private boolean alwaysShowMobName;
+	private boolean NoMoneyDrop;
 	private final Random rand;
 	private HashMap<EntityType, Double> moneyMobs;
 
@@ -792,7 +793,20 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 		this.nodeConfig.set(ConfigKey.LEVELED_SPAWNERS.toString(), (Object) leveledSpawners);
 		this.worldConfig.saveNodeConfig();
 	}
-
+	@Override
+	public boolean isNoMoneyDrop() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TAKE_MONEY_ON_KILL)) {
+			return (boolean) this.inheritedValues.get(ConfigKey.MONEY_TAKE_MONEY_ON_KILL);
+		}
+		return this.NoMoneyDrop;
+	}
+	@Override
+	public void setNoMoneyDrop(boolean noMoneyDrop) {
+		this.inheritedValues.remove(ConfigKey.MONEY_TAKE_MONEY_ON_KILL);
+		this.NoMoneyDrop = noMoneyDrop;
+		this.nodeConfig.set(ConfigKey.MONEY_TAKE_MONEY_ON_KILL.toString(), (Object) noMoneyDrop);
+		this.worldConfig.saveNodeConfig();
+	}
 	public void updateInheritedValues() {
 		for (final ConfigKey key : this.inheritedValues.keySet()) {
 			this.inheritedValues.put(key, this.worldConfig.getValue(key));
@@ -828,5 +842,7 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	static {
 		spawnNodes = new HashMap<WorldConfig, ArrayList<SpawnNode>>();
 	}
+
+
 
 }

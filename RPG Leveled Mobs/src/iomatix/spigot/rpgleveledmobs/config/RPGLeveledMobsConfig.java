@@ -236,4 +236,8 @@ public abstract class RPGLeveledMobsConfig {
 
 	public abstract boolean getisTownyNationSupport();
 
+	public abstract boolean isNoMoneyDrop();
+
+	public abstract void setNoMoneyDrop(boolean noMoneyDrop);
+
 }

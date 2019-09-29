@@ -340,6 +340,7 @@ public enum ConfigKey {
 			ConfigKey.defaultMap.put(ConfigKey.MONEY_MOBS, ConfigKey.moneyMap);
 			cfgModule.version = 1.14;
 		}catch(NoSuchFieldError e) {
+			LogsModule.error(ChatColor.RED + "RPGLeveledMobs officialy supports 1.14.4 and above. Update your server to newer build to get money drop support.");
 		}
 		
 	}

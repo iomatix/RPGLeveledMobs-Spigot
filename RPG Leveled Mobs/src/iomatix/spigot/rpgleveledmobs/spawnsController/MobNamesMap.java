@@ -106,7 +106,7 @@ public class MobNamesMap {
 			MobNamesMap.languageMapping.get(Language.KOREAN).put(EntityType.GUARDIAN, "가디언");
 			MobNamesMap.languageMapping.get(Language.KOREAN).put(EntityType.HORSE, "말");
 			MobNamesMap.languageMapping.get(Language.KOREAN).put(EntityType.HUSK, "허스크");
-			MobNamesMap.languageMapping.get(Language.SPANISH).put(EntityType.ILLUSIONER, "마술사");
+			MobNamesMap.languageMapping.get(Language.KOREAN).put(EntityType.ILLUSIONER, "마술사");
 			MobNamesMap.languageMapping.get(Language.KOREAN).put(EntityType.IRON_GOLEM, "철 골렘");
 			MobNamesMap.languageMapping.get(Language.KOREAN).put(EntityType.MAGMA_CUBE, "마그마 큐브");
 			MobNamesMap.languageMapping.get(Language.KOREAN).put(EntityType.LLAMA, "라마");
@@ -173,7 +173,7 @@ public class MobNamesMap {
 				MobNamesMap.languageMapping.get(Language.JAPANESE).put(EntityType.GUARDIAN, "ガーディアン");
 				MobNamesMap.languageMapping.get(Language.JAPANESE).put(EntityType.HORSE, "ウマ");
 				MobNamesMap.languageMapping.get(Language.JAPANESE).put(EntityType.HUSK, "ハスク");
-				MobNamesMap.languageMapping.get(Language.SPANISH).put(EntityType.ILLUSIONER, "イリュージョン");
+				MobNamesMap.languageMapping.get(Language.JAPANESE).put(EntityType.ILLUSIONER, "イリュージョン");
 				MobNamesMap.languageMapping.get(Language.JAPANESE).put(EntityType.IRON_GOLEM, "アイアンゴーレム");
 				MobNamesMap.languageMapping.get(Language.JAPANESE).put(EntityType.MAGMA_CUBE, "マグマキューブ");
 				MobNamesMap.languageMapping.get(Language.JAPANESE).put(EntityType.LLAMA, "ラマ");
@@ -310,6 +310,7 @@ public class MobNamesMap {
 			MobNamesMap.languageMapping.get(Language.ENGLISH).put(EntityType.HORSE, "Horse");
 			MobNamesMap.languageMapping.get(Language.ENGLISH).put(EntityType.HUSK, "Husk");
 			MobNamesMap.languageMapping.get(Language.ENGLISH).put(EntityType.IRON_GOLEM, "Golem");
+			MobNamesMap.languageMapping.get(Language.ENGLISH).put(EntityType.ILLUSIONER, "Illusioner");
 			MobNamesMap.languageMapping.get(Language.ENGLISH).put(EntityType.MAGMA_CUBE, "Magma Cube");
 			MobNamesMap.languageMapping.get(Language.ENGLISH).put(EntityType.LLAMA, "Llama");
 			MobNamesMap.languageMapping.get(Language.ENGLISH).put(EntityType.MULE, "Mule");

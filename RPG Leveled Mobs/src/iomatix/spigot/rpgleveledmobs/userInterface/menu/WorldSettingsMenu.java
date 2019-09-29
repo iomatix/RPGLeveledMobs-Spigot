@@ -235,8 +235,8 @@ public class WorldSettingsMenu extends SettingsMenu {
 		@Override
 		public void generateMenu() {
 			super.generateMenu();
-			final Button moneyMob = this.menuMap.get(1);
-			WorldSettingsMenu.this.ButtonInheritMod(this, moneyMob, ConfigKey.MONEY_MOBS, 1);
+			final Button moneyMob = this.menuMap.get(2);
+			WorldSettingsMenu.this.ButtonInheritMod(this, moneyMob, ConfigKey.MONEY_MOBS, 2);
 			
 		}
 		

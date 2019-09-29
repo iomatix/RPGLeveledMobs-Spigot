@@ -748,14 +748,14 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 		}
 		return this.TownyNationSupport;
 	}
-
+	@Override
 	public boolean isNoMoneyDrop() {
 		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TAKE_MONEY_ON_KILL)) {
 			return (boolean) this.inheritedValues.get(ConfigKey.MONEY_TAKE_MONEY_ON_KILL);
 		}
 		return this.NoMoneyDrop;
 	}
-
+	@Override
 	public void setNoMoneyDrop(boolean noMoneyDrop) {
 		this.NoMoneyDrop = noMoneyDrop;
 		this.config.getConfig().set(ConfigKey.MONEY_TAKE_MONEY_ON_KILL.toString(), (Object) this.NoMoneyDrop);

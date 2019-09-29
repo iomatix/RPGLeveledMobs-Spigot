@@ -897,84 +897,88 @@ public class SettingsMenu extends Menu {
 				this.menuMap.put(53, nextpage);
 			} else if (page == 1) {
 				try {
+					final MobButton Illusioner = new MobButton("Illusioner", EntityType.ILLUSIONER, SettingsMenu.this.config, this);
+					this.menuMap.put(0, Illusioner);
 					final MobButton Parrot = new MobButton("Parrot", EntityType.PARROT, SettingsMenu.this.config, this);
-					this.menuMap.put(0, Parrot);
+					this.menuMap.put(1, Parrot);
 					final MobButton Dolphin = new MobButton("Dolphin", EntityType.DOLPHIN, SettingsMenu.this.config,
 							this);
-					this.menuMap.put(1, Dolphin);
+					this.menuMap.put(2, Dolphin);
 					final MobButton Drowned = new MobButton("Drowned", EntityType.DROWNED, SettingsMenu.this.config,
 							this);
-					this.menuMap.put(2, Drowned);
+					this.menuMap.put(3, Drowned);
 					final MobButton Phantom = new MobButton("Phantom", EntityType.PHANTOM, SettingsMenu.this.config,
 							this);
-					this.menuMap.put(3, Phantom);
+					this.menuMap.put(4, Phantom);
 					final MobButton Cod = new MobButton("Cod", EntityType.COD, SettingsMenu.this.config, this);
-					this.menuMap.put(4, Cod);
+					this.menuMap.put(5, Cod);
 					final MobButton Salmon = new MobButton("Salmon", EntityType.SALMON, SettingsMenu.this.config, this);
-					this.menuMap.put(5, Salmon);
+					this.menuMap.put(6, Salmon);
 					final MobButton Pufferfish = new MobButton("Pufferfish", EntityType.PUFFERFISH,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(6, Pufferfish);
+					this.menuMap.put(7, Pufferfish);
 					final MobButton Tropicalfish = new MobButton("Tropical Fish", EntityType.TROPICAL_FISH,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(7, Tropicalfish);
+					this.menuMap.put(8, Tropicalfish);
 					final MobButton Turtle = new MobButton("Turtle", EntityType.TURTLE, SettingsMenu.this.config, this);
-					this.menuMap.put(8, Turtle);
+					this.menuMap.put(9, Turtle);
 				} catch (NoSuchFieldError e) {
+					final WrongMobButton Illusioner = new WrongMobButton("Unknown Mob", "1.12");
+					this.menuMap.put(0, Illusioner);
 					final WrongMobButton Parrot2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(0, Parrot2);
+					this.menuMap.put(1, Parrot2);
 					final WrongMobButton Dolphin2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(1, Dolphin2);
+					this.menuMap.put(2, Dolphin2);
 					final WrongMobButton Drowned2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(2, Drowned2);
+					this.menuMap.put(3, Drowned2);
 					final WrongMobButton Phantom2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(3, Phantom2);
+					this.menuMap.put(4, Phantom2);
 					final WrongMobButton Cod2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(4, Cod2);
+					this.menuMap.put(5, Cod2);
 					final WrongMobButton Salmon2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(5, Salmon2);
+					this.menuMap.put(6, Salmon2);
 					final WrongMobButton Pufferfish2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(6, Pufferfish2);
+					this.menuMap.put(7, Pufferfish2);
 					final WrongMobButton Tropicalfish2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(7, Tropicalfish2);
+					this.menuMap.put(8, Tropicalfish2);
 					final WrongMobButton Turtle2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(8, Turtle2);
+					this.menuMap.put(9, Turtle2);
 
 				}
 				try {
 					final MobButton Cat = new MobButton("Cat", EntityType.CAT, SettingsMenu.this.config, this);
-					this.menuMap.put(9, Cat);
+					this.menuMap.put(10, Cat);
 					final MobButton Fox = new MobButton("Fox", EntityType.FOX, SettingsMenu.this.config, this);
-					this.menuMap.put(10, Fox);
+					this.menuMap.put(11, Fox);
 					final MobButton Panda = new MobButton("Panda", EntityType.PANDA, SettingsMenu.this.config, this);
-					this.menuMap.put(11, Panda);
+					this.menuMap.put(12, Panda);
 					final MobButton Pillager = new MobButton("Pillager", EntityType.PILLAGER, SettingsMenu.this.config,
 							this);
-					this.menuMap.put(12, Pillager);
+					this.menuMap.put(13, Pillager);
 					final MobButton Ravager = new MobButton("Ravager", EntityType.RAVAGER, SettingsMenu.this.config,
 							this);
-					this.menuMap.put(13, Ravager);
+					this.menuMap.put(14, Ravager);
 					final MobButton Trader_Llama = new MobButton("Trader's Llama", EntityType.TRADER_LLAMA,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(14, Trader_Llama);
+					this.menuMap.put(15, Trader_Llama);
 					final MobButton Wandering_Trader = new MobButton("Wandering Trader", EntityType.WANDERING_TRADER,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(15, Wandering_Trader);
+					this.menuMap.put(16, Wandering_Trader);
 				} catch (NoSuchFieldError e) {
 					final WrongMobButton Cat2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(9, Cat2);
+					this.menuMap.put(10, Cat2);
 					final WrongMobButton Fox2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(10, Fox2);
+					this.menuMap.put(11, Fox2);
 					final WrongMobButton Panda2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(11, Panda2);
+					this.menuMap.put(12, Panda2);
 					final WrongMobButton Pillager2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(12, Pillager2);
+					this.menuMap.put(13, Pillager2);
 					final WrongMobButton Ravager2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(13, Ravager2);
+					this.menuMap.put(14, Ravager2);
 					final WrongMobButton Trader_Llama2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(14, Trader_Llama2);
+					this.menuMap.put(15, Trader_Llama2);
 					final WrongMobButton Wandering_Trader2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(15, Wandering_Trader2);
+					this.menuMap.put(16, Wandering_Trader2);
 				}
 				final Button previous = new Button();
 				previous.setIcon(Material.NETHER_STAR);
@@ -1212,87 +1216,88 @@ public class SettingsMenu extends Menu {
 				this.menuMap.put(53, nextpage);
 			} else if (page == 1) {
 				try {
-					final MobButton Parrot = new MobButton("Parrot", EntityType.PARROT, SettingsMenu.this.config, this,
-							true);
-					this.menuMap.put(0, Parrot);
+					final MobButton Illusioner = new MobButton("Illusioner", EntityType.ILLUSIONER, SettingsMenu.this.config, this);
+					this.menuMap.put(0, Illusioner);
+					final MobButton Parrot = new MobButton("Parrot", EntityType.PARROT, SettingsMenu.this.config, this);
+					this.menuMap.put(1, Parrot);
 					final MobButton Dolphin = new MobButton("Dolphin", EntityType.DOLPHIN, SettingsMenu.this.config,
-							this, true);
-					this.menuMap.put(1, Dolphin);
+							this);
+					this.menuMap.put(2, Dolphin);
 					final MobButton Drowned = new MobButton("Drowned", EntityType.DROWNED, SettingsMenu.this.config,
-							this, true);
-					this.menuMap.put(2, Drowned);
+							this);
+					this.menuMap.put(3, Drowned);
 					final MobButton Phantom = new MobButton("Phantom", EntityType.PHANTOM, SettingsMenu.this.config,
-							this, true);
-					this.menuMap.put(3, Phantom);
-					final MobButton Cod = new MobButton("Cod", EntityType.COD, SettingsMenu.this.config, this, true);
-					this.menuMap.put(4, Cod);
-					final MobButton Salmon = new MobButton("Salmon", EntityType.SALMON, SettingsMenu.this.config, this,
-							true);
-					this.menuMap.put(5, Salmon);
+							this);
+					this.menuMap.put(4, Phantom);
+					final MobButton Cod = new MobButton("Cod", EntityType.COD, SettingsMenu.this.config, this);
+					this.menuMap.put(5, Cod);
+					final MobButton Salmon = new MobButton("Salmon", EntityType.SALMON, SettingsMenu.this.config, this);
+					this.menuMap.put(6, Salmon);
 					final MobButton Pufferfish = new MobButton("Pufferfish", EntityType.PUFFERFISH,
-							SettingsMenu.this.config, this, true);
-					this.menuMap.put(6, Pufferfish);
+							SettingsMenu.this.config, this);
+					this.menuMap.put(7, Pufferfish);
 					final MobButton Tropicalfish = new MobButton("Tropical Fish", EntityType.TROPICAL_FISH,
-							SettingsMenu.this.config, this, true);
-					this.menuMap.put(7, Tropicalfish);
-					final MobButton Turtle = new MobButton("Turtle", EntityType.TURTLE, SettingsMenu.this.config, this,
-							true);
-					this.menuMap.put(8, Turtle);
+							SettingsMenu.this.config, this);
+					this.menuMap.put(8, Tropicalfish);
+					final MobButton Turtle = new MobButton("Turtle", EntityType.TURTLE, SettingsMenu.this.config, this);
+					this.menuMap.put(9, Turtle);
 				} catch (NoSuchFieldError e) {
+					final WrongMobButton Illusioner = new WrongMobButton("Unknown Mob", "1.12");
+					this.menuMap.put(0, Illusioner);
 					final WrongMobButton Parrot2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(0, Parrot2);
+					this.menuMap.put(1, Parrot2);
 					final WrongMobButton Dolphin2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(1, Dolphin2);
+					this.menuMap.put(2, Dolphin2);
 					final WrongMobButton Drowned2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(2, Drowned2);
+					this.menuMap.put(3, Drowned2);
 					final WrongMobButton Phantom2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(3, Phantom2);
+					this.menuMap.put(4, Phantom2);
 					final WrongMobButton Cod2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(4, Cod2);
+					this.menuMap.put(5, Cod2);
 					final WrongMobButton Salmon2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(5, Salmon2);
+					this.menuMap.put(6, Salmon2);
 					final WrongMobButton Pufferfish2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(6, Pufferfish2);
+					this.menuMap.put(7, Pufferfish2);
 					final WrongMobButton Tropicalfish2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(7, Tropicalfish2);
+					this.menuMap.put(8, Tropicalfish2);
 					final WrongMobButton Turtle2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(8, Turtle2);
+					this.menuMap.put(9, Turtle2);
+
 				}
 				try {
-					final MobButton Cat = new MobButton("Cat", EntityType.CAT, SettingsMenu.this.config, this, true);
-					this.menuMap.put(9, Cat);
-					final MobButton Fox = new MobButton("Fox", EntityType.FOX, SettingsMenu.this.config, this, true);
-					this.menuMap.put(10, Fox);
-					final MobButton Panda = new MobButton("Panda", EntityType.PANDA, SettingsMenu.this.config, this,
-							true);
-					this.menuMap.put(11, Panda);
+					final MobButton Cat = new MobButton("Cat", EntityType.CAT, SettingsMenu.this.config, this);
+					this.menuMap.put(10, Cat);
+					final MobButton Fox = new MobButton("Fox", EntityType.FOX, SettingsMenu.this.config, this);
+					this.menuMap.put(11, Fox);
+					final MobButton Panda = new MobButton("Panda", EntityType.PANDA, SettingsMenu.this.config, this);
+					this.menuMap.put(12, Panda);
 					final MobButton Pillager = new MobButton("Pillager", EntityType.PILLAGER, SettingsMenu.this.config,
-							this, true);
-					this.menuMap.put(12, Pillager);
+							this);
+					this.menuMap.put(13, Pillager);
 					final MobButton Ravager = new MobButton("Ravager", EntityType.RAVAGER, SettingsMenu.this.config,
-							this, true);
-					this.menuMap.put(13, Ravager);
+							this);
+					this.menuMap.put(14, Ravager);
 					final MobButton Trader_Llama = new MobButton("Trader's Llama", EntityType.TRADER_LLAMA,
-							SettingsMenu.this.config, this, true);
-					this.menuMap.put(14, Trader_Llama);
+							SettingsMenu.this.config, this);
+					this.menuMap.put(15, Trader_Llama);
 					final MobButton Wandering_Trader = new MobButton("Wandering Trader", EntityType.WANDERING_TRADER,
-							SettingsMenu.this.config, this, true);
-					this.menuMap.put(15, Wandering_Trader);
+							SettingsMenu.this.config, this);
+					this.menuMap.put(16, Wandering_Trader);
 				} catch (NoSuchFieldError e) {
 					final WrongMobButton Cat2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(8, Cat2);
+					this.menuMap.put(10, Cat2);
 					final WrongMobButton Fox2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(10, Fox2);
+					this.menuMap.put(11, Fox2);
 					final WrongMobButton Panda2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(11, Panda2);
+					this.menuMap.put(12, Panda2);
 					final WrongMobButton Pillager2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(12, Pillager2);
+					this.menuMap.put(13, Pillager2);
 					final WrongMobButton Ravager2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(13, Ravager2);
+					this.menuMap.put(14, Ravager2);
 					final WrongMobButton Trader_Llama2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(14, Trader_Llama2);
+					this.menuMap.put(15, Trader_Llama2);
 					final WrongMobButton Wandering_Trader2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(15, Wandering_Trader2);
+					this.menuMap.put(16, Wandering_Trader2);
 				}
 				final Button previous = new Button();
 				previous.setIcon(Material.NETHER_STAR);
@@ -1541,7 +1546,41 @@ public class SettingsMenu extends Menu {
 				enabled.addLoreLine(ChatColor.GRAY + "Economy is disabled. Vault not found.");
 			}
 			this.menuMap.put(0, enabled);
-
+			
+			final Button mobDropOrNot = new Button();
+			if(!(this instanceof WorldSettingsMenu.WorldMoneyMenu)){
+			mobDropOrNot.setIcon(Material.GRAY_WOOL);
+			mobDropOrNot.setName(ChatColor.GREEN + "Money Drop");
+			mobDropOrNot.addLoreLine(" ");
+			mobDropOrNot.addLoreLine(ChatColor.YELLOW + "Money drop controler.");
+			mobDropOrNot.addLoreLine(" ");
+			final boolean NoMoneyDrop = SettingsMenu.this.config.isNoMoneyDrop();
+			if (!NoMoneyDrop) {
+				mobDropOrNot.setIcon(Material.LIME_WOOL);
+				mobDropOrNot.addLoreLine(ChatColor.GOLD + "Mobs will drop pickable money.");
+			} else {
+				mobDropOrNot.setIcon(Material.GRAY_WOOL);
+				mobDropOrNot.addLoreLine(ChatColor.GOLD + "Money will be given directly to the player.");
+			}
+			mobDropOrNot.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					SettingsMenu.this.config.setNoMoneyDrop(!NoMoneyDrop);
+					
+					MoneyMenu.this.ShowMenu(event.getInteractor());
+				}
+			});
+			mobDropOrNot.addLoreLine("");
+			mobDropOrNot.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
+			}else {
+				mobDropOrNot.setIcon(Material.YELLOW_WOOL);
+				mobDropOrNot.setName(ChatColor.GREEN + "Money Drop");
+				mobDropOrNot.addLoreLine(" ");
+				mobDropOrNot.addLoreLine(ChatColor.YELLOW + "Visit global settings to adjust this setting.");
+				mobDropOrNot.addLoreLine(" ");
+			}
+			this.menuMap.put(1, mobDropOrNot);
+					
 			final Button mobSetup = new Button();
 			mobSetup.setIcon(Material.GOLD_NUGGET);
 			mobSetup.setName(ChatColor.GREEN + "Money Settings");
@@ -1552,8 +1591,9 @@ public class SettingsMenu extends Menu {
 				public void onButtonPressed(final MenuInteractionEvent event) {
 					MoneyMenu.this.moneyMobsMenu.ShowMenu(event.getInteractor());
 				}
+				
 			});
-			this.menuMap.put(1, mobSetup);
+			this.menuMap.put(2, mobSetup);
 			
 			if(!(this instanceof WorldSettingsMenu.WorldMoneyMenu)) {
 			final Button townySetup = new Button();
@@ -1567,7 +1607,7 @@ public class SettingsMenu extends Menu {
 					MoneyMenu.this.moneyTownyMenu.ShowMenu(event.getInteractor());
 				}
 			});
-			this.menuMap.put(2, townySetup);
+			this.menuMap.put(3, townySetup);
 			}
 			
 			final Button previous = new Button();
@@ -1812,90 +1852,95 @@ public class SettingsMenu extends Menu {
 				this.menuMap.put(53, nextpage);
 			} else if (page == 1) {
 				try {
+					final MoneyMobButton Illusioner = new MoneyMobButton("Illusioner", EntityType.ILLUSIONER,
+							SettingsMenu.this.config, this);
+					this.menuMap.put(0, Illusioner);
 					final MoneyMobButton Parrot = new MoneyMobButton("Parrot", EntityType.PARROT,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(0, Parrot);
+					this.menuMap.put(1, Parrot);
 					final MoneyMobButton Dolphin = new MoneyMobButton("Dolphin", EntityType.DOLPHIN,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(1, Dolphin);
+					this.menuMap.put(2, Dolphin);
 					final MoneyMobButton Drowned = new MoneyMobButton("Drowned", EntityType.DROWNED,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(2, Drowned);
+					this.menuMap.put(3, Drowned);
 					final MoneyMobButton Phantom = new MoneyMobButton("Phantom", EntityType.PHANTOM,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(3, Phantom);
+					this.menuMap.put(4, Phantom);
 					final MoneyMobButton Cod = new MoneyMobButton("Cod", EntityType.COD, SettingsMenu.this.config,
 							this);
-					this.menuMap.put(4, Cod);
+					this.menuMap.put(5, Cod);
 					final MoneyMobButton Salmon = new MoneyMobButton("Salmon", EntityType.SALMON,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(5, Salmon);
+					this.menuMap.put(6, Salmon);
 					final MoneyMobButton Pufferfish = new MoneyMobButton("Pufferfish", EntityType.PUFFERFISH,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(6, Pufferfish);
+					this.menuMap.put(7, Pufferfish);
 					final MoneyMobButton Tropicalfish = new MoneyMobButton("Tropical Fish", EntityType.TROPICAL_FISH,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(7, Tropicalfish);
+					this.menuMap.put(8, Tropicalfish);
 					final MoneyMobButton Turtle = new MoneyMobButton("Turtle", EntityType.TURTLE,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(8, Turtle);
+					this.menuMap.put(9, Turtle);
 				} catch (NoSuchFieldError e) {
+					final WrongMobButton Illusioner2 = new WrongMobButton("Illusioner","1.12");
+					this.menuMap.put(0, Illusioner2);
 					final WrongMobButton Parrot2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(0, Parrot2);
+					this.menuMap.put(1, Parrot2);
 					final WrongMobButton Dolphin2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(1, Dolphin2);
+					this.menuMap.put(2, Dolphin2);
 					final WrongMobButton Drowned2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(2, Drowned2);
+					this.menuMap.put(3, Drowned2);
 					final WrongMobButton Phantom2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(3, Phantom2);
+					this.menuMap.put(4, Phantom2);
 					final WrongMobButton Cod2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(4, Cod2);
+					this.menuMap.put(5, Cod2);
 					final WrongMobButton Salmon2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(5, Salmon2);
+					this.menuMap.put(6, Salmon2);
 					final WrongMobButton Pufferfish2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(6, Pufferfish2);
+					this.menuMap.put(7, Pufferfish2);
 					final WrongMobButton Tropicalfish2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(7, Tropicalfish2);
+					this.menuMap.put(8, Tropicalfish2);
 					final WrongMobButton Turtle2 = new WrongMobButton("Unknown Mob", "1.13");
-					this.menuMap.put(8, Turtle2);
+					this.menuMap.put(9, Turtle2);
 				}
 				try {
 					final MoneyMobButton Cat = new MoneyMobButton("Cat", EntityType.CAT, SettingsMenu.this.config,
 							this);
-					this.menuMap.put(9, Cat);
+					this.menuMap.put(10, Cat);
 					final MoneyMobButton Fox = new MoneyMobButton("Fox", EntityType.FOX, SettingsMenu.this.config,
 							this);
-					this.menuMap.put(10, Fox);
+					this.menuMap.put(11, Fox);
 					final MoneyMobButton Panda = new MoneyMobButton("Panda", EntityType.PANDA, SettingsMenu.this.config,
 							this);
-					this.menuMap.put(11, Panda);
+					this.menuMap.put(12, Panda);
 					final MoneyMobButton Pillager = new MoneyMobButton("Pillager", EntityType.PILLAGER,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(12, Pillager);
+					this.menuMap.put(13, Pillager);
 					final MoneyMobButton Ravager = new MoneyMobButton("Ravager", EntityType.RAVAGER,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(13, Ravager);
+					this.menuMap.put(14, Ravager);
 					final MoneyMobButton Trader_Llama = new MoneyMobButton("Trader's Llama", EntityType.TRADER_LLAMA,
 							SettingsMenu.this.config, this);
-					this.menuMap.put(14, Trader_Llama);
+					this.menuMap.put(15, Trader_Llama);
 					final MoneyMobButton Wandering_Trader = new MoneyMobButton("Wandering Trader",
 							EntityType.WANDERING_TRADER, SettingsMenu.this.config, this);
-					this.menuMap.put(15, Wandering_Trader);
+					this.menuMap.put(16, Wandering_Trader);
 				} catch (NoSuchFieldError e) {
 					final WrongMobButton Cat2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(8, Cat2);
+					this.menuMap.put(10, Cat2);
 					final WrongMobButton Fox2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(10, Fox2);
+					this.menuMap.put(11, Fox2);
 					final WrongMobButton Panda2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(11, Panda2);
+					this.menuMap.put(12, Panda2);
 					final WrongMobButton Pillager2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(12, Pillager2);
+					this.menuMap.put(13, Pillager2);
 					final WrongMobButton Ravager2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(13, Ravager2);
+					this.menuMap.put(14, Ravager2);
 					final WrongMobButton Trader_Llama2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(14, Trader_Llama2);
+					this.menuMap.put(15, Trader_Llama2);
 					final WrongMobButton Wandering_Trader2 = new WrongMobButton("Unknown Mob", "1.14");
-					this.menuMap.put(15, Wandering_Trader2);
+					this.menuMap.put(16, Wandering_Trader2);
 				}
 				final Button previous = new Button();
 				previous.setIcon(Material.NETHER_STAR);
