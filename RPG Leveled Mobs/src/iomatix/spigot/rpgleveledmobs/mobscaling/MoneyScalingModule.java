@@ -77,7 +77,7 @@ public class MoneyScalingModule {
 						.abs(event.getEntity().getMetadata(MetaTag.MoneyRandomizer.toString()).get(0).asDouble());
 				if (moneyRandomizer != 0)
 					moneyRandomizer = Math.random() * (moneyRandomizer - (-moneyRandomizer)) + (-moneyRandomizer);
-				final double theRandomizer = moneyRandomizer + (moneyRandomizer * level * moneyMod / 50);
+				final double theRandomizer = moneyRandomizer + (moneyRandomizer * moneyMod * level / 25);
 				final Double theMoney = (double) Math
 						.round(((moneyValue + theRandomizer + (moneyValue * level * moneyMod))) * 100) / 100;
 				if (theMoney > 0) {
@@ -210,7 +210,7 @@ public class MoneyScalingModule {
 
 	public void SendMoneyMessageToPlayer(double amount, Player player) {
 
-		player.sendMessage(ChatColor.DARK_GREEN + "You have found " + ChatColor.GOLD + ChatColor.BOLD + amount
+		player.sendMessage(ChatColor.DARK_GREEN + "You have got " + ChatColor.GOLD + ChatColor.BOLD + amount
 				+ ChatColor.GOLD + ChatColor.BOLD + " " + getCurrencyName(false));
 		player.playSound(player.getLocation(), Sound.ENTITY_ENDER_EYE_DEATH, 0.8f, 0.9f);
 	}

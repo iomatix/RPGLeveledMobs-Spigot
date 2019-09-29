@@ -137,9 +137,8 @@ public class ExperienceScalingModule {
 					}
 					
 					final int mobLevel = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
-					final double expFinal = mobLevel *
-							event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble() 
-							+ mobLevel * event.getEntity().getMetadata(MetaTag.ExpAddon.toString()).get(0).asDouble();
+					final double expFinal = mobLevel * event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble();
+					final double expAddonFinal = mobLevel * event.getEntity().getMetadata(MetaTag.ExpAddon.toString()).get(0).asDouble();
 					if (killer.hasMetadata(MetaTag.RecentKill.toString())) {
 						((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).addLast(expFinal);
 					} else {
@@ -148,6 +147,15 @@ public class ExperienceScalingModule {
 						killer.setMetadata(MetaTag.RecentKill.toString(),
 								(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) q));
 					}
+					if (killer.hasMetadata(MetaTag.RecentKillAddon.toString())) {
+						((LinkedList) killer.getMetadata(MetaTag.RecentKillAddon.toString()).get(0).value()).addLast(expAddonFinal);
+					} else {
+						final LinkedList<Double> q = new LinkedList<Double>();
+						q.addLast(expAddonFinal);
+						killer.setMetadata(MetaTag.RecentKillAddon.toString(),
+								(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) q));
+					}
+					
 				}
 			}
 		}
@@ -161,9 +169,11 @@ public class ExperienceScalingModule {
 			try {
 				final double expModifier = (double) ((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString())
 						.get(0).value()).removeFirst();
+				final double expAddon = (double) ((LinkedList) killer.getMetadata(MetaTag.RecentKillAddon.toString())
+						.get(0).value()).removeFirst();
 				if (expModifier != 0) {
 
-					final double theExp = event.getExp() + event.getExp() * expModifier;
+					final double theExp = event.getExp() + event.getExp() * expModifier + expAddon;
 					RPGMobsGainExperience gainExperienceEvent = new RPGMobsGainExperience(theExp, killer);
 					Bukkit.getPluginManager().callEvent(gainExperienceEvent);
 					if (!(gainExperienceEvent.isCancelled())) {

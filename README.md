@@ -63,6 +63,7 @@ More MetaData Methods: [Metadatable](https://hub.spigotmc.org/javadocs/bukkit/or
 | `ExpMod` | *RPGMobExpMod* | **Double** | Per level experience modifier. |
 | `ExpAddon` | *RPGMobAdditionalExpValue* | **Double** | Additional flat experience scaled by level. |
 | `RecentKill` | *RPGMobRecentKill* | **LinkedList** | `Level` multiplied by `ExpMod` values list of the recent killed mobs. |
+| `RecentKillAddon` | *RPGMobRecentKillAddon* | **LinkedList** | `Level` multiplied by `ExpAddon` values list of the recent killed mobs. |
 | `ArenaExpMod` | *RPGMobArenaXpMod* | **Double** | [MobArena](https://www.spigotmc.org/resources/mobarena.34110/) experience modifier. |
 | `MoneyMod` | *RPGMobMoneyMod* | **Double** | Per level money modifier. |
 | `MoneyDrop` | *RPGMobMoneyDrop* | **Double** | Base money value of the mob. |
@@ -71,5 +72,4 @@ More MetaData Methods: [Metadatable](https://hub.spigotmc.org/javadocs/bukkit/or
 | `BaseAdditionalHealth` | *RPGMobBaseHealth* | **Double** | Mob's vanilla base health without multipliers. |
 | `HealthMod` | *RPGMobHealthMod* | **Double** | Per level health modifier. |
 | `HealthAddon` | *RPGMobAdditionalHpValue* | **Double** | Additional flat health scaled by level. |
-
 
