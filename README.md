@@ -4,6 +4,8 @@ Leveled mobs with scaling attributes compatible with many RPG plugins.
 [Release](https://www.spigotmc.org/resources/rpg-leveled-mobs.71301/)
 
 
+[I really appreciate your work and want to help you keep going](https://www.paypal.me/iomatix)
+
 
 ## API for Developers:
 
@@ -49,19 +51,19 @@ More MetaData Methods: [Metadatable](https://hub.spigotmc.org/javadocs/bukkit/or
 ### MetaTags list:
 
 | **Enum**        | **Meta Data Tag**           | **Type**  | **Description**  |
-|:------------- |:---------------------:|:---------:||:--------------------------:|
-| `RPGmob`    | *RPGMob* | **Boolean** |Is the mob loaded by RPG Leveled mobs plugin?|
-| `Level`    | *RPGMobLevel* | **Integer** |The mob's level|
-| `DamageMod`    | *RPGMobDamageMod* | **Double** |Per level damage modifier.|
-| `DefenseMod`    | *RPGMobDefenseMod* | **Double** |Per level armor growth.|
-| `ExpMod`    | *RPGMobExpMod* | **Double** |Per level experience modifier.|
-| `RecentKill`    | *RPGMobRecentKill* | **LinkedList** |`Level` multipiled by `ExpMod` values list of the recent killed mobs.
-| `ArenaExpMod`    | *RPGMobArenaXpMod* | **Double** |[MobArena](https://www.spigotmc.org/resources/mobarena.34110/) experience modifier.|
-| `MoneyMod`    | *RPGMobMoneyMod* | **Double** |Per level money modifier.|
-| `MoneyDrop`    | *RPGMobMoneyDrop* | **Double** |Base money value of the mob.|
-| `MoneyRandomizer`    | *RPGMobMoneyRandomizer* | **Double** |Money randomizer added to the final money output.|
-| `CustomName`    | *RPGMobCustomName* | **String** |Contains mob's custom name.|
-| `BaseAdditionalHealth`    | *RPGMobBaseHealth* | **Double** |Mob's vanilla base health without multipliers.|
-| `HealthMod`    | *RPGMobHealthMod* | **Double** |Per level health modifier.|
+| :-------------: | :---------------------: | :------------: | :--------------------------: |
+| `RPGmob`    | *RPGMob* | **Boolean** | Is the mob loaded by RPG Leveled mobs plugin? |
+| `Level`    | *RPGMobLevel* | **Integer** | The mob's level|
+| `DamageMod`    | *RPGMobDamageMod* | **Double** | Per level damage modifier. |
+| `DefenseMod`    | *RPGMobDefenseMod* | **Double** | Per level armor growth. |
+| `ExpMod`    | *RPGMobExpMod* | **Double** | Per level experience modifier. |
+| `RecentKill`    | *RPGMobRecentKill* | **LinkedList** | `Level` multipiled by `ExpMod` values list of the recent killed mobs. |
+| `ArenaExpMod`    | *RPGMobArenaXpMod* | **Double** | [MobArena](https://www.spigotmc.org/resources/mobarena.34110/) experience modifier. |
+| `MoneyMod`    | *RPGMobMoneyMod* | **Double** | Per level money modifier. |
+| `MoneyDrop`    | *RPGMobMoneyDrop* | **Double** | Base money value of the mob. |
+| `MoneyRandomizer`    | *RPGMobMoneyRandomizer* | **Double** | Money randomizer added to the final money output. |
+| `CustomName`    | *RPGMobCustomName* | **String** | Contains mob's custom name. |
+| `BaseAdditionalHealth`    | *RPGMobBaseHealth* | **Double** | Mob's vanilla base health without multipliers. |
+| `HealthMod`    | *RPGMobHealthMod* | **Double** | Per level health modifier. |
 
 
