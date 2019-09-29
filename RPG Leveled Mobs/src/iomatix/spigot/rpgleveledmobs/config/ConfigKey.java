@@ -246,6 +246,7 @@ public enum ConfigKey {
 		} catch (NoSuchFieldError e) {
 		}
 		try {
+			ConfigKey.defaultLeveled.add(EntityType.ILLUSIONER);
 			ConfigKey.defaultLeveled.add(EntityType.PARROT);
 			ConfigKey.defaultLeveled.add(EntityType.DOLPHIN);
 			ConfigKey.defaultLeveled.add(EntityType.DROWNED);

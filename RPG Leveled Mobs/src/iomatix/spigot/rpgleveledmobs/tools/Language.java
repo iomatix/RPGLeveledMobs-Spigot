@@ -2,8 +2,8 @@ package iomatix.spigot.rpgleveledmobs.tools;
 
 public enum Language {
 
-	ENGLISH("English"), POLISH("Polish");
-	// JAPANESE("Japanese");
+	ENGLISH("English"), POLISH("Polish"),SPANISH("Spanish"),
+	JAPANESE("Japanese"),KOREAN("Korean");
 
 	String lang;
 
