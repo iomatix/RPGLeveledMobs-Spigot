@@ -56,7 +56,8 @@ public enum ConfigKey {
 	MONEY_RANDOM("Stats.Money.Random","Value by money drop may increase or decrease."),
 	MONEY_TOWNY_RATIO("Economy.Towny.TownyRatio","Percent of the money received by Town - Towny Value."),
 	MONEY_TOWNY_SUBTRACT("Economy.Towny.TownySubtract","Boolean: Subtract the Towny Value from income?"),
-	MONEY_TOWNY_SUPPORTNATION("Economy.Towny.NationSupport","Boolean: Support both Nation and Town or only the Town?");
+	MONEY_TOWNY_SUPPORTNATION("Economy.Towny.NationSupport","Boolean: Support both Nation and Town or only the Town?"),
+	MONEY_TAKE_MONEY_ON_KILL("Economy.Misc.NoMoneyDrop","Money send to player on mob's kill instead of drop on the ground.");
 	
 	
 	private String path;
@@ -211,6 +212,7 @@ public enum ConfigKey {
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_TOWNY_RATIO, 0.04);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_TOWNY_SUBTRACT, true);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_TOWNY_SUPPORTNATION, true);
+		ConfigKey.defaultMap.put(ConfigKey.MONEY_TAKE_MONEY_ON_KILL, false);
 		try {
 			ConfigKey.defaultBlockedEnd.remove(EntityType.ENDERMITE);
 			ConfigKey.defaultLeveled.add(EntityType.GUARDIAN);

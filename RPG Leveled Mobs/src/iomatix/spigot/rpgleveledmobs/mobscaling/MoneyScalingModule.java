@@ -13,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -21,6 +22,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import net.milkbowl.vault.economy.Economy;
 
 import com.palmergames.bukkit.towny.TownyAPI;
+import com.palmergames.bukkit.towny.exceptions.EconomyException;
+import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.Nation;
 import com.palmergames.bukkit.towny.object.Resident;
@@ -64,7 +67,7 @@ public class MoneyScalingModule {
 		}
 
 		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-		public void onEntityDeath(final EntityDeathEvent event) {
+		public void onEntityDeath(final EntityDeathEvent event) throws NotRegisteredException, EconomyException {
 			if (economy != null && event.getEntity().hasMetadata(MetaTag.RPGmob.toString())
 					&& event.getEntity().hasMetadata(MetaTag.MoneyDrop.toString())) {
 				final int level = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
@@ -78,6 +81,11 @@ public class MoneyScalingModule {
 				final Double theMoney = (double) Math
 						.round(((moneyValue + theRandomizer + (moneyValue * level * moneyMod))) * 100) / 100;
 				if (theMoney > 0) {
+					if(Main.RPGMobs.getConfigModule().getGlobalConfig().isNoMoneyDrop()) {
+						if(event.getEntity().getKiller() != null && event.getEntity().getKiller() instanceof Player ) 
+							ThePayment((Player)event.getEntity().getKiller(),theMoney,1);
+					}
+					else {
 					final ItemStack moneyItem;
 					if (theMoney > 2750) {
 						moneyItem = new ItemStack(Material.DIAMOND_BLOCK);
@@ -110,6 +118,7 @@ public class MoneyScalingModule {
 							moneyItem);
 				}
 			}
+			}
 		}
 
 		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -125,49 +134,78 @@ public class MoneyScalingModule {
 
 						Player thePlayer = Bukkit.getPlayerExact(ev.getEntity().getName());
 
-						double tempMoney = theMoney;
-						if (isTownyModuleOnline()) {
-							Resident resident = TownyAPI.getInstance().getDataSource().getResident(thePlayer.getName());
-							if (resident.hasTown()) {
-								final Double TownyRatio = Math
-										.abs(Main.RPGMobs.getConfigModule().getGlobalConfig().getTownyRatio());
-								if (TownyRatio != 0) {
-									final boolean isTownySubtract = Main.RPGMobs.getConfigModule().getGlobalConfig()
-											.getisTownySubtract();
-									final boolean isTownyNationSupport = Main.RPGMobs.getConfigModule()
-											.getGlobalConfig().getisTownyNationSupport();
-									Town town = TownyAPI.getInstance().getDataSource()
-											.getTown(resident.getTown().toString());
-
-									if (isTownySubtract)
-										tempMoney -= theMoney * TownyRatio;
-									town.pay(theMoney * TownyRatio, "[RPGLeveledMobs] "+resident.getName()+ " got "+ theMoney+". Town got " +TownyRatio*100+"%");
-									if (isTownyNationSupport && town.hasNation()) {
-										Nation nation = town.getNation();
-										if (isTownySubtract)
-											tempMoney -= theMoney * TownyRatio * TownyRatio;					
-										nation.pay(theMoney * TownyRatio * TownyRatio, "[RPGLeveledMobs] "+resident.getName()+ " got "+ theMoney+". Nation got " +TownyRatio*TownyRatio*100+"%");
-									}
-									tempMoney = (double) (Math.round(tempMoney * 100)) / 100;
-								}
-							}
-						}
-
-						if (tempMoney > 0) {
-							RPGMobsGainMoney gainMoneyEvent = new RPGMobsGainMoney(tempMoney, thePlayer, economy);
-							Bukkit.getPluginManager().callEvent(gainMoneyEvent);
-							if (!(gainMoneyEvent.isCancelled())) {
-								gainMoneyEvent.transaction();
-								SendMoneyMessageToPlayer(tempMoney, thePlayer);
-							}
-						}
+						ThePayment(thePlayer,theMoney,1);
 
 					}
 				} catch (Exception e) {
 				}
 			}
 		}
-	}
+		
+		
+		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+		public void onInventoryTouch(final InventoryClickEvent ev) {
+			if (ev.getWhoClicked() instanceof Player) {
+				try {
+					
+					final ItemStack stack = ev.getCurrentItem();
+					final int itemAmount = stack.getAmount();
+					String iName = ChatColor.stripColor(stack.getItemMeta().getDisplayName());
+					if ((" " + getCurrencyName(false)).equals(iName.substring(iName.length() - (1+getCurrencyName(false).length()), iName.length()))) {
+						ev.setCancelled(true);
+						ev.getInventory().remove(stack);
+						final double theMoney = Double.parseDouble(iName.replaceAll(" " + getCurrencyName(false), ""));
+
+						Player thePlayer = Bukkit.getPlayerExact(ev.getWhoClicked().getName());
+						ThePayment(thePlayer,theMoney,itemAmount);
+
+					}
+				} catch (Exception e) {
+				}
+			}
+		}
+		public void ThePayment(Player who, double money,int multiplier) throws NotRegisteredException, EconomyException  {
+			double tempMoney = money*multiplier;
+			if (tempMoney > 0) {
+				if (isTownyModuleOnline()) {
+
+					Resident resident = TownyAPI.getInstance().getDataSource().getResident(who.getName());
+					if (resident.hasTown()) {
+						final Double TownyRatio = Math
+								.abs(Main.RPGMobs.getConfigModule().getGlobalConfig().getTownyRatio());
+						if (TownyRatio != 0) {
+							final boolean isTownySubtract = Main.RPGMobs.getConfigModule().getGlobalConfig()
+									.getisTownySubtract();
+							final boolean isTownyNationSupport = Main.RPGMobs.getConfigModule()
+									.getGlobalConfig().getisTownyNationSupport();
+							Town town = TownyAPI.getInstance().getDataSource()
+									.getTown(resident.getTown().toString());
+
+							if (isTownySubtract)
+								tempMoney -= money * TownyRatio;
+							town.pay(money * TownyRatio, "[RPGLeveledMobs] "+resident.getName()+ " got "+ money+". Town got " +TownyRatio*100+"%");
+							if (isTownyNationSupport && town.hasNation()) {
+								Nation nation = town.getNation();
+								if (isTownySubtract)
+									tempMoney -= money * TownyRatio * TownyRatio;					
+								nation.pay(money * TownyRatio * TownyRatio, "[RPGLeveledMobs] "+resident.getName()+ " got "+ money+". Nation got " +TownyRatio*TownyRatio*100+"%");
+							}
+							tempMoney = (double) (Math.round(tempMoney * 100)) / 100;
+						}
+					}
+				}
+				RPGMobsGainMoney gainMoneyEvent = new RPGMobsGainMoney(tempMoney, who, economy);
+				Bukkit.getPluginManager().callEvent(gainMoneyEvent);
+				if (!(gainMoneyEvent.isCancelled())) {
+					gainMoneyEvent.transaction();
+					SendMoneyMessageToPlayer(tempMoney, who);
+				}
+			}
+		}
+		}
+		
+		
+	
 
 	public void SendMoneyMessageToPlayer(double amount, Player player) {
 

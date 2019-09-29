@@ -44,6 +44,7 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	private double TownyRatio;
 	private boolean TownySubtract;
 	private boolean TownyNationSupport;
+	private boolean NoMoneyDrop;
 	private ArrayList<EntityType> leveledMobs;
 	private ArrayList<EntityType> blockedMobs;
 	private HashMap<EntityType, Double> moneyMobs;
@@ -201,6 +202,9 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 		if (this.config.getConfig().contains(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString())) {
 			this.TownyNationSupport = this.config.getConfig()
 					.getBoolean(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString());
+		}
+		if(this.config.getConfig().contains(ConfigKey.MONEY_TAKE_MONEY_ON_KILL.toString())) {
+			this.NoMoneyDrop = this.config.getConfig().getBoolean(ConfigKey.MONEY_TAKE_MONEY_ON_KILL.toString());
 		}
 		this.config.saveConfig();
 	}
@@ -743,6 +747,20 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 			return (boolean) this.inheritedValues.get(ConfigKey.MONEY_TOWNY_SUPPORTNATION);
 		}
 		return this.TownyNationSupport;
+	}
+
+	public boolean isNoMoneyDrop() {
+		if (this.inheritedValues.containsKey(ConfigKey.MONEY_TAKE_MONEY_ON_KILL)) {
+			return (boolean) this.inheritedValues.get(ConfigKey.MONEY_TAKE_MONEY_ON_KILL);
+		}
+		return this.NoMoneyDrop;
+	}
+	
+	public void setNoMoneyDrop(boolean noMoneyDrop) {
+		this.NoMoneyDrop = noMoneyDrop;
+		this.config.getConfig().set(ConfigKey.MONEY_TAKE_MONEY_ON_KILL.toString(), (Object) this.NoMoneyDrop);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
 	}
 
 }
