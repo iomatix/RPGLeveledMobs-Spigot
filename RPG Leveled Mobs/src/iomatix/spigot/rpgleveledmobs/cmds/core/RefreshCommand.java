@@ -97,15 +97,21 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 			}
 			livingEntity.setCustomNameVisible(node.isAlwaysShowMobName());
 		}else {
-		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString()))livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
+		livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
 		LoadMobMetaData(livingEntity, CreatureSpawnEvent.SpawnReason.DEFAULT);
 		}
 	}
 
 	public static void LoadTheMetaData(LivingEntity livingEntity) {
-		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString()) && livingEntity.hasMetadata(MetaTag.Level.toString())) {
+		if (livingEntity.hasMetadata(MetaTag.RPGmob.toString()) && livingEntity.hasMetadata(MetaTag.Level.toString())
+				&& livingEntity.hasMetadata(MetaTag.ExpMod.toString())
+				&& livingEntity.hasMetadata(MetaTag.MoneyDrop.toString())
+				&& livingEntity.hasMetadata(MetaTag.MoneyMod.toString())) {
 			final int level = livingEntity.getMetadata(MetaTag.Level.toString()).get(0).asInt();
-			if (!(level > 0)) {
+			final double moneyMod = livingEntity.getMetadata(MetaTag.MoneyMod.toString()).get(0).asDouble();
+			final double moneyDrop = livingEntity.getMetadata(MetaTag.MoneyDrop.toString()).get(0).asDouble();
+			final double ExpMod = livingEntity.getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble();
+			if (!(level > 0) || !(ExpMod > 0) || !(moneyDrop > 0) || !(moneyMod > 0)) {
 				livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
 				LoadMobMetaData(livingEntity, CreatureSpawnEvent.SpawnReason.DEFAULT);
 				return;
