@@ -87,5 +87,5 @@ Package: `package iomatix.spigot.rpgleveledmobs.events;`
 | `RPGMobsGainExperience` | `boolean isSkillAPIModuleON()` | Returns true if SkillAPI is loaded correctly. |
 | `RPGMobsGainMoney` | `RPGMobsGainMoney(double money,Player who, Economy economyHandler)` | (**CANCELLABLE**) Event is called every time when [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html) gains money from leveled mobs. `who` is the Player, `money` is the money amount, `economyHandler` is an [Vault](https://dev.bukkit.org/projects/vault)'s [Economy](https://milkbowl.github.io/VaultAPI/net/milkbowl/vault/economy/Economy.html). |
 | `RPGMobsGainMoney` | `Player getEntity()` | Returns [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html) involved in the event. |
-| `RPGMobsGainMoney` | `Double getMoney()` | Returns (double) money amount. |
+| `RPGMobsGainMoney` | `Double getMoney()` | Returns money amount. |
 | `RPGMobsGainMoney` | `void transaction()` | Deposits the money amount to the [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html)'s economy account. |
