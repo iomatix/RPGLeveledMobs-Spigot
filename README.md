@@ -81,11 +81,11 @@ Package: `package iomatix.spigot.rpgleveledmobs.events;`
 
 | **Event**        | **Method** | **Description**  |
 | :-------------: | :---------------------: | :--------------------------: |
-| `RPGMobsGainExperience` | `RPGMobsGainExperience(double exp,Player who)` | (**CANCELLABE**) Event is called every time when [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html) gains experience from leveled mobs. `who` is the Player, `exp` is the experience amount. |
+| `RPGMobsGainExperience` | `RPGMobsGainExperience(double exp,Player who)` | (**CANCELLABLE**) Event is called every time when [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html) gains experience from leveled mobs. `who` is the Player, `exp` is the experience amount. |
 | `RPGMobsGainExperience` | `Player getEntity()` | Returns [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html) involved in the event. |
 | `RPGMobsGainExperience` | `Double getExp()` | Returns Experience amount. |
 | `RPGMobsGainExperience` | `boolean isSkillAPIModuleON()` | Returns true if SkillAPI is loaded correctly. |
-| `RPGMobsGainMoney` | `RPGMobsGainMoney(double money,Player who, Economy economyHandler)` | (**CANCELLABE**) Event is called every time when [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html) gains money from leveled mobs. `who` is the Player, `money` is the money amount, `economyHandler` is an [Vault](https://dev.bukkit.org/projects/vault)'s [Economy](https://milkbowl.github.io/VaultAPI/net/milkbowl/vault/economy/Economy.html). |
+| `RPGMobsGainMoney` | `RPGMobsGainMoney(double money,Player who, Economy economyHandler)` | (**CANCELLABLE**) Event is called every time when [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html) gains money from leveled mobs. `who` is the Player, `money` is the money amount, `economyHandler` is an [Vault](https://dev.bukkit.org/projects/vault)'s [Economy](https://milkbowl.github.io/VaultAPI/net/milkbowl/vault/economy/Economy.html). |
 | `RPGMobsGainMoney` | `Player getEntity()` | Returns [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html) involved in the event. |
 | `RPGMobsGainMoney` | `Double getMoney()` | Returns (double) money amount. |
 | `RPGMobsGainMoney` | `void transaction()` | Deposits the money amount to the [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html)'s economy account. |
