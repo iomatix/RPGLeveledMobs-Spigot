@@ -80,7 +80,7 @@ More MetaData Methods: [Metadatable](https://hub.spigotmc.org/javadocs/bukkit/or
 Package: `package iomatix.spigot.rpgleveledmobs.events;`
 
 | **Event**        | **Method** | **Description**  |
-| :-------------: | :---------------------: | :------------: | :--------------------------: |
+| :-------------: | :---------------------: | :--------------------------: |
 | `RPGMobsGainExperience` | `RPGMobsGainExperience(double exp,Player who)` | (**CANCELLABE**) Event is called every time when [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html) gains experience from leveled mobs. `who` is the Player, `exp` is the experience amount. |
 | `RPGMobsGainExperience` | `Player getEntity()` | Returns [Player](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/Player.html) involved in the event. |
 | `RPGMobsGainExperience` | `Double getExp()` | Returns Experience amount. |
