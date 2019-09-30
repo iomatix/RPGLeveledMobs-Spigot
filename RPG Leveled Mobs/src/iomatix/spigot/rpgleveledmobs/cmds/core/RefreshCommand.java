@@ -35,9 +35,8 @@ import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 public class RefreshCommand implements RPGlvlmobsCommand {
 	public static void RefreshMetaToLevel(LivingEntity livingEntity) {
 		Location location = livingEntity.getLocation();
-		if (livingEntity.hasMetadata(MetaTag.HealthMod.toString())
+		if (livingEntity.hasMetadata(MetaTag.HealthMod.toString()) && livingEntity.hasMetadata(MetaTag.HealthAddon.toString())
 				&& livingEntity.hasMetadata(MetaTag.Level.toString())) {
-
 			final int level = livingEntity.getMetadata(MetaTag.Level.toString()).get(0).asInt();
 			final double healthModifier = livingEntity.getMetadata(MetaTag.HealthMod.toString()).get(0).asDouble();
 			final double healthAddon = livingEntity.getMetadata(MetaTag.HealthAddon.toString()).get(0).asDouble();
@@ -97,6 +96,9 @@ public class RefreshCommand implements RPGlvlmobsCommand {
 				livingEntity.setCustomName(startName);
 			}
 			livingEntity.setCustomNameVisible(node.isAlwaysShowMobName());
+		}else {
+		livingEntity.removeMetadata(MetaTag.RPGmob.toString(), (Plugin) Main.RPGMobs);
+		LoadMobMetaData(livingEntity, CreatureSpawnEvent.SpawnReason.DEFAULT);
 		}
 	}
 

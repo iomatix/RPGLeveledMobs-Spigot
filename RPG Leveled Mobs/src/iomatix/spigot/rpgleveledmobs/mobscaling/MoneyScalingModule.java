@@ -73,13 +73,11 @@ public class MoneyScalingModule {
 				final int level = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
 				final double moneyMod = event.getEntity().getMetadata(MetaTag.MoneyMod.toString()).get(0).asDouble();
 				final double moneyValue = event.getEntity().getMetadata(MetaTag.MoneyDrop.toString()).get(0).asDouble();
-				double moneyRandomizer = Math
-						.abs(event.getEntity().getMetadata(MetaTag.MoneyRandomizer.toString()).get(0).asDouble());
-				if (moneyRandomizer != 0)
-					moneyRandomizer = Math.random() * (moneyRandomizer - (-moneyRandomizer)) + (-moneyRandomizer);
-				final double theRandomizer = moneyRandomizer + (moneyRandomizer * moneyMod * level / 25);
+				double moneyRandomizer = Math.abs(event.getEntity().getMetadata(MetaTag.MoneyRandomizer.toString()).get(0).asDouble());
+				if (moneyRandomizer != 0)moneyRandomizer = Math.random() * (moneyRandomizer - (-moneyRandomizer)) + (-moneyRandomizer);
+				final double theRandomizer = moneyRandomizer + ((moneyRandomizer * moneyMod * level) / 25);
 				final Double theMoney = (double) Math
-						.round(((moneyValue + theRandomizer + (moneyValue * level * moneyMod))) * 100) / 100;
+						.round((moneyValue + theRandomizer + (moneyValue * level * moneyMod)) * 100) / 100;
 				if (theMoney > 0) {
 					if (Main.RPGMobs.getConfigModule().getGlobalConfig().isNoMoneyDrop()) {
 						if (event.getEntity().getKiller() != null && event.getEntity().getKiller() instanceof Player)
