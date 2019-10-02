@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.Plugin;
 
 import iomatix.spigot.rpgleveledmobs.Main;
@@ -19,9 +20,16 @@ public class AutomaticRefreshListener implements Listener {
 	if(Bukkit.getOnlinePlayers().isEmpty() || Bukkit.getOnlinePlayers().size() < 2) RefreshCommand.execute();
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onPlayerJoinRefresh(final PlayerJoinEvent event) {
-		AutomaticRefresh();
+		
+		Bukkit.getScheduler().scheduleSyncDelayedTask((Plugin) Main.RPGMobs, new Runnable() {
+		    public void run() {
+		    	AutomaticRefresh();           
+		    }
+		}, 60L);
 	}
+	
+
 
 }
