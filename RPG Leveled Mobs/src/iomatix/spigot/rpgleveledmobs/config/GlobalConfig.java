@@ -49,6 +49,8 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	private boolean TownySubtract;
 	private boolean TownyNationSupport;
 	private boolean NoMoneyDrop;
+	private boolean RPGLevelRandomizer;
+	private int RPGLevelMax;
 	private ArrayList<EntityType> leveledMobs;
 	private ArrayList<EntityType> blockedMobs;
 	private HashMap<EntityType, Double> moneyMobs;
@@ -222,6 +224,13 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 		if (this.config.getConfig().contains(ConfigKey.MONEY_TAKE_MONEY_ON_KILL.toString())) {
 			this.NoMoneyDrop = this.config.getConfig().getBoolean(ConfigKey.MONEY_TAKE_MONEY_ON_KILL.toString());
 		}
+		if (this.config.getConfig().contains(ConfigKey.RPG_LEVEL_RANDOMIZER.toString())) {
+			this.RPGLevelRandomizer = this.config.getConfig().getBoolean(ConfigKey.RPG_LEVEL_RANDOMIZER.toString());
+		}
+		if (this.config.getConfig().contains(ConfigKey.RPG_LEVEL_MAX.toString())) {
+			this.RPGLevelMax = this.config.getConfig().getInt(ConfigKey.RPG_LEVEL_MAX.toString());
+		}
+
 		this.config.saveConfig();
 	}
 
@@ -819,6 +828,28 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	public void setExperienceAddon(double experienceAdd) {
 		this.experienceAddon = experienceAdd;
 		this.config.getConfig().set(ConfigKey.EXPERIENCE_ADDON.toString(), (Object) experienceAdd);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+	@Override
+	public boolean isRPGLevelRandomizer() {
+		return this.RPGLevelRandomizer;
+	}
+	@Override
+	public void setRPGLevelRandomizer(boolean RPGLevelRandomizer) {
+		this.RPGLevelRandomizer = RPGLevelRandomizer;
+		this.config.getConfig().set(ConfigKey.RPG_LEVEL_RANDOMIZER.toString(), (Object) RPGLevelRandomizer);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+	@Override
+	public int getRPGLevelMax() {
+		return this.RPGLevelMax;
+	}
+	@Override
+	public void setRPGLevelMax(int RPGLevelMax) {
+		this.RPGLevelMax = RPGLevelMax;
+		this.config.getConfig().set(ConfigKey.RPG_LEVEL_MAX.toString(), (Object) RPGLevelMax);
 		this.config.saveConfig();
 		Main.RPGMobs.getConfigModule().globalUpdate();
 	}

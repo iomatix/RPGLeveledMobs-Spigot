@@ -57,18 +57,17 @@ public enum ConfigKey {
 	MONEY_MOBS("Economy.MoneyMobs", "A list of mobs with currency values assigned which each drops on death."),
 	MONEY_MOD_ENABLE("Stats.Money.Enabled","Whether or not to increase the money amount a mob will drop by their level."),
 	MONEY_PER_LEVEL("Stats.Money.Multiplier","The percentage of money increase per level. Formula = [BaseMoney + (BaseMoney * level * multiplier)]"),
-	MONEY_RANDOM("Stats.Money.Random","Value by money drop may increase or decrease."),
+	MONEY_RANDOM("Stats.Money.Random","Maximum value by money drop may increase."),
 	MONEY_TOWNY_RATIO("Economy.Towny.TownyRatio","Percent of the money received by Town - Towny Value."),
 	MONEY_TOWNY_SUBTRACT("Economy.Towny.TownySubtract","Boolean: Subtract the Towny Value from income?"),
 	MONEY_TOWNY_SUPPORTNATION("Economy.Towny.NationSupport","Boolean: Support both Nation and Town or only the Town?"),
-	MONEY_TAKE_MONEY_ON_KILL("Economy.Misc.NoMoneyDrop","Money send to player on mob's kill instead of drop on the ground.");
+	MONEY_TAKE_MONEY_ON_KILL("Economy.Misc.NoMoneyDrop","Money send to player on mob's kill instead of drop on the ground."),
+	RPG_LEVEL_RANDOMIZER("Leveling.RPGLevelRandomizer","Allows to randomize mobs level up to RPG_LEVEL_MAX."),
+	RPG_LEVEL_MAX("Leveling.RPGLevelMax","Allows to randomize mobs level up to this value if randomizer is true.");
 	
 	
 	private String path;
 	private String description;
-	public static Double TownyRatio;
-	public static boolean TownySubtract;
-	public static boolean TownySupportNation;
 	public static HashMap<ConfigKey, Object> defaultMap;
 	public static HashMap<EntityType, Double> moneyMap;
 	public static HashMap<EntityType, Double> defaultMoneyAll;
@@ -203,7 +202,7 @@ public enum ConfigKey {
 		ConfigKey.defaultMap.put(ConfigKey.EXPERIENCE_ADDON, 2.5);
 		ConfigKey.defaultMap.put(ConfigKey.DAMAGE_ADDON, 2.5);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_PER_LEVEL, 0.35);
-		ConfigKey.defaultMap.put(ConfigKey.MONEY_RANDOM, 1.5);
+		ConfigKey.defaultMap.put(ConfigKey.MONEY_RANDOM, 4.5);
 		ConfigKey.defaultMap.put(ConfigKey.LEVELED_MOBS, ConfigKey.defaultLeveled);
 		ConfigKey.defaultMap.put(ConfigKey.BLOCKED_MOBS, ConfigKey.defaultBlockedVanilla);
 		ConfigKey.defaultMap.put(ConfigKey.LEVELED_SPAWNERS, true);
@@ -221,6 +220,8 @@ public enum ConfigKey {
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_TOWNY_SUBTRACT, true);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_TOWNY_SUPPORTNATION, true);
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_TAKE_MONEY_ON_KILL, false);
+		ConfigKey.defaultMap.put(ConfigKey.RPG_LEVEL_RANDOMIZER, true);
+		ConfigKey.defaultMap.put(ConfigKey.RPG_LEVEL_MAX, 9);
 		try {
 			ConfigKey.defaultBlockedEnd.remove(EntityType.ENDERMITE);
 			ConfigKey.defaultLeveled.add(EntityType.GUARDIAN);

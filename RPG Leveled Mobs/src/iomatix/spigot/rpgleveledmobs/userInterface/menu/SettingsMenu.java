@@ -388,7 +388,7 @@ public class SettingsMenu extends Menu {
 			final Button moneyRandomizer = new Button();
 			moneyRandomizer.setIcon(Material.WRITABLE_BOOK);
 			moneyRandomizer.setName(ChatColor.GREEN + "Money Randomizer");
-			moneyRandomizer.addLoreLine(special_2 + "Formula: output +/- randomizer + randomizer * (level*mod)/25");
+			moneyRandomizer.addLoreLine(special_2 + "Formula: Output + random(0,randomizer) + random(0,randomizer) * (level*mod)/15");
 			moneyRandomizer.addLoreLine(" ");
 			final double moneyRand = SettingsMenu.this.config.getMoneyRandomizer();
 			moneyRandomizer.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + moneyRand);
@@ -594,6 +594,58 @@ public class SettingsMenu extends Menu {
 
 		public void generateMenu() {
 			this.menuMap.clear();
+			final Button rpgLevelRandomizer = new Button();
+			rpgLevelRandomizer.setIcon(Material.WHITE_WOOL);
+			rpgLevelRandomizer.setName(ChatColor.GREEN + "RPG Level Randomizer");
+			rpgLevelRandomizer.addLoreLine("");
+			rpgLevelRandomizer.addLoreLine(special_2 + "Whether or not to randomize mobs levels.");
+			rpgLevelRandomizer.addLoreLine("");
+			if (SettingsMenu.this.config.isRPGLevelRandomizer()) {
+				rpgLevelRandomizer.setIcon(Material.GREEN_WOOL);
+				rpgLevelRandomizer.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
+			} else {
+				rpgLevelRandomizer.setIcon(Material.RED_WOOL);
+				rpgLevelRandomizer.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
+			}
+			rpgLevelRandomizer.addLoreLine("");
+			rpgLevelRandomizer.addLoreLine(ChatColor.GRAY + "Click to toggle.");
+			rpgLevelRandomizer.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					SettingsMenu.this.config.setRPGLevelRandomizer(!SettingsMenu.this.config.isRPGLevelRandomizer());
+					LevelingMenu.this.ShowMenu(event.getInteractor());
+				}
+			});
+			this.menuMap.put(0, rpgLevelRandomizer);
+			final Button maxRandomizerLevel = new Button();
+			maxRandomizerLevel.setIcon(Material.WRITABLE_BOOK);
+			maxRandomizerLevel.setName(ChatColor.GREEN + "Maximum Randomizer Level");
+			maxRandomizerLevel.addLoreLine(" ");
+			final int rpgmax = SettingsMenu.this.config.getRPGLevelMax();
+			maxRandomizerLevel.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + "" + rpgmax);
+			maxRandomizerLevel.addLoreLine(" ");
+			maxRandomizerLevel.addLoreLine(ChatColor.GRAY + "Click to Change Value.");
+			maxRandomizerLevel.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					if (SettingsMenu.listeners.contains(event.getInteractor())) {
+						LevelingMenu.menuHandler.closeMenu(event.getInteractor());
+					}
+					try {
+						LevelingMenu.menuHandler.closeMenu(event.getInteractor());
+						final IntegerChangeListener integerChangeListener = new IntegerChangeListener(
+								event.getInteractor(), event.getMenu(),
+								SettingsMenu.this.config.getClass().getMethod("setRPGLevelMax", Integer.TYPE));
+						event.getInteractor().sendMessage(special_2 + "Please enter a new value: ");
+					} catch (NoSuchMethodException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			this.menuMap.put(1, maxRandomizerLevel);
+			
+			
+			
 			final Button minLevel = new Button();
 			minLevel.setIcon(Material.WRITABLE_BOOK);
 			minLevel.setName(ChatColor.GREEN + "Minimum Level");
@@ -619,7 +671,7 @@ public class SettingsMenu extends Menu {
 					}
 				}
 			});
-			this.menuMap.put(0, minLevel);
+			this.menuMap.put(2, minLevel);
 			final Button maxLevel = new Button();
 			maxLevel.setIcon(Material.WRITABLE_BOOK);
 			maxLevel.setName(ChatColor.GREEN + "Maximum Level");
@@ -645,7 +697,7 @@ public class SettingsMenu extends Menu {
 					}
 				}
 			});
-			this.menuMap.put(1, maxLevel);
+			this.menuMap.put(3, maxLevel);
 			final Button startLevel = new Button();
 			startLevel.setIcon(Material.WRITABLE_BOOK);
 			startLevel.setName(ChatColor.GREEN + "Start Level");
@@ -671,7 +723,7 @@ public class SettingsMenu extends Menu {
 					}
 				}
 			});
-			this.menuMap.put(2, startLevel);
+			this.menuMap.put(4, startLevel);
 			final Button distancePerLevel = new Button();
 			distancePerLevel.setIcon(Material.WRITABLE_BOOK);
 			distancePerLevel.setName(ChatColor.GREEN + "Distance Per Level Increase");
@@ -697,7 +749,7 @@ public class SettingsMenu extends Menu {
 					}
 				}
 			});
-			this.menuMap.put(3, distancePerLevel);
+			this.menuMap.put(5, distancePerLevel);
 			final Button previous = new Button();
 			previous.setIcon(Material.NETHER_STAR);
 			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
@@ -1687,7 +1739,6 @@ public class SettingsMenu extends Menu {
 				mobDropOrNot.setName(ChatColor.GREEN + "Money Drop");
 				mobDropOrNot.addLoreLine(" ");
 				mobDropOrNot.addLoreLine(ChatColor.YELLOW + "Visit global settings to adjust this setting.");
-				mobDropOrNot.addLoreLine(" ");
 			}
 			this.menuMap.put(1, mobDropOrNot);
 					

@@ -180,7 +180,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 	protected class WorldLevelingMenu extends LevelingMenu {
 		public WorldLevelingMenu(final SettingsMenu prev) {
 			super(prev);
-			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special + "Stats Menu";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special + "Leveling Menu";
 		}
 
 		@Override
@@ -191,21 +191,25 @@ public class WorldSettingsMenu extends SettingsMenu {
 		@Override
 		public void generateMenu() {
 			super.generateMenu();
-			final Button minLevel = this.menuMap.get(0);
-			WorldSettingsMenu.this.ButtonInheritMod(this, minLevel, ConfigKey.MIN_LEVEL, 0);
-			final Button maxLevel = this.menuMap.get(1);
-			WorldSettingsMenu.this.ButtonInheritMod(this, maxLevel, ConfigKey.MAX_LEVEL, 1);
-			final Button startLevel = this.menuMap.get(2);
-			WorldSettingsMenu.this.ButtonInheritMod(this, startLevel, ConfigKey.START_LEVEL, 2);
-			final Button distancePerLevel = this.menuMap.get(3);
-			WorldSettingsMenu.this.ButtonInheritMod(this, distancePerLevel, ConfigKey.DISTANCE_PER_LEVEL, 3);
+			final Button rpgLevelRandomizer = this.menuMap.get(0);
+			WorldSettingsMenu.this.ButtonInheritMod(this, rpgLevelRandomizer, ConfigKey.RPG_LEVEL_RANDOMIZER, 0);
+			final Button maxRandomizerLevel = this.menuMap.get(1);
+			WorldSettingsMenu.this.ButtonInheritMod(this, maxRandomizerLevel, ConfigKey.RPG_LEVEL_MAX, 1);
+			final Button minLevel = this.menuMap.get(2);
+			WorldSettingsMenu.this.ButtonInheritMod(this, minLevel, ConfigKey.MIN_LEVEL, 2);
+			final Button maxLevel = this.menuMap.get(3);
+			WorldSettingsMenu.this.ButtonInheritMod(this, maxLevel, ConfigKey.MAX_LEVEL, 3);
+			final Button startLevel = this.menuMap.get(4);
+			WorldSettingsMenu.this.ButtonInheritMod(this, startLevel, ConfigKey.START_LEVEL, 4);
+			final Button distancePerLevel = this.menuMap.get(5);
+			WorldSettingsMenu.this.ButtonInheritMod(this, distancePerLevel, ConfigKey.DISTANCE_PER_LEVEL, 5);
 		}
 	}
 
 	protected class WorldNamingMenu extends NamingMenu {
 		public WorldNamingMenu(final SettingsMenu prev) {
 			super(prev);
-			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special + "Leveling Menu";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + special + "Naming Menu";
 		}
 
 		@Override
@@ -354,7 +358,7 @@ public class WorldSettingsMenu extends SettingsMenu {
 
 		public WorldNodeMenu(final Menu prev) {
 			this.prev = prev;
-			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + main + "Spawn Nodes";
+			this.name = prev.getName() + ChatColor.DARK_GRAY + ": " + main + "Nodes Menu";
 			this.generateMenus();
 		}
 

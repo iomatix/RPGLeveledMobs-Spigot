@@ -31,6 +31,7 @@ import iomatix.spigot.rpgleveledmobs.config.cfgModule;
 import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
 import iomatix.spigot.rpgleveledmobs.spawnsController.MobNamesMap;
 import iomatix.spigot.rpgleveledmobs.spawnsController.SpawnModule;
+import iomatix.spigot.rpgleveledmobs.tools.BiasedRandom;
 import iomatix.spigot.rpgleveledmobs.tools.Language;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 
@@ -88,6 +89,7 @@ public class ResetCommand implements RPGlvlmobsCommand {
 			}
 		}
 		int level = node.getLevel(location);
+		if(node.isRPGLevelRandomizer() && node.getRPGLevelMax() > 0)level = level + BiasedRandom.randomInt(0, node.getRPGLevelMax());
 		if (Main.RPGMobs.getExperienceScalingModuleInstance().isSkillApiHandled()) {
 			if (livingEntity instanceof Tameable) {
 				if (((Tameable) livingEntity).getOwner() != null) {

@@ -248,5 +248,11 @@ public abstract class RPGLeveledMobsConfig {
 	public abstract void setDamageAddon(double p0);
 	public abstract double getExperienceAddon();
 	public abstract void setExperienceAddon(double p0);
+	
+	public abstract boolean isRPGLevelRandomizer();
+	public abstract void setRPGLevelRandomizer(boolean RPGLevelRandomizer);
+	public abstract int getRPGLevelMax();
+	public abstract void setRPGLevelMax(int RPGLevelMax);
+	
 
 }

@@ -136,6 +136,14 @@ public class cfgModule {
 					LogsModule.debug("World: " + world + " - Found MoneyRandomizer, saving setting!");
 					wc.setMoneyRandomizer(oldConfig.getConfig().getDouble(world + ".MoneyRandomizer"));
 				}
+				if (oldConfig.getConfig().contains(world + ".RPGLevelRandomizer")) {
+					LogsModule.debug("World: " + world + " - Found RPGLevelRandomizer, saving setting!");
+					wc.setRPGLevelRandomizer(oldConfig.getConfig().getBoolean(world + ".RPGLevelRandomizer"));
+				}
+				if (oldConfig.getConfig().contains(world + ".RPGLevelMax")) {
+					LogsModule.debug("World: " + world + " - Found RPGLevelMax, saving setting!");
+					wc.setRPGLevelMax(oldConfig.getConfig().getInt(world + ".RPGLevelMax"));
+				}
 				for (final String nodeKey : oldConfig.getConfig().getConfigurationSection(world + ".spawnLocations")
 						.getKeys(false)) {
 					LogsModule
@@ -225,6 +233,17 @@ public class cfgModule {
 								+ " - Found MoneyRandomizer, saving setting!");
 						node.setMoneyRandomizer(oldConfig.getConfig().getDouble(tag + ".MoneyRandomizer"));
 					}
+					if (oldConfig.getConfig().contains(tag + ".RPGLevelRandomizer")) {
+						LogsModule.debug("World: " + world + " - SpawnNode: " + nodeKey
+								+ " - Found RPGLevelRandomizer, saving setting!");
+						node.setRPGLevelRandomizer(oldConfig.getConfig().getBoolean(tag + ".RPGLevelRandomizer"));
+					}
+					if (oldConfig.getConfig().contains(tag + ".RPGLevelMax")) {
+						LogsModule.debug("World: " + world + " - SpawnNode: " + nodeKey
+								+ " - Found RPGLevelMax, saving setting!");
+						node.setRPGLevelMax(oldConfig.getConfig().getInt(tag + ".RPGLevelMax"));
+					}
+					
 					node.saveConfig();
 				}
 				wc.saveConfig();

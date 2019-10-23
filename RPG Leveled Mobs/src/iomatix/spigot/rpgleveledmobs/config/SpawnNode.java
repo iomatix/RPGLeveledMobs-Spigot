@@ -59,6 +59,8 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	private boolean TownyNationSupport;
 	private boolean alwaysShowMobName;
 	private boolean NoMoneyDrop;
+	private boolean RPGLevelRandomizer;
+	private int RPGLevelMax;
 	private final Random rand;
 	private HashMap<EntityType, Double> moneyMobs;
 
@@ -866,6 +868,36 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 		this.inheritedValues.remove(ConfigKey.EXPERIENCE_ADDON);
 		this.experienceAddon = experienceAdd;
 		this.nodeConfig.set(ConfigKey.EXPERIENCE_ADDON.toString(), (Object) experienceAdd);
+		this.worldConfig.saveNodeConfig();
+	}
+	
+	@Override
+	public boolean isRPGLevelRandomizer() {
+		if (this.inheritedValues.containsKey(ConfigKey.RPG_LEVEL_RANDOMIZER)) {
+			return (boolean) this.inheritedValues.get(ConfigKey.RPG_LEVEL_RANDOMIZER);
+		}
+		return this.RPGLevelRandomizer;
+	}
+	
+	@Override
+	public void setRPGLevelRandomizer(boolean RPGLevelRandomizer) {
+		this.inheritedValues.remove(ConfigKey.RPG_LEVEL_RANDOMIZER);
+		this.RPGLevelRandomizer = RPGLevelRandomizer;
+		this.nodeConfig.set(ConfigKey.RPG_LEVEL_RANDOMIZER.toString(), (Object) RPGLevelRandomizer);
+		this.worldConfig.saveNodeConfig();
+	}
+	@Override
+	public int getRPGLevelMax() {
+		if (this.inheritedValues.containsKey(ConfigKey.RPG_LEVEL_MAX)) {
+			return (int) this.inheritedValues.get(ConfigKey.RPG_LEVEL_MAX);
+		}
+		return this.RPGLevelMax;
+	}
+	@Override
+	public void setRPGLevelMax(int RPGLevelMax) {
+		this.inheritedValues.remove(ConfigKey.RPG_LEVEL_MAX);
+		this.RPGLevelMax = RPGLevelMax;
+		this.nodeConfig.set(ConfigKey.RPG_LEVEL_MAX.toString(), (Object) RPGLevelMax);
 		this.worldConfig.saveNodeConfig();
 	}
 	

@@ -2,6 +2,7 @@ package iomatix.spigot.rpgleveledmobs.mobscaling;
 
 import java.util.Arrays;
 
+import java.lang.Math;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -32,6 +33,7 @@ import iomatix.spigot.rpgleveledmobs.events.RPGMobsGainMoney;
 import iomatix.spigot.rpgleveledmobs.Main;
 import iomatix.spigot.rpgleveledmobs.logging.LogsModule;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
+import iomatix.spigot.rpgleveledmobs.tools.BiasedRandom;
 import net.md_5.bungee.api.ChatColor;
 
 public class MoneyScalingModule {
@@ -74,8 +76,11 @@ public class MoneyScalingModule {
 				final double moneyMod = event.getEntity().getMetadata(MetaTag.MoneyMod.toString()).get(0).asDouble();
 				final double moneyValue = event.getEntity().getMetadata(MetaTag.MoneyDrop.toString()).get(0).asDouble();
 				double moneyRandomizer = Math.abs(event.getEntity().getMetadata(MetaTag.MoneyRandomizer.toString()).get(0).asDouble());
-				if (moneyRandomizer != 0)moneyRandomizer = Math.random() * (moneyRandomizer - (-moneyRandomizer)) + (-moneyRandomizer);
-				final double theRandomizer = moneyRandomizer + ((moneyRandomizer * moneyMod * level) / 25);
+
+				
+				
+				if (moneyRandomizer != 0)moneyRandomizer = BiasedRandom.randomDouble(0, moneyRandomizer);
+				final double theRandomizer = moneyRandomizer + ((moneyRandomizer * moneyMod * level) / 15);
 				final Double theMoney = (double) Math
 						.round((moneyValue + theRandomizer + (moneyValue * level * moneyMod)) * 100) / 100;
 				if (theMoney > 0) {

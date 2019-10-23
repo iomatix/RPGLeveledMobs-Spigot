@@ -1,7 +1,7 @@
 package iomatix.spigot.rpgleveledmobs.spawnsController;
 
 import java.util.List;
-
+import java.lang.Math;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -32,6 +32,7 @@ import iomatix.spigot.rpgleveledmobs.cmds.core.RefreshCommand;
 import iomatix.spigot.rpgleveledmobs.cmds.core.ResetCommand;
 import iomatix.spigot.rpgleveledmobs.config.SpawnNode;
 import iomatix.spigot.rpgleveledmobs.config.cfgModule;
+import iomatix.spigot.rpgleveledmobs.tools.BiasedRandom;
 import iomatix.spigot.rpgleveledmobs.tools.Language;
 import iomatix.spigot.rpgleveledmobs.tools.MetaTag;
 import iomatix.spigot.rpgleveledmobs.mobscaling.ExperienceScalingModule;
@@ -115,6 +116,7 @@ public class SpawnModule implements Listener {
 			}
 		}
 		int level = node.getLevel(location);
+		if(node.isRPGLevelRandomizer() && node.getRPGLevelMax() > 0)level = level + BiasedRandom.randomInt(0, node.getRPGLevelMax());
 		if (Main.RPGMobs.getExperienceScalingModuleInstance().isSkillApiHandled()) {
 			if (livingEntity instanceof Tameable) {
 				if (((Tameable) livingEntity).getOwner() != null

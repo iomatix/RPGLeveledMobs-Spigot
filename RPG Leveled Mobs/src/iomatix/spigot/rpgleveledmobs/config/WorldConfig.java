@@ -55,6 +55,8 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 	private boolean TownySubtract;
 	private boolean TownyNationSupport;
 	private boolean NoMoneyDrop;
+	private boolean RPGLevelRandomizer;
+	private int RPGLevelMax;
 	private ArrayList<EntityType> leveledMobs;
 	private ArrayList<EntityType> blockedMobs;
 	private boolean leveledSpawners;
@@ -259,20 +261,32 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 			this.inheritedValues.remove(ConfigKey.LEVELED_SPAWNERS);
 		}
 		if (this.config.getConfig().contains(ConfigKey.NAME_LANGUAGE.toString())) {
-			this.language = Language
-					.valueOf(this.config.getConfig().getString(ConfigKey.NAME_LANGUAGE.toString()).toUpperCase());
+			this.language = Language.valueOf(this.config.getConfig().getString(ConfigKey.NAME_LANGUAGE.toString()).toUpperCase());
 			this.inheritedValues.remove(ConfigKey.NAME_LANGUAGE);
 		}
 		if (this.config.getConfig().contains(ConfigKey.MONEY_TOWNY_RATIO.toString())) {
 			this.TownyRatio = this.config.getConfig().getDouble(ConfigKey.MONEY_TOWNY_RATIO.toString());
+			this.inheritedValues.remove(ConfigKey.MONEY_TOWNY_RATIO);
 		}
 		if (this.config.getConfig().contains(ConfigKey.MONEY_TOWNY_SUBTRACT.toString())) {
 			this.TownySubtract = this.config.getConfig().getBoolean(ConfigKey.MONEY_TOWNY_SUBTRACT.toString());
+			this.inheritedValues.remove(ConfigKey.MONEY_TOWNY_SUBTRACT);
 		}
 		if (this.config.getConfig().contains(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString())) {
-			this.TownyNationSupport = this.config.getConfig()
-					.getBoolean(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString());
+			this.TownyNationSupport = this.config.getConfig().getBoolean(ConfigKey.MONEY_TOWNY_SUPPORTNATION.toString());
+			this.inheritedValues.remove(ConfigKey.MONEY_TOWNY_SUPPORTNATION);
 		}
+		
+		
+		if (this.config.getConfig().contains(ConfigKey.RPG_LEVEL_RANDOMIZER.toString())) {
+			this.RPGLevelRandomizer = this.config.getConfig().getBoolean(ConfigKey.RPG_LEVEL_RANDOMIZER.toString());
+			this.inheritedValues.remove(ConfigKey.RPG_LEVEL_RANDOMIZER);
+		}
+		if (this.config.getConfig().contains(ConfigKey.RPG_LEVEL_MAX.toString())) {
+			this.RPGLevelMax = this.config.getConfig().getInt(ConfigKey.RPG_LEVEL_MAX.toString());
+			this.inheritedValues.remove(ConfigKey.RPG_LEVEL_MAX);
+		}
+		
 	}
 
 	private void loadNodes() {
@@ -1146,7 +1160,40 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 		this.config.saveConfig();
 		this.updateChildrenValues();
 	}
+	
+	@Override
+	public boolean isRPGLevelRandomizer() {
+		if (this.inheritedValues.containsKey(ConfigKey.RPG_LEVEL_RANDOMIZER)) {
+			return (boolean) this.inheritedValues.get(ConfigKey.RPG_LEVEL_RANDOMIZER);
+		}
+		return this.RPGLevelRandomizer;
+	}
+	
+	@Override
+	public void setRPGLevelRandomizer(boolean RPGLevelRandomizer) {
+		this.inheritedValues.remove(ConfigKey.RPG_LEVEL_RANDOMIZER);
+		this.RPGLevelRandomizer = RPGLevelRandomizer;
+		this.config.getConfig().set(ConfigKey.RPG_LEVEL_RANDOMIZER.toString(), (Object) RPGLevelRandomizer);
+		this.config.saveConfig();
+		this.updateChildrenValues();
+	}
 
+	@Override
+	public int getRPGLevelMax() {
+		if (this.inheritedValues.containsKey(ConfigKey.RPG_LEVEL_MAX)) {
+			return (int) this.inheritedValues.get(ConfigKey.RPG_LEVEL_MAX);
+		}
+		return this.RPGLevelMax;
+	}
+	@Override
+	public void setRPGLevelMax(int RPGLevelMax) {
+		this.inheritedValues.remove(ConfigKey.RPG_LEVEL_MAX);
+		this.RPGLevelMax = RPGLevelMax;
+		this.config.getConfig().set(ConfigKey.RPG_LEVEL_MAX.toString(), (Object) RPGLevelMax);
+		this.config.saveConfig();
+		this.updateChildrenValues();
+	}
+	
 	public ArrayList<SpawnNode> getNodes() {
 		return this.nodeList;
 	}
