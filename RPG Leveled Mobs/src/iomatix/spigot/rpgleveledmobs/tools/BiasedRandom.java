@@ -10,10 +10,10 @@ public class BiasedRandom {
 	}
 	
 	public static int randomInt(int min,int max){
-		 return (int) Math.floor((1 - Math.sqrt(1 - Math.random()))*((max-min)+min));
+		 return (int) Math.floor((1 - Math.sqrt(1 - Math.random()))*((1+max-min)+min));
 	}
 
 	public static double randomDouble(double min,double max){
-	    return (1 - Math.sqrt(1 - Math.random()))*((max-min)+min);
+	    return (1 - Math.sqrt(1 - Math.random()))*((1+max-min)+min);
 	}
 }
