@@ -116,7 +116,11 @@ public class SpawnModule implements Listener {
 			}
 		}
 		int level = node.getLevel(location);
-		if(node.isRPGLevelRandomizer() && node.getRPGLevelMax() > 0)level = level + BiasedRandom.randomInt(0, node.getRPGLevelMax());
+		if(node.isRPGLevelRandomizer() && node.getRPGLevelMax() > 0) {
+		if(node.getRPGLevelFormula().toUpperCase().contains("MAIN")) level = level + BiasedRandom.randomInt(0, node.getRPGLevelMax());
+		else if(node.getRPGLevelFormula().toUpperCase().contains("ALTER")) level = level + BiasedRandom.randomIntAlter(0, node.getRPGLevelMax());
+		else level = level + BiasedRandom.randomIntOld(0, node.getRPGLevelMax());
+		}
 		if (Main.RPGMobs.getExperienceScalingModuleInstance().isSkillApiHandled()) {
 			if (livingEntity instanceof Tameable) {
 				if (((Tameable) livingEntity).getOwner() != null

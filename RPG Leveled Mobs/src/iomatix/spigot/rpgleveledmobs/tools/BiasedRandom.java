@@ -11,7 +11,7 @@ public class BiasedRandom {
 	}
 	
 	//PoW formula
-	public static int randomAlter(int min,int max){
+	public static int randomIntAlter(int min,int max){
 		 return (int) Math.floor( (Math.random() * (1+Math.random() * ((max-min)+min)) ));
 	}
 

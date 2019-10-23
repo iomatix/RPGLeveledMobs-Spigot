@@ -193,16 +193,18 @@ public class WorldSettingsMenu extends SettingsMenu {
 			super.generateMenu();
 			final Button rpgLevelRandomizer = this.menuMap.get(0);
 			WorldSettingsMenu.this.ButtonInheritMod(this, rpgLevelRandomizer, ConfigKey.RPG_LEVEL_RANDOMIZER, 0);
-			final Button maxRandomizerLevel = this.menuMap.get(1);
-			WorldSettingsMenu.this.ButtonInheritMod(this, maxRandomizerLevel, ConfigKey.RPG_LEVEL_MAX, 1);
-			final Button minLevel = this.menuMap.get(2);
-			WorldSettingsMenu.this.ButtonInheritMod(this, minLevel, ConfigKey.MIN_LEVEL, 2);
-			final Button maxLevel = this.menuMap.get(3);
-			WorldSettingsMenu.this.ButtonInheritMod(this, maxLevel, ConfigKey.MAX_LEVEL, 3);
-			final Button startLevel = this.menuMap.get(4);
-			WorldSettingsMenu.this.ButtonInheritMod(this, startLevel, ConfigKey.START_LEVEL, 4);
-			final Button distancePerLevel = this.menuMap.get(5);
-			WorldSettingsMenu.this.ButtonInheritMod(this, distancePerLevel, ConfigKey.DISTANCE_PER_LEVEL, 5);
+			final Button randomizerFormula = this.menuMap.get(1);
+			WorldSettingsMenu.this.ButtonInheritMod(this, randomizerFormula, ConfigKey.RPG_LEVEL_FORMULA, 1);
+			final Button maxRandomizerLevel = this.menuMap.get(2);
+			WorldSettingsMenu.this.ButtonInheritMod(this, maxRandomizerLevel, ConfigKey.RPG_LEVEL_MAX, 2);
+			final Button minLevel = this.menuMap.get(3);
+			WorldSettingsMenu.this.ButtonInheritMod(this, minLevel, ConfigKey.MIN_LEVEL, 3);
+			final Button maxLevel = this.menuMap.get(4);
+			WorldSettingsMenu.this.ButtonInheritMod(this, maxLevel, ConfigKey.MAX_LEVEL, 4);
+			final Button startLevel = this.menuMap.get(5);
+			WorldSettingsMenu.this.ButtonInheritMod(this, startLevel, ConfigKey.START_LEVEL, 5);
+			final Button distancePerLevel = this.menuMap.get(6);
+			WorldSettingsMenu.this.ButtonInheritMod(this, distancePerLevel, ConfigKey.DISTANCE_PER_LEVEL, 6);
 		}
 	}
 

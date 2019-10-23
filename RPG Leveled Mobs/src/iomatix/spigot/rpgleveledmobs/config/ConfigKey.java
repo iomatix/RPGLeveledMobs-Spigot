@@ -63,7 +63,8 @@ public enum ConfigKey {
 	MONEY_TOWNY_SUPPORTNATION("Economy.Towny.NationSupport","Boolean: Support both Nation and Town or only the Town?"),
 	MONEY_TAKE_MONEY_ON_KILL("Economy.Misc.NoMoneyDrop","Money send to player on mob's kill instead of drop on the ground."),
 	RPG_LEVEL_RANDOMIZER("Leveling.RPGLevelRandomizer","Allows to randomize mobs level up to RPG_LEVEL_MAX."),
-	RPG_LEVEL_MAX("Leveling.RPGLevelMax","Allows to randomize mobs level up to this value if randomizer is true.");
+	RPG_LEVEL_MAX("Leveling.RPGLevelMax","Allows to randomize mobs level up to this value if randomizer is true."),
+	RPG_LEVEL_FORMULA("Leveling.RPGLevelFormula","Allows to change formula and curve of the bias.");
 	
 	
 	private String path;
@@ -222,6 +223,7 @@ public enum ConfigKey {
 		ConfigKey.defaultMap.put(ConfigKey.MONEY_TAKE_MONEY_ON_KILL, false);
 		ConfigKey.defaultMap.put(ConfigKey.RPG_LEVEL_RANDOMIZER, true);
 		ConfigKey.defaultMap.put(ConfigKey.RPG_LEVEL_MAX, 9);
+		ConfigKey.defaultMap.put(ConfigKey.RPG_LEVEL_FORMULA, "MAIN");
 		try {
 			ConfigKey.defaultBlockedEnd.remove(EntityType.ENDERMITE);
 			ConfigKey.defaultLeveled.add(EntityType.GUARDIAN);

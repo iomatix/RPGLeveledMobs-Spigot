@@ -617,6 +617,42 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(0, rpgLevelRandomizer);
+			final Button randomizerFormula = new Button();
+			randomizerFormula.setIcon(Material.WHITE_WOOL);
+			randomizerFormula.setName(ChatColor.GREEN + "Randomizer Formula");
+			randomizerFormula.addLoreLine(" ");
+			final String rpgformula = SettingsMenu.this.config.getRPGLevelFormula();
+			if (rpgformula.toUpperCase().contains("MAIN")) {
+				randomizerFormula.setIcon(Material.LIGHT_BLUE_WOOL);
+				randomizerFormula.addLoreLine(ChatColor.WHITE + "Formula: " + ChatColor.AQUA + "" + rpgformula);
+				randomizerFormula.addLoreLine(ChatColor.AQUA + "Adjusted formula with mediocre chance for highest values.");
+			} else if (rpgformula.toUpperCase().contains("ALTER")) {
+				randomizerFormula.setIcon(Material.MAGENTA_WOOL);
+				randomizerFormula.addLoreLine(ChatColor.WHITE + "Formula: " + ChatColor.LIGHT_PURPLE + rpgformula);
+				randomizerFormula.addLoreLine(ChatColor.LIGHT_PURPLE + "Simple formula with very small chance for highest values.");
+			}else if (rpgformula.toUpperCase().contains("RANDOM")) {
+				randomizerFormula.setIcon(Material.ORANGE_WOOL);
+				randomizerFormula.addLoreLine(ChatColor.WHITE + "Formula: " + ChatColor.GOLD + rpgformula);
+				randomizerFormula.addLoreLine(ChatColor.GOLD + "Chaotic formula with average chance for highest values.");
+			}
+			randomizerFormula.addLoreLine("");
+			randomizerFormula.addLoreLine(ChatColor.GRAY + "Click to toggle.");
+			randomizerFormula.setOnPressedListener(new Button.onButtonPressedListener() {
+				@Override
+				public void onButtonPressed(final MenuInteractionEvent event) {
+					if(SettingsMenu.this.config.getRPGLevelFormula().toUpperCase().contains("MAIN")){
+						SettingsMenu.this.config.setRPGLevelFormula("ALTER");
+					}
+					else if(SettingsMenu.this.config.getRPGLevelFormula().toUpperCase().contains("ALTER")){
+						SettingsMenu.this.config.setRPGLevelFormula("RANDOM");
+					}
+					else{
+						SettingsMenu.this.config.setRPGLevelFormula("MAIN");
+					}
+					LevelingMenu.this.ShowMenu(event.getInteractor());
+				}
+			});
+			this.menuMap.put(1, randomizerFormula);
 			final Button maxRandomizerLevel = new Button();
 			maxRandomizerLevel.setIcon(Material.WRITABLE_BOOK);
 			maxRandomizerLevel.setName(ChatColor.GREEN + "Maximum Randomizer Level");
@@ -642,7 +678,7 @@ public class SettingsMenu extends Menu {
 					}
 				}
 			});
-			this.menuMap.put(1, maxRandomizerLevel);
+			this.menuMap.put(2, maxRandomizerLevel);
 			
 			
 			
@@ -671,7 +707,7 @@ public class SettingsMenu extends Menu {
 					}
 				}
 			});
-			this.menuMap.put(2, minLevel);
+			this.menuMap.put(3, minLevel);
 			final Button maxLevel = new Button();
 			maxLevel.setIcon(Material.WRITABLE_BOOK);
 			maxLevel.setName(ChatColor.GREEN + "Maximum Level");
@@ -697,7 +733,7 @@ public class SettingsMenu extends Menu {
 					}
 				}
 			});
-			this.menuMap.put(3, maxLevel);
+			this.menuMap.put(4, maxLevel);
 			final Button startLevel = new Button();
 			startLevel.setIcon(Material.WRITABLE_BOOK);
 			startLevel.setName(ChatColor.GREEN + "Start Level");
@@ -723,7 +759,7 @@ public class SettingsMenu extends Menu {
 					}
 				}
 			});
-			this.menuMap.put(4, startLevel);
+			this.menuMap.put(5, startLevel);
 			final Button distancePerLevel = new Button();
 			distancePerLevel.setIcon(Material.WRITABLE_BOOK);
 			distancePerLevel.setName(ChatColor.GREEN + "Distance Per Level Increase");
@@ -749,7 +785,7 @@ public class SettingsMenu extends Menu {
 					}
 				}
 			});
-			this.menuMap.put(5, distancePerLevel);
+			this.menuMap.put(6, distancePerLevel);
 			final Button previous = new Button();
 			previous.setIcon(Material.NETHER_STAR);
 			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");

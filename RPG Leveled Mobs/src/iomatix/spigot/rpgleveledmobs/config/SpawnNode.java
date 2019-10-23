@@ -61,6 +61,7 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 	private boolean NoMoneyDrop;
 	private boolean RPGLevelRandomizer;
 	private int RPGLevelMax;
+	private String RPGLevelFormula;
 	private final Random rand;
 	private HashMap<EntityType, Double> moneyMobs;
 
@@ -898,6 +899,20 @@ public class SpawnNode extends RPGLeveledMobsConfig {
 		this.inheritedValues.remove(ConfigKey.RPG_LEVEL_MAX);
 		this.RPGLevelMax = RPGLevelMax;
 		this.nodeConfig.set(ConfigKey.RPG_LEVEL_MAX.toString(), (Object) RPGLevelMax);
+		this.worldConfig.saveNodeConfig();
+	}
+	@Override
+	public String getRPGLevelFormula() {
+		if (this.inheritedValues.containsKey(ConfigKey.RPG_LEVEL_FORMULA)) {
+			return (String) this.inheritedValues.get(ConfigKey.RPG_LEVEL_FORMULA).toString().toUpperCase();
+		}
+		return this.RPGLevelFormula;
+	}
+	@Override
+	public void setRPGLevelFormula(String RPGLevelFormula) {
+		this.inheritedValues.remove(ConfigKey.RPG_LEVEL_FORMULA);
+		this.RPGLevelFormula = RPGLevelFormula;
+		this.nodeConfig.set(ConfigKey.RPG_LEVEL_FORMULA.toString(), (Object) RPGLevelFormula);
 		this.worldConfig.saveNodeConfig();
 	}
 	

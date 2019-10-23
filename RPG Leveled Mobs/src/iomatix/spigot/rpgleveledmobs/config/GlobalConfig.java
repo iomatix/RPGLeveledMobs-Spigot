@@ -51,6 +51,7 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	private boolean NoMoneyDrop;
 	private boolean RPGLevelRandomizer;
 	private int RPGLevelMax;
+	private String RPGLevelFormula;
 	private ArrayList<EntityType> leveledMobs;
 	private ArrayList<EntityType> blockedMobs;
 	private HashMap<EntityType, Double> moneyMobs;
@@ -230,7 +231,9 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 		if (this.config.getConfig().contains(ConfigKey.RPG_LEVEL_MAX.toString())) {
 			this.RPGLevelMax = this.config.getConfig().getInt(ConfigKey.RPG_LEVEL_MAX.toString());
 		}
-
+		if (this.config.getConfig().contains(ConfigKey.RPG_LEVEL_FORMULA.toString())) {
+			this.RPGLevelFormula = this.config.getConfig().getString(ConfigKey.RPG_LEVEL_FORMULA.toString());
+		}
 		this.config.saveConfig();
 	}
 
@@ -850,6 +853,18 @@ public class GlobalConfig extends RPGLeveledMobsConfig {
 	public void setRPGLevelMax(int RPGLevelMax) {
 		this.RPGLevelMax = RPGLevelMax;
 		this.config.getConfig().set(ConfigKey.RPG_LEVEL_MAX.toString(), (Object) RPGLevelMax);
+		this.config.saveConfig();
+		Main.RPGMobs.getConfigModule().globalUpdate();
+	}
+	
+	@Override
+	public String getRPGLevelFormula() {
+		return this.RPGLevelFormula;
+	}
+	@Override
+	public void setRPGLevelFormula(String RPGLevelFormula) {
+		this.RPGLevelFormula = RPGLevelFormula;
+		this.config.getConfig().set(ConfigKey.RPG_LEVEL_FORMULA.toString(), (Object) RPGLevelFormula);
 		this.config.saveConfig();
 		Main.RPGMobs.getConfigModule().globalUpdate();
 	}

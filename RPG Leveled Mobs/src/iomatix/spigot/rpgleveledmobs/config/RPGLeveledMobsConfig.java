@@ -253,6 +253,8 @@ public abstract class RPGLeveledMobsConfig {
 	public abstract void setRPGLevelRandomizer(boolean RPGLevelRandomizer);
 	public abstract int getRPGLevelMax();
 	public abstract void setRPGLevelMax(int RPGLevelMax);
+	public abstract String getRPGLevelFormula();
+	public abstract void setRPGLevelFormula(String RPGLevelMax);
 	
 
 }
