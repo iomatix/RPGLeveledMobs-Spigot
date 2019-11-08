@@ -100,7 +100,7 @@ public class StatsScalingModule {
 				event.setDamage(event.getDamage() + event.getDamage() * damageMod * level + damageAddon * level);
 			}
 
-			if (isDefenseModded(event.getDamager())) {
+			if (isDefenseModded(event.getEntity())) {
 				final double defenseMod = StatsScalingModule.this.getDefenseMod(event.getEntity());
 				final double defenseAddon = StatsScalingModule.this.getDefenseAddon(event.getEntity());
 				final int level = StatsScalingModule.this.getLevel(event.getEntity());
