@@ -8,7 +8,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="G:/Minecraft - Server/_Plugins/_Depend/MobArena.jar"/>
-	<classpathentry kind="lib" path="G:/Minecraft - Server/_Plugins/_Depend/SkillAPI.jar"/>
+	<classpathentry kind="lib" path="G:/Minecraft - Server/_Moje_Pluginy/__REPOSITORIES/SkillAPI/target/SkillAPI.jar"/>
 	<classpathentry kind="lib" path="G:/Minecraft - Server/_Plugins/_Depend/Vault.jar"/>
 	<classpathentry kind="lib" path="G:/Minecraft - Server/_Plugins/_Depend/Towny.jar"/>
 	<classpathentry kind="output" path="bin"/>
