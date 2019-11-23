@@ -109,38 +109,44 @@ public class ExperienceScalingModule {
 		@EventHandler(priority = EventPriority.HIGHEST)
 		public void onEntityDeath(final EntityDeathEvent event) {
 			if (SkillAPI.getSettings().isUseOrbs()) {
-				event.setDroppedExp(ExperienceScalingModule.this.handleOrbExp((Entity) event.getEntity(), event.getDroppedExp()));
+				event.setDroppedExp(
+						ExperienceScalingModule.this.handleOrbExp((Entity) event.getEntity(), event.getDroppedExp()));
 			} else if (event.getEntity().hasMetadata(MetaTag.RPGmob.toString())
 					&& event.getEntity().hasMetadata(MetaTag.Level.toString())
-					&& (event.getEntity().hasMetadata(MetaTag.ExpMod.toString()) && event.getEntity().hasMetadata(MetaTag.ExpAddon.toString()))) {
+					&& (event.getEntity().hasMetadata(MetaTag.ExpMod.toString())
+							&& event.getEntity().hasMetadata(MetaTag.ExpAddon.toString()))) {
 				Player tempKiller = null;
-				if (event.getEntity().getKiller() == null && event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
-					final EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
-		            final Entity damager = nEvent.getDamager();
-		            if(damager != null && damager instanceof Tameable ) {
-		            	final Tameable thePet = (Tameable) damager;
-		            	if(thePet.isTamed()) {
+				if (event.getEntity().getKiller() == null
+						&& event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+					final EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) event.getEntity()
+							.getLastDamageCause();
+					final Entity damager = nEvent.getDamager();
+					if (damager != null && damager instanceof Tameable) {
+						final Tameable thePet = (Tameable) damager;
+						if (thePet.isTamed()) {
 
-		            		tempKiller = (Player)((Tameable)damager).getOwner();
-		            	}
-		            	
-		            }
-				}else if (event.getEntity().getKiller() != null)
-				{
+							tempKiller = (Player) ((Tameable) damager).getOwner();
+						}
+
+					}
+				} else if (event.getEntity().getKiller() != null) {
 					tempKiller = event.getEntity().getKiller();
 				}
-				
+
 				final Player killer = tempKiller;
 				if (killer != null && killer.hasPermission("skillapi.exp")) {
 					if (killer.getGameMode() == GameMode.CREATIVE && SkillAPI.getSettings().isBlockCreative()) {
 						return;
 					}
-					
+
 					final int mobLevel = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
-					final double expFinal = mobLevel * event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble();
-					final double expAddonFinal = mobLevel * event.getEntity().getMetadata(MetaTag.ExpAddon.toString()).get(0).asDouble();
+					final double expFinal = mobLevel
+							* event.getEntity().getMetadata(MetaTag.ExpMod.toString()).get(0).asDouble();
+					final double expAddonFinal = mobLevel
+							* event.getEntity().getMetadata(MetaTag.ExpAddon.toString()).get(0).asDouble();
 					if (killer.hasMetadata(MetaTag.RecentKill.toString())) {
-						((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value()).addLast(expFinal);
+						((LinkedList) killer.getMetadata(MetaTag.RecentKill.toString()).get(0).value())
+								.addLast(expFinal);
 					} else {
 						final LinkedList<Double> q = new LinkedList<Double>();
 						q.addLast(expFinal);
@@ -148,14 +154,15 @@ public class ExperienceScalingModule {
 								(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) q));
 					}
 					if (killer.hasMetadata(MetaTag.RecentKillAddon.toString())) {
-						((LinkedList) killer.getMetadata(MetaTag.RecentKillAddon.toString()).get(0).value()).addLast(expAddonFinal);
+						((LinkedList) killer.getMetadata(MetaTag.RecentKillAddon.toString()).get(0).value())
+								.addLast(expAddonFinal);
 					} else {
 						final LinkedList<Double> q = new LinkedList<Double>();
 						q.addLast(expAddonFinal);
 						killer.setMetadata(MetaTag.RecentKillAddon.toString(),
 								(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) q));
 					}
-					
+
 				}
 			}
 		}
@@ -195,15 +202,17 @@ public class ExperienceScalingModule {
 			for (final World world : Bukkit.getWorlds()) {
 				for (final Entity ent : world.getEntities()) {
 					if (ent instanceof Tameable) {
-						Tameable thePet = (Tameable) ent;
-						if ((thePet.isTamed() && thePet.getOwner().getName().equals(who.getName()))) {
-
-							if (thePet.hasMetadata(MetaTag.Level.toString())) {
-								thePet.removeMetadata(MetaTag.Level.toString(), (Plugin) Main.RPGMobs);
+						final Tameable thePet = (Tameable) ent;
+						if (thePet.isTamed() && thePet.getOwner() != null ) {
+							if (thePet.getOwner().getName().equals(who.getName())) {
+								if (thePet.hasMetadata(MetaTag.Level.toString())) {
+									thePet.removeMetadata(MetaTag.Level.toString(), (Plugin) Main.RPGMobs);
+								}
+								thePet.setMetadata(MetaTag.Level.toString(),
+										(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs,
+												(Object) newLevel));
+								RefreshCommand.RefreshMetaToLevel((LivingEntity) thePet);
 							}
-							thePet.setMetadata(MetaTag.Level.toString(),
-									(MetadataValue) new FixedMetadataValue((Plugin) Main.RPGMobs, (Object) newLevel));
-							RefreshCommand.RefreshMetaToLevel((LivingEntity) thePet);
 						}
 					}
 				}
