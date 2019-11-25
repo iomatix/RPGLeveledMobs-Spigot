@@ -45,10 +45,15 @@ public class MoneyScalingModule {
 		if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
 			LogsModule.info("Found Vault, Enabling Vault Money Module.");
 			this.moneyModuleOnline = true;
+
 			new VaultHandler();
+
 			if (Bukkit.getPluginManager().isPluginEnabled("Towny") && MoneyScalingModule.this.economy != null) {
 				LogsModule.info("Found Towny, Enabling Towny Economy Module.");
 				this.townyModuleOnline = true;
+			} else {
+				LogsModule.info("Towny not found, Disabling Towny Economy Module.");
+				this.townyModuleOnline = false;
 			}
 		}
 	}
@@ -69,17 +74,17 @@ public class MoneyScalingModule {
 		}
 
 		@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-		public void onEntityDeath(final EntityDeathEvent event) throws NotRegisteredException, EconomyException {
+		public void onEntityDeath(final EntityDeathEvent event) {
 			if (economy != null && event.getEntity().hasMetadata(MetaTag.RPGmob.toString())
 					&& event.getEntity().hasMetadata(MetaTag.MoneyDrop.toString())) {
 				final int level = event.getEntity().getMetadata(MetaTag.Level.toString()).get(0).asInt();
 				final double moneyMod = event.getEntity().getMetadata(MetaTag.MoneyMod.toString()).get(0).asDouble();
 				final double moneyValue = event.getEntity().getMetadata(MetaTag.MoneyDrop.toString()).get(0).asDouble();
-				double moneyRandomizer = Math.abs(event.getEntity().getMetadata(MetaTag.MoneyRandomizer.toString()).get(0).asDouble());
+				double moneyRandomizer = Math
+						.abs(event.getEntity().getMetadata(MetaTag.MoneyRandomizer.toString()).get(0).asDouble());
 
-				
-				
-				if (moneyRandomizer != 0)moneyRandomizer = BiasedRandom.randomDouble(0, moneyRandomizer);
+				if (moneyRandomizer != 0)
+					moneyRandomizer = BiasedRandom.randomDouble(0, moneyRandomizer);
 				final double theRandomizer = moneyRandomizer + ((moneyRandomizer * moneyMod * level) / 15);
 				final Double theMoney = (double) Math
 						.round((moneyValue + theRandomizer + (moneyValue * level * moneyMod)) * 100) / 100;
@@ -169,37 +174,13 @@ public class MoneyScalingModule {
 			}
 		}
 
-		public void ThePayment(Player who, double money, int multiplier)
-				throws NotRegisteredException, EconomyException {
+		public void ThePayment(Player who, double money, int multiplier) {
 			double tempMoney = money * multiplier;
 			if (tempMoney > 0) {
 				if (isTownyModuleOnline()) {
 
-					Resident resident = TownyAPI.getInstance().getDataSource().getResident(who.getName());
-					if (resident.hasTown()) {
-						final Double TownyRatio = Math
-								.abs(Main.RPGMobs.getConfigModule().getGlobalConfig().getTownyRatio());
-						if (TownyRatio != 0) {
-							final boolean isTownySubtract = Main.RPGMobs.getConfigModule().getGlobalConfig()
-									.getisTownySubtract();
-							final boolean isTownyNationSupport = Main.RPGMobs.getConfigModule().getGlobalConfig()
-									.getisTownyNationSupport();
-							Town town = TownyAPI.getInstance().getDataSource().getTown(resident.getTown().toString());
+					tempMoney = TownyHandler.TownyPayment(who, money, tempMoney);
 
-							if (isTownySubtract)
-								tempMoney -= money * TownyRatio;
-							town.setBalance(town.getHoldingBalance() + money * TownyRatio, "[RPGLeveledMobs] " + resident.getName() + " got " + money
-									+ ". Town got " + TownyRatio * 100 + "%");
-							if (isTownyNationSupport && town.hasNation()) {
-								Nation nation = town.getNation();
-								if (isTownySubtract)
-									tempMoney -= money * TownyRatio * TownyRatio;
-								nation.setBalance(nation.getHoldingBalance() + money * TownyRatio * TownyRatio, "[RPGLeveledMobs] " + resident.getName()
-										+ " got " + money + ". Nation got " + TownyRatio * TownyRatio * 100 + "%");
-							}
-							tempMoney = (double) (Math.round(tempMoney * 100)) / 100;
-						}
-					}
 				}
 				RPGMobsGainMoney gainMoneyEvent = new RPGMobsGainMoney(tempMoney, who, economy);
 				Bukkit.getPluginManager().callEvent(gainMoneyEvent);
@@ -209,6 +190,49 @@ public class MoneyScalingModule {
 				}
 			}
 		}
+	}
+	
+	private static class TownyHandler {
+		public static double TownyPayment(final Player who, final double money, double tempMoney) {
+			try {
+				Resident resident = TownyAPI.getInstance().getDataSource().getResident(who.getName());
+				if (resident.hasTown()) {
+					final Double TownyRatio = Math
+							.abs(Main.RPGMobs.getConfigModule().getGlobalConfig().getTownyRatio());
+					if (TownyRatio != 0) {
+						final boolean isTownySubtract = Main.RPGMobs.getConfigModule().getGlobalConfig()
+								.getisTownySubtract();
+						final boolean isTownyNationSupport = Main.RPGMobs.getConfigModule().getGlobalConfig()
+								.getisTownyNationSupport();
+						Town town = TownyAPI.getInstance().getDataSource().getTown(resident.getTown().toString());
+
+						if (isTownySubtract)
+							tempMoney -= money * TownyRatio;
+						town.setBalance(town.getHoldingBalance() + money * TownyRatio, "[RPGLeveledMobs] "
+								+ resident.getName() + " got " + money + ". Town got " + TownyRatio * 100 + "%");
+						if (isTownyNationSupport && town.hasNation()) {
+							Nation nation = town.getNation();
+							if (isTownySubtract)
+								tempMoney -= money * TownyRatio * TownyRatio;
+							nation.setBalance(nation.getHoldingBalance() + money * TownyRatio * TownyRatio,
+									"[RPGLeveledMobs] " + resident.getName() + " got " + money + ". Nation got "
+											+ TownyRatio * TownyRatio * 100 + "%");
+						}
+						tempMoney = (double) (Math.round(tempMoney * 100)) / 100;
+					}
+				}
+			} catch (NotRegisteredException e) {
+				LogsModule.warning(
+						"Towny Payment Failed! (NotRegisteredException) Contact with Towny's developer team to diagnose this problem.");
+				e.printStackTrace();
+			} catch (EconomyException e) {
+				LogsModule.warning(
+						"Towny Payment Failed! (EconomyException) Is Vault's supported Economy plugin connected?");
+				e.printStackTrace();
+			}
+			return tempMoney;
+		}
+
 	}
 
 	public void SendMoneyMessageToPlayer(double amount, Player player) {
