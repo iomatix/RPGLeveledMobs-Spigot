@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="G:/Minecraft - Server/_Moje_Pluginy/__REPOSITORIES/SkillAPI/target/SkillAPI.jar"/>
 	<classpathentry kind="lib" path="G:/Minecraft - Server/_Plugins/_Depend/Vault.jar"/>
 	<classpathentry kind="lib" path="G:/Minecraft - Server/_Plugins/_Depend/Towny.jar"/>
+	<classpathentry kind="lib" path="G:/Minecraft - Server/_Plugins/_Depend/MMOCore.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
