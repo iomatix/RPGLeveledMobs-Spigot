@@ -255,7 +255,7 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(28, expAddon);
-			
+
 			final Button health = new Button();
 			health.setName(special + "Health Settings");
 			health.addLoreLine(special_2 + "Formula: base + (addon*level + base*level*multiplier)");
@@ -333,7 +333,7 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(30, healthAddon);
-			
+
 			final Button money = new Button();
 			money.setName(special + "Money Settings");
 			money.addLoreLine(special_2 + "Formula: baseMoney + (baseMoney * level * multiplier)");
@@ -388,7 +388,8 @@ public class SettingsMenu extends Menu {
 			final Button moneyRandomizer = new Button();
 			moneyRandomizer.setIcon(Material.WRITABLE_BOOK);
 			moneyRandomizer.setName(ChatColor.GREEN + "Money Randomizer");
-			moneyRandomizer.addLoreLine(special_2 + "Formula: Output + random(0,randomizer) + random(0,randomizer) * (level*mod)/15");
+			moneyRandomizer.addLoreLine(
+					special_2 + "Formula: Output + random(0,randomizer) + random(0,randomizer) * (level*mod)/15");
 			moneyRandomizer.addLoreLine(" ");
 			final double moneyRand = SettingsMenu.this.config.getMoneyRandomizer();
 			moneyRandomizer.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + moneyRand);
@@ -568,7 +569,7 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(34, damageAddon);
-			
+
 			final Button previous = new Button();
 			previous.setIcon(Material.NETHER_STAR);
 			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
@@ -579,7 +580,7 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(35, previous);
-			
+
 		}
 	}
 
@@ -625,28 +626,29 @@ public class SettingsMenu extends Menu {
 			if (rpgformula.toUpperCase().contains("MAIN")) {
 				randomizerFormula.setIcon(Material.LIGHT_BLUE_WOOL);
 				randomizerFormula.addLoreLine(ChatColor.WHITE + "Formula: " + ChatColor.AQUA + "" + rpgformula);
-				randomizerFormula.addLoreLine(ChatColor.AQUA + "Adjusted formula with mediocre chance for highest values.");
+				randomizerFormula
+						.addLoreLine(ChatColor.AQUA + "Adjusted formula with mediocre chance for highest values.");
 			} else if (rpgformula.toUpperCase().contains("ALTER")) {
 				randomizerFormula.setIcon(Material.MAGENTA_WOOL);
 				randomizerFormula.addLoreLine(ChatColor.WHITE + "Formula: " + ChatColor.LIGHT_PURPLE + rpgformula);
-				randomizerFormula.addLoreLine(ChatColor.LIGHT_PURPLE + "Simple formula with very small chance for highest values.");
-			}else if (rpgformula.toUpperCase().contains("RANDOM")) {
+				randomizerFormula.addLoreLine(
+						ChatColor.LIGHT_PURPLE + "Simple formula with very small chance for highest values.");
+			} else if (rpgformula.toUpperCase().contains("RANDOM")) {
 				randomizerFormula.setIcon(Material.ORANGE_WOOL);
 				randomizerFormula.addLoreLine(ChatColor.WHITE + "Formula: " + ChatColor.GOLD + rpgformula);
-				randomizerFormula.addLoreLine(ChatColor.GOLD + "Chaotic formula with average chance for highest values.");
+				randomizerFormula
+						.addLoreLine(ChatColor.GOLD + "Chaotic formula with average chance for highest values.");
 			}
 			randomizerFormula.addLoreLine("");
 			randomizerFormula.addLoreLine(ChatColor.GRAY + "Click to toggle.");
 			randomizerFormula.setOnPressedListener(new Button.onButtonPressedListener() {
 				@Override
 				public void onButtonPressed(final MenuInteractionEvent event) {
-					if(SettingsMenu.this.config.getRPGLevelFormula().toUpperCase().contains("MAIN")){
+					if (SettingsMenu.this.config.getRPGLevelFormula().toUpperCase().contains("MAIN")) {
 						SettingsMenu.this.config.setRPGLevelFormula("ALTER");
-					}
-					else if(SettingsMenu.this.config.getRPGLevelFormula().toUpperCase().contains("ALTER")){
+					} else if (SettingsMenu.this.config.getRPGLevelFormula().toUpperCase().contains("ALTER")) {
 						SettingsMenu.this.config.setRPGLevelFormula("RANDOM");
-					}
-					else{
+					} else {
 						SettingsMenu.this.config.setRPGLevelFormula("MAIN");
 					}
 					LevelingMenu.this.ShowMenu(event.getInteractor());
@@ -679,9 +681,7 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(2, maxRandomizerLevel);
-			
-			
-			
+
 			final Button minLevel = new Button();
 			minLevel.setIcon(Material.WRITABLE_BOOK);
 			minLevel.setName(ChatColor.GREEN + "Minimum Level");
@@ -1095,7 +1095,8 @@ public class SettingsMenu extends Menu {
 				this.menuMap.put(53, nextpage);
 			} else if (page == 1) {
 				try {
-					final MobButton Illusioner = new MobButton("Illusioner", EntityType.ILLUSIONER, SettingsMenu.this.config, this);
+					final MobButton Illusioner = new MobButton("Illusioner", EntityType.ILLUSIONER,
+							SettingsMenu.this.config, this);
 					this.menuMap.put(0, Illusioner);
 					final MobButton Parrot = new MobButton("Parrot", EntityType.PARROT, SettingsMenu.this.config, this);
 					this.menuMap.put(1, Parrot);
@@ -1414,30 +1415,32 @@ public class SettingsMenu extends Menu {
 				this.menuMap.put(53, nextpage);
 			} else if (page == 1) {
 				try {
-					final MobButton Illusioner = new MobButton("Illusioner", EntityType.ILLUSIONER, SettingsMenu.this.config, this);
+					final MobButton Illusioner = new MobButton("Illusioner", EntityType.ILLUSIONER,
+							SettingsMenu.this.config, this, true);
 					this.menuMap.put(0, Illusioner);
-					final MobButton Parrot = new MobButton("Parrot", EntityType.PARROT, SettingsMenu.this.config, this);
+					final MobButton Parrot = new MobButton("Parrot", EntityType.PARROT, SettingsMenu.this.config, this,
+							true);
 					this.menuMap.put(1, Parrot);
 					final MobButton Dolphin = new MobButton("Dolphin", EntityType.DOLPHIN, SettingsMenu.this.config,
-							this);
+							this, true);
 					this.menuMap.put(2, Dolphin);
 					final MobButton Drowned = new MobButton("Drowned", EntityType.DROWNED, SettingsMenu.this.config,
-							this);
+							this, true);
 					this.menuMap.put(3, Drowned);
 					final MobButton Phantom = new MobButton("Phantom", EntityType.PHANTOM, SettingsMenu.this.config,
-							this);
+							this,true);
 					this.menuMap.put(4, Phantom);
-					final MobButton Cod = new MobButton("Cod", EntityType.COD, SettingsMenu.this.config, this);
+					final MobButton Cod = new MobButton("Cod", EntityType.COD, SettingsMenu.this.config, this,true);
 					this.menuMap.put(5, Cod);
-					final MobButton Salmon = new MobButton("Salmon", EntityType.SALMON, SettingsMenu.this.config, this);
+					final MobButton Salmon = new MobButton("Salmon", EntityType.SALMON, SettingsMenu.this.config, this,true);
 					this.menuMap.put(6, Salmon);
 					final MobButton Pufferfish = new MobButton("Pufferfish", EntityType.PUFFERFISH,
-							SettingsMenu.this.config, this);
+							SettingsMenu.this.config, this,true);
 					this.menuMap.put(7, Pufferfish);
 					final MobButton Tropicalfish = new MobButton("Tropical Fish", EntityType.TROPICAL_FISH,
-							SettingsMenu.this.config, this);
+							SettingsMenu.this.config, this,true);
 					this.menuMap.put(8, Tropicalfish);
-					final MobButton Turtle = new MobButton("Turtle", EntityType.TURTLE, SettingsMenu.this.config, this);
+					final MobButton Turtle = new MobButton("Turtle", EntityType.TURTLE, SettingsMenu.this.config, this,true);
 					this.menuMap.put(9, Turtle);
 				} catch (NoSuchFieldError e) {
 					final WrongMobButton Illusioner = new WrongMobButton("Unknown Mob", "1.12");
@@ -1463,23 +1466,23 @@ public class SettingsMenu extends Menu {
 
 				}
 				try {
-					final MobButton Cat = new MobButton("Cat", EntityType.CAT, SettingsMenu.this.config, this);
+					final MobButton Cat = new MobButton("Cat", EntityType.CAT, SettingsMenu.this.config, this,true);
 					this.menuMap.put(10, Cat);
-					final MobButton Fox = new MobButton("Fox", EntityType.FOX, SettingsMenu.this.config, this);
+					final MobButton Fox = new MobButton("Fox", EntityType.FOX, SettingsMenu.this.config, this,true);
 					this.menuMap.put(11, Fox);
-					final MobButton Panda = new MobButton("Panda", EntityType.PANDA, SettingsMenu.this.config, this);
+					final MobButton Panda = new MobButton("Panda", EntityType.PANDA, SettingsMenu.this.config, this,true);
 					this.menuMap.put(12, Panda);
 					final MobButton Pillager = new MobButton("Pillager", EntityType.PILLAGER, SettingsMenu.this.config,
-							this);
+							this,true);
 					this.menuMap.put(13, Pillager);
 					final MobButton Ravager = new MobButton("Ravager", EntityType.RAVAGER, SettingsMenu.this.config,
-							this);
+							this,true);
 					this.menuMap.put(14, Ravager);
 					final MobButton Trader_Llama = new MobButton("Trader's Llama", EntityType.TRADER_LLAMA,
-							SettingsMenu.this.config, this);
+							SettingsMenu.this.config, this,true);
 					this.menuMap.put(15, Trader_Llama);
 					final MobButton Wandering_Trader = new MobButton("Wandering Trader", EntityType.WANDERING_TRADER,
-							SettingsMenu.this.config, this);
+							SettingsMenu.this.config, this,true);
 					this.menuMap.put(16, Wandering_Trader);
 				} catch (NoSuchFieldError e) {
 					final WrongMobButton Cat2 = new WrongMobButton("Unknown Mob", "1.14");
@@ -1714,6 +1717,7 @@ public class SettingsMenu extends Menu {
 		private final Menu prev;
 		protected MoneyMobsMenu moneyMobsMenu;
 		protected MoneyTownyMenu moneyTownyMenu;
+
 		public MoneyMenu(final SettingsMenu prev) {
 			this.name = main + "Money" + sub + " Settings";
 			this.prev = prev;
@@ -1744,40 +1748,40 @@ public class SettingsMenu extends Menu {
 				enabled.addLoreLine(ChatColor.GRAY + "Economy is disabled. Vault not found.");
 			}
 			this.menuMap.put(0, enabled);
-			
+
 			final Button mobDropOrNot = new Button();
-			if(!(this instanceof WorldSettingsMenu.WorldMoneyMenu)){
-			mobDropOrNot.setIcon(Material.GRAY_WOOL);
-			mobDropOrNot.setName(ChatColor.GREEN + "Money Drop");
-			mobDropOrNot.addLoreLine(" ");
-			mobDropOrNot.addLoreLine(ChatColor.YELLOW + "Money drop controler.");
-			mobDropOrNot.addLoreLine(" ");
-			final boolean NoMoneyDrop = SettingsMenu.this.config.isNoMoneyDrop();
-			if (!NoMoneyDrop) {
-				mobDropOrNot.setIcon(Material.LIME_WOOL);
-				mobDropOrNot.addLoreLine(ChatColor.GOLD + "Mobs will drop pickable money.");
-			} else {
+			if (!(this instanceof WorldSettingsMenu.WorldMoneyMenu)) {
 				mobDropOrNot.setIcon(Material.GRAY_WOOL);
-				mobDropOrNot.addLoreLine(ChatColor.GOLD + "Money will be given directly to the player.");
-			}
-			mobDropOrNot.setOnPressedListener(new Button.onButtonPressedListener() {
-				@Override
-				public void onButtonPressed(final MenuInteractionEvent event) {
-					SettingsMenu.this.config.setNoMoneyDrop(!NoMoneyDrop);
-					
-					MoneyMenu.this.ShowMenu(event.getInteractor());
+				mobDropOrNot.setName(ChatColor.GREEN + "Money Drop");
+				mobDropOrNot.addLoreLine(" ");
+				mobDropOrNot.addLoreLine(ChatColor.YELLOW + "Money drop controler.");
+				mobDropOrNot.addLoreLine(" ");
+				final boolean NoMoneyDrop = SettingsMenu.this.config.isNoMoneyDrop();
+				if (!NoMoneyDrop) {
+					mobDropOrNot.setIcon(Material.LIME_WOOL);
+					mobDropOrNot.addLoreLine(ChatColor.GOLD + "Mobs will drop pickable money.");
+				} else {
+					mobDropOrNot.setIcon(Material.GRAY_WOOL);
+					mobDropOrNot.addLoreLine(ChatColor.GOLD + "Money will be given directly to the player.");
 				}
-			});
-			mobDropOrNot.addLoreLine("");
-			mobDropOrNot.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
-			}else {
+				mobDropOrNot.setOnPressedListener(new Button.onButtonPressedListener() {
+					@Override
+					public void onButtonPressed(final MenuInteractionEvent event) {
+						SettingsMenu.this.config.setNoMoneyDrop(!NoMoneyDrop);
+
+						MoneyMenu.this.ShowMenu(event.getInteractor());
+					}
+				});
+				mobDropOrNot.addLoreLine("");
+				mobDropOrNot.addLoreLine(ChatColor.GRAY + "Click to Toggle.");
+			} else {
 				mobDropOrNot.setIcon(Material.YELLOW_WOOL);
 				mobDropOrNot.setName(ChatColor.GREEN + "Money Drop");
 				mobDropOrNot.addLoreLine(" ");
 				mobDropOrNot.addLoreLine(ChatColor.YELLOW + "Visit global settings to adjust this setting.");
 			}
 			this.menuMap.put(1, mobDropOrNot);
-					
+
 			final Button mobSetup = new Button();
 			mobSetup.setIcon(Material.GOLD_NUGGET);
 			mobSetup.setName(ChatColor.GREEN + "Money Settings");
@@ -1788,25 +1792,25 @@ public class SettingsMenu extends Menu {
 				public void onButtonPressed(final MenuInteractionEvent event) {
 					MoneyMenu.this.moneyMobsMenu.ShowMenu(event.getInteractor());
 				}
-				
+
 			});
 			this.menuMap.put(2, mobSetup);
-			
-			if(!(this instanceof WorldSettingsMenu.WorldMoneyMenu)) {
-			final Button townySetup = new Button();
-			townySetup.setIcon(Material.EMERALD);
-			townySetup.setName(ChatColor.GREEN + "Towny Settings");
-			townySetup.addLoreLine(" ");
-			townySetup.addLoreLine(ChatColor.YELLOW + "Adjust Towny settings.");
-			townySetup.setOnPressedListener(new Button.onButtonPressedListener() {
-				@Override
-				public void onButtonPressed(final MenuInteractionEvent event) {
-					MoneyMenu.this.moneyTownyMenu.ShowMenu(event.getInteractor());
-				}
-			});
-			this.menuMap.put(3, townySetup);
+
+			if (!(this instanceof WorldSettingsMenu.WorldMoneyMenu)) {
+				final Button townySetup = new Button();
+				townySetup.setIcon(Material.EMERALD);
+				townySetup.setName(ChatColor.GREEN + "Towny Settings");
+				townySetup.addLoreLine(" ");
+				townySetup.addLoreLine(ChatColor.YELLOW + "Adjust Towny settings.");
+				townySetup.setOnPressedListener(new Button.onButtonPressedListener() {
+					@Override
+					public void onButtonPressed(final MenuInteractionEvent event) {
+						MoneyMenu.this.moneyTownyMenu.ShowMenu(event.getInteractor());
+					}
+				});
+				this.menuMap.put(3, townySetup);
 			}
-			
+
 			final Button previous = new Button();
 			previous.setIcon(Material.NETHER_STAR);
 			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
@@ -1830,13 +1834,12 @@ public class SettingsMenu extends Menu {
 			this.name = main + "Economy Mobs " + ChatColor.DARK_GRAY + "page [" + (page + 1) + "]";
 			this.generateMenu(page);
 		}
-		
+
 		public MoneyMobsMenu(final MoneyMenu moneyMenu) {
 			this.name = main + "Economy Mobs " + ChatColor.DARK_GRAY + "page [" + (1) + "]";
 			this.prev = moneyMenu;
 			this.generateMenu(0);
 		}
-
 
 		@Override
 		public void ShowMenu(final Player player) {
@@ -2080,7 +2083,7 @@ public class SettingsMenu extends Menu {
 							SettingsMenu.this.config, this);
 					this.menuMap.put(9, Turtle);
 				} catch (NoSuchFieldError e) {
-					final WrongMobButton Illusioner2 = new WrongMobButton("Illusioner","1.12");
+					final WrongMobButton Illusioner2 = new WrongMobButton("Illusioner", "1.12");
 					this.menuMap.put(0, Illusioner2);
 					final WrongMobButton Parrot2 = new WrongMobButton("Unknown Mob", "1.13");
 					this.menuMap.put(1, Parrot2);
@@ -2203,11 +2206,14 @@ public class SettingsMenu extends Menu {
 					@Override
 					public void onButtonPressed(final MenuInteractionEvent event) {
 						if (event.getClickType() == ClickType.RIGHT) {
-							SettingsMenu.this.config.addMoneyMob(type, SettingsMenu.this.config.getMoneyMob(type) - 1.0);
-							if (SettingsMenu.this.config.getMoneyMob(type) < 0.0) SettingsMenu.this.config.addMoneyMob(type, 0.0);
+							SettingsMenu.this.config.addMoneyMob(type,
+									SettingsMenu.this.config.getMoneyMob(type) - 1.0);
+							if (SettingsMenu.this.config.getMoneyMob(type) < 0.0)
+								SettingsMenu.this.config.addMoneyMob(type, 0.0);
 							MoneyMobsMenu.this.ShowMenu(event.getInteractor());
 						} else {
-							SettingsMenu.this.config.addMoneyMob(type, SettingsMenu.this.config.getMoneyMob(type) + 1.0);
+							SettingsMenu.this.config.addMoneyMob(type,
+									SettingsMenu.this.config.getMoneyMob(type) + 1.0);
 							MoneyMobsMenu.this.ShowMenu(event.getInteractor());
 						}
 					}
@@ -2216,27 +2222,28 @@ public class SettingsMenu extends Menu {
 			}
 		}
 	}
-	
+
 	protected class MoneyTownyMenu extends Menu {
 		private final Menu prev;
+
 		public MoneyTownyMenu(final MoneyMenu prev) {
 			this.name = sub + "Towny" + special_2 + " Settings";
 			this.prev = prev;
 			this.generateMenu();
 		}
-		
+
 		public MoneyTownyMenu(final SettingsMenu prev) {
 			this.name = sub + "Towny" + special_2 + " Settings";
 			this.prev = prev;
 			this.generateMenu();
 		}
-		
+
 		@Override
 		public void ShowMenu(final Player player) {
 			this.generateMenu();
 			super.ShowMenu(player);
 		}
-		
+
 		public void generateMenu() {
 			this.menuMap.clear();
 			final Button Townyenabled = new Button();
@@ -2247,9 +2254,7 @@ public class SettingsMenu extends Menu {
 				Townyenabled.setIcon(Material.GREEN_WOOL);
 				Townyenabled.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
 				Townyenabled.addLoreLine(ChatColor.DARK_GREEN + "Towny hook is enabled. Connected to Towny.");
-				
-				
-				
+
 			} else {
 				Townyenabled.setIcon(Material.RED_WOOL);
 				Townyenabled.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
@@ -2257,15 +2262,14 @@ public class SettingsMenu extends Menu {
 				Townyenabled.addLoreLine(ChatColor.GRAY + "Towny hook is disabled. Towny not found.");
 			}
 			this.menuMap.put(0, Townyenabled);
-			
-			
+
 			final Button TownyRatio = new Button();
 			TownyRatio.setIcon(Material.WRITABLE_BOOK);
 			TownyRatio.setName(ChatColor.GREEN + "Ratio");
 			TownyRatio.addLoreLine(" ");
 			final double mult = SettingsMenu.this.config.getTownyRatio();
 			TownyRatio.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.LIGHT_PURPLE + mult);
-			TownyRatio.addLoreLine(special_2+"The ratio controls amount of money got by town from mobs.");
+			TownyRatio.addLoreLine(special_2 + "The ratio controls amount of money got by town from mobs.");
 			TownyRatio.addLoreLine(special_2 + "Formula: (ratio * money)");
 			TownyRatio.addLoreLine(" ");
 			TownyRatio.addLoreLine(ChatColor.GRAY + "Click to Change Value.");
@@ -2287,7 +2291,7 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(1, TownyRatio);
-			
+
 			final Button TownySubtract = new Button();
 			TownySubtract.setName(ChatColor.GREEN + "Treat as a tax");
 			TownySubtract.addLoreLine(" ");
@@ -2295,11 +2299,13 @@ public class SettingsMenu extends Menu {
 			if (isTownySubtract) {
 				TownySubtract.setIcon(Material.GREEN_WOOL);
 				TownySubtract.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.GREEN + "Enabled");
-				TownySubtract.addLoreLine(special_2 + "Subtracts the value given to the Town or Nation from dropped money.");
+				TownySubtract
+						.addLoreLine(special_2 + "Subtracts the value given to the Town or Nation from dropped money.");
 			} else {
 				TownySubtract.setIcon(Material.RED_WOOL);
 				TownySubtract.addLoreLine(ChatColor.WHITE + "Value: " + ChatColor.RED + "Disabled");
-				TownySubtract.addLoreLine(ChatColor.GRAY + "Subtracts the value given to the Town or Nation from dropped money.");
+				TownySubtract.addLoreLine(
+						ChatColor.GRAY + "Subtracts the value given to the Town or Nation from dropped money.");
 			}
 			TownySubtract.setOnPressedListener(new Button.onButtonPressedListener() {
 				@Override
@@ -2311,9 +2317,7 @@ public class SettingsMenu extends Menu {
 			TownySubtract.addLoreLine(" ");
 			TownySubtract.addLoreLine(ChatColor.GRAY + "Click to Toggle");
 			this.menuMap.put(2, TownySubtract);
-			
-			
-			
+
 			final Button TownyNationSupport = new Button();
 			TownyNationSupport.setName(ChatColor.GREEN + "Support Nations");
 			TownyNationSupport.addLoreLine(" ");
@@ -2338,8 +2342,7 @@ public class SettingsMenu extends Menu {
 			TownyNationSupport.addLoreLine(" ");
 			TownyNationSupport.addLoreLine(ChatColor.GRAY + "Click to Toggle");
 			this.menuMap.put(3, TownyNationSupport);
-			
-						
+
 			final Button previous = new Button();
 			previous.setIcon(Material.NETHER_STAR);
 			previous.setName(ChatColor.RED + "\u25c0 Previous Menu");
@@ -2350,11 +2353,11 @@ public class SettingsMenu extends Menu {
 				}
 			});
 			this.menuMap.put(8, previous);
-			
+
 		}
-		
+
 	}
-	
+
 	protected class MobArenaMenu extends Menu {
 		private final Menu prev;
 
