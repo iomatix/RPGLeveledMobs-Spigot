@@ -107,10 +107,10 @@ public class ExperienceScalingModule {
 		public MMOCoreHandler() {
 			Bukkit.getPluginManager().registerEvents((Listener) this, (Plugin) Main.RPGMobs);
 		}
-		
+
 		@EventHandler(priority = EventPriority.HIGHEST)
 		public void onEntityDeath(final EntityDeathEvent event) {
-			 if (event.getEntity().hasMetadata(MetaTag.RPGmob.toString())
+			if (event.getEntity().hasMetadata(MetaTag.RPGmob.toString())
 					&& event.getEntity().hasMetadata(MetaTag.Level.toString())
 					&& (event.getEntity().hasMetadata(MetaTag.ExpMod.toString())
 							&& event.getEntity().hasMetadata(MetaTag.ExpAddon.toString()))) {
@@ -126,7 +126,7 @@ public class ExperienceScalingModule {
 
 							tempKiller = (Player) ((Tameable) damager).getOwner();
 						}
-						
+
 					}
 				} else if (event.getEntity().getKiller() != null) {
 					tempKiller = event.getEntity().getKiller();
@@ -162,11 +162,11 @@ public class ExperienceScalingModule {
 				}
 			}
 		}
-		
+
 		@EventHandler(priority = EventPriority.HIGHEST)
 		public void onPlayerGainExp(final net.Indyuce.mmocore.api.event.PlayerExperienceGainEvent event) {
 			final Player killer = event.getPlayer();
-			if ( !killer.hasMetadata(MetaTag.RecentKill.toString())) {
+			if (!killer.hasMetadata(MetaTag.RecentKill.toString())) {
 				return;
 			}
 			try {
@@ -188,9 +188,9 @@ public class ExperienceScalingModule {
 			} catch (Exception e) {
 				return;
 			}
-			
+
 		}
-		
+
 		@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 		public void onPlayerGainLevel(final net.Indyuce.mmocore.api.event.PlayerLevelUpEvent event) {
 			final int newLevel = event.getNewLevel();
@@ -199,7 +199,7 @@ public class ExperienceScalingModule {
 				for (final Entity ent : world.getEntities()) {
 					if (ent instanceof Tameable) {
 						final Tameable thePet = (Tameable) ent;
-						if (thePet.isTamed() && thePet.getOwner() != null ) {
+						if (thePet.isTamed() && thePet.getOwner() != null) {
 							if (thePet.getOwner().getName().equals(who.getName())) {
 								if (thePet.hasMetadata(MetaTag.Level.toString())) {
 									thePet.removeMetadata(MetaTag.Level.toString(), (Plugin) Main.RPGMobs);
@@ -214,8 +214,8 @@ public class ExperienceScalingModule {
 				}
 			}
 
-		}	
-		
+		}
+
 	}
 
 	private class SkillAPIHandler implements Listener {
@@ -313,6 +313,7 @@ public class ExperienceScalingModule {
 			}
 		}
 
+		// TODO
 		@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 		public void onPlayerGainLevel(final com.sucy.skill.api.event.PlayerLevelUpEvent event) {
 			final int newLevel = event.getLevel();
@@ -321,7 +322,7 @@ public class ExperienceScalingModule {
 				for (final Entity ent : world.getEntities()) {
 					if (ent instanceof Tameable) {
 						final Tameable thePet = (Tameable) ent;
-						if (thePet.isTamed() && thePet.getOwner() != null ) {
+						if (thePet.isTamed() && thePet.getOwner() != null) {
 							if (thePet.getOwner().getName().equals(who.getName())) {
 								if (thePet.hasMetadata(MetaTag.Level.toString())) {
 									thePet.removeMetadata(MetaTag.Level.toString(), (Plugin) Main.RPGMobs);

@@ -57,7 +57,7 @@ public class Main extends JavaPlugin {
 			LogsModule.warning("Error starting metrics!");
 
 		}
-		
+
 	}
 
 	@Override
@@ -66,23 +66,6 @@ public class Main extends JavaPlugin {
 		LogsModule.info(ChatColor.GRAY + " [" + ChatColor.GOLD + "RPG Leveled Mobs" + ChatColor.GRAY + "] "
 				+ ChatColor.GRAY + " disabling... ");
 		final long startTime = System.currentTimeMillis();
-		for (final World world : Bukkit.getWorlds()) {
-			for (final LivingEntity ent : world.getLivingEntities()) {
-				if (ent.hasMetadata(MetaTag.RPGmob.toString())) {
-						ent.setCustomName(null);
-						for (final MetaTag tag : MetaTag.values()) {
-							ent.removeMetadata(tag.toString(), (Plugin) this);
-						}			
-						
-						if (ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).getModifiers() != null) {
-							for (AttributeModifier modifier : ent.getAttribute(Attribute.GENERIC_MAX_HEALTH)
-									.getModifiers()) {
-								ent.getAttribute(Attribute.GENERIC_MAX_HEALTH).removeModifier(modifier);
-							}
-						}
-				}
-			}
-		}
 		final long endTime = System.currentTimeMillis();
 		LogsModule.info(ChatColor.GRAY + " [" + ChatColor.GOLD + "RPG Leveled Mobs" + ChatColor.GRAY + "] "
 				+ ChatColor.GRAY + " disabled in " + ChatColor.GOLD + (endTime * 1.0 - startTime * 1.0) / 1000.0
@@ -92,7 +75,7 @@ public class Main extends JavaPlugin {
 	private void loadModules() {
 		this.configModule = this.getConfigModule();
 		this.commandModule = new cmdModule();
-		this.menuHandler = new MenuHandler();	
+		this.menuHandler = new MenuHandler();
 		Bukkit.getScheduler().runTaskLaterAsynchronously((Plugin) this, (Runnable) new Runnable() {
 			@Override
 			public void run() {
@@ -126,6 +109,7 @@ public class Main extends JavaPlugin {
 	public static boolean isMoneyModuleOnline() {
 		return Bukkit.getPluginManager().isPluginEnabled("Vault");
 	}
+
 	public static boolean isTownyModuleOnline() {
 		return Bukkit.getPluginManager().isPluginEnabled("Towny");
 	}
