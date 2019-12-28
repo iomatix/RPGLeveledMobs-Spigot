@@ -106,18 +106,6 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 			}
 			this.blockedMobs = blocked;
 			this.inheritedValues.remove(ConfigKey.BLOCKED_MOBS);
-		} else {
-			this.config.getConfig().set(ConfigKey.BLOCKED_MOBS.toString(),
-					(Object) this.entListToStringList(ConfigKey.getDefaultBlocked(this.world)));
-			this.config.saveConfig();
-			this.inheritedValues.remove(ConfigKey.BLOCKED_MOBS);
-			final ArrayList<EntityType> blocked = new ArrayList<EntityType>();
-			final ArrayList<String> temp = (ArrayList<String>) this.config.getConfig()
-					.get(ConfigKey.BLOCKED_MOBS.toString(), (Object) new ArrayList());
-			for (final String mob : temp) {
-				blocked.add(EntityType.valueOf(mob));
-			}
-			this.blockedMobs = blocked;
 		}
 		if (this.config.getConfig().contains(ConfigKey.MONEY_MOBS.toString())) {
 			final HashMap<String, Object> temp = new HashMap<String, Object>();
@@ -130,24 +118,6 @@ public class WorldConfig extends RPGLeveledMobsConfig {
 							Double.parseDouble(entry.getValue().toString()));
 				}
 				this.moneyMobs = hashDoubles;
-			} catch (NullPointerException e) {
-				this.moneyMobs = ConfigKey.getDefaultMoney(this.world);
-			}
-		} else {
-			this.config.getConfig().set(ConfigKey.MONEY_MOBS.toString(),
-					(Object) this.MoneyHashMapToStringList(ConfigKey.getDefaultMoney(this.world)));
-			this.config.saveConfig();
-			this.inheritedValues.remove(ConfigKey.MONEY_MOBS);
-			final HashMap<String, Object> temp = new HashMap<String, Object>();
-			final HashMap<EntityType, Double> moneyMapHash = new HashMap<EntityType, Double>();
-			try {
-				temp.putAll(this.config.getConfig().getConfigurationSection(ConfigKey.MONEY_MOBS.toString())
-						.getValues(false));
-				for (final Map.Entry<String, Object> entry : temp.entrySet()) {
-					moneyMapHash.put(EntityType.valueOf(entry.getKey()),
-							Double.parseDouble(entry.getValue().toString()));
-				}
-				this.moneyMobs = moneyMapHash;
 			} catch (NullPointerException e) {
 				this.moneyMobs = ConfigKey.getDefaultMoney(this.world);
 			}
